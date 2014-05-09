@@ -1,6 +1,7 @@
 parseParamFile = function(scen) {
   checkArg(scen, "AClibScenario")
   path = file.path(scen$aclib.dir, scen$paramfile)
+  checkFile(path)
   lines = readLines(path)
   lines = trimAndRemoveEmptyLines(lines)
   index.cond = which(str_detect(lines, "Conditionals:"))
