@@ -8,17 +8,20 @@ parseParamFile = function(scen) {
   # result params
   pars = list()
 
-  index.cond = which(str_detect(lines, "Conditionals:"))
-  # do we have conditionals? then restrict to 1st part of file
-  if (length(index.cond) > 0L)
-    lines1 = lines[1:(index.cond-1)]
-  else
-    lines1 = lines
+  # lines with | are conditions on params
+  j = str_detect(lines, "\\|")
+  lines.cond = lines[j]
+  lines = lines[!j]
 
-  for (i in seq_along(lines1)) {
-    line = lines[i]
-    # print(line)
-    z = consume(line, "[a-zA-Z0-9]+\\s*")
+  # FIXME: make this work
+  # lines enclosed in {} are forbidden
+
+  lines.params = lines
+
+  for (i in seq_along(lines.params)) {
+    line = lines.params[i]
+    print(line)
+    z = consume(line, "[a-zA-Z0-9_\\-]+\\s*")
     id = str_trim(z$match)
     if (str_detect(z$rest, "^\\[.*\\]")) {
       # num or int param
