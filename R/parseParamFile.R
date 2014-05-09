@@ -3,13 +3,22 @@ parseParamFile = function(scen) {
   path = file.path(scen$aclib.dir, scen$paramfile)
   checkFile(path)
   lines = readLines(path)
+  lines = removeComments(lines)
   lines = trimAndRemoveEmptyLines(lines)
-  index.cond = which(str_detect(lines, "Conditionals:"))
-  lines1 = lines[1:(index.cond-1)]
+  # result params
   pars = list()
+
+  index.cond = which(str_detect(lines, "Conditionals:"))
+  # do we have conditionals? then restrict to 1st part of file
+  if (length(index.cond) > 1L)
+    lines1 = lines[1:(index.cond-1)]
+  else
+    lines1 = lines
 
   for (i in seq_along(lines1)) {
     line = lines[i]
+    print(line)
+    #FIXME: this is wrong, we need to consume the name with regexp
     line = splitAndTrim(line, " ", n = 2L)
     id = line[1L]
     rest = line[-1L]
