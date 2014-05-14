@@ -1,20 +1,21 @@
+#FIXME: conditionals and defaults and forbiddens
 parseParamFile = function(scen) {
   checkArg(scen, "AClibScenario")
   path = file.path(scen$aclib.dir, scen$paramfile)
-  checkFile(path)
-  lines = readLines(path)
+
+  lines = readTxtTrimAndRemove(path)
   lines = removeComments(lines)
-  lines = trimAndRemoveEmptyLines(lines)
-  # result params
-  pars = list()
+  result = list()
 
   # lines with | are conditions on params
   j = str_detect(lines, "\\|")
   lines.cond = lines[j]
   lines = lines[!j]
 
-  # FIXME: make this work
   # lines enclosed in {} are forbidden
+  j = str_detect(lines, "^\\{.*\\}$")
+  lines.forbidden = lines[j]
+  lines = lines[!j]
 
   lines.params = lines
 
@@ -28,23 +29,31 @@ parseParamFile = function(scen) {
       z = consume(z$rest, "^\\[.*?\\]")
       bounds = removeChars(z$match, c("\\[", "\\]"))
       bounds = splitAndTrim(bounds, ",", convert = as.numeric)
-      if (str_detect(z$rest, "i"))
-        par = makeIntegerParam(id = id, lower = bounds[1L], upper = bounds[2L])
+      makeP = if (str_detect(z$rest, "i"))
+        makeIntegerParam
       else
-        par = makeNumericParam(id = id, lower = bounds[1L], upper = bounds[2L])
+        makeNumericParam
+      def = parseDefault(z$rest)
+      par = makeP(id = id, lower = bounds[1L], upper = bounds[2L], default = def)
     } else if (str_detect(z$rest, "^\\{.*\\}")) {
       # discrete
       constraints = str_extract(z$rest, "^\\{.*\\}")
       values = removeChars(constraints, c("\\{", "\\}"))
       values = splitAndTrim(values, ",")
-      par = makeDiscreteParam(id = id, values = values)
+      def = parseDefault(z$rest)
+      par = makeDiscreteParam(id = id, values = values, default = def)
     } else {
       stop("Should not happen!")
     }
-    pars[[id]] = par
+    result[[id]] = par
   }
 
   makeParamSet(params = pars)
+}
+
+parseDefault = function(s, convert = as.character) {
+  s = removeChars(s, c("\\[", "\\]"))
+  convert(s)
 }
 
 
