@@ -21,7 +21,7 @@ parseParamFile = function(scen) {
 
   for (i in seq_along(lines.params)) {
     line = lines.params[i]
-    print(line)
+    # print(line)
     z = consume(line, "[a-zA-Z0-9_\\-]+\\s*")
     id = str_trim(z$match)
     if (str_detect(z$rest, "^\\[.*\\]")) {
@@ -37,8 +37,8 @@ parseParamFile = function(scen) {
       par = makeP(id = id, lower = bounds[1L], upper = bounds[2L], default = def)
     } else if (str_detect(z$rest, "^\\{.*\\}")) {
       # discrete
-      constraints = str_extract(z$rest, "^\\{.*\\}")
-      values = removeChars(constraints, c("\\{", "\\}"))
+      z = consume(z$rest, "^\\{.*\\}")
+      values = removeChars(z$match, c("\\{", "\\}"))
       values = splitAndTrim(values, ",")
       def = parseDefault(z$rest)
       par = makeDiscreteParam(id = id, values = values, default = def)
@@ -48,7 +48,7 @@ parseParamFile = function(scen) {
     result[[id]] = par
   }
 
-  makeParamSet(params = pars)
+  makeParamSet(params = result)
 }
 
 parseDefault = function(s, convert = as.character) {
