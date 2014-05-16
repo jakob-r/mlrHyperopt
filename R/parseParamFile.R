@@ -25,27 +25,7 @@ parseParamFile = function(scen) {
 
   #FIXME: remove debug prints
 
-  # parse conditionals first
-  for (i in seq_along(lines.cond)) {
-    line = lines.cond[i]
-    # print(line)
-    s = str_split(line, "\\|")[[1L]]
-    # print(s)
-    id = str_trim(s[1L])
-    # print(id)
-    req = str_trim(s[2L])
-    # transform to R expression and parse
-    req = str_replace(req, "in", "%in%")
-    req = str_replace(req, "\\{", "c(")
-    req = str_replace(req, "\\}", ")")
-    req = parse(text = req)
-    print(req)
-    param.requires[[id]] = req
-  }
- 
-  #FIXME: can it happen that we have more than 1 condition for a param? probably yes! we need to add them up!
-   
-  # parse param lines
+  ### parse param lines
   for (i in seq_along(lines.params)) {
     line = lines.params[i]
     # print(line)
@@ -86,11 +66,39 @@ parseParamFile = function(scen) {
     result[[id]] = par
   }
 
-  # there should no conditionals be left
-  if (length(param.requires) > 0L) {
-    print(param.requires)
-    stop("Should not happen!")
+  ### parse conditionals
+  for (i in seq_along(lines.cond)) {
+    line = lines.cond[i]
+    # print(line)
+    # split at | and get id1 and tail
+    s = str_split(line, "\\|")[[1L]]
+    # print(s)
+    id1 = str_trim(s[1L])
+    # print(id1)
+    stopifnot(id1 %in% names(result))
+    # split at 'in' and get id2 and values
+    s = str_trim(s[2L])
+    s = str_split(s, " in ")[[1L]]
+    id2 = str_trim(s[1L])
+    # print(id2)
+    stopifnot(id2 %in% names(result))
+    vals = s[2L]
+    vals = removeChars(vals, c("\\{", "\\}"))
+    vals = str_split(vals, ",")[[1]]
+    vals = paste0("'", vals, "'")
+    req = sprintf("%s in c(%s)", id2, collapse(vals))
+    req = str_replace(req, " in ", " %in% ")
+    # transform to R expression and parse
+    # req = str_replace(req, " in ", " %in% ")
+    # req = str_replace(req, "\\{", " c( ")
+    # req = str_replace(req, "\\}", " ) ")
+    # print(req)
+    req = parse(text = req)
+    param.requires[[id]] = req
+    result[[id1]]$requires = req
   }
+
+  #FIXME: can it happen that we have more than 1 condition for a param? probably yes! we need to add them up!
 
   makeParamSet(params = result)
 }
