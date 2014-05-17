@@ -82,18 +82,20 @@ parseParamFile = function(scen) {
     id2 = str_trim(s[1L])
     # print(id2)
     stopifnot(id2 %in% names(result))
+
+    # now take parse values and quote them
     vals = s[2L]
     vals = removeChars(vals, c("\\{", "\\}"))
     vals = str_split(vals, ",")[[1]]
     vals = paste0("'", vals, "'")
+
+    # build string and parse it to quoted expression
     req = sprintf("%s in c(%s)", id2, collapse(vals))
     req = str_replace(req, " in ", " %in% ")
-    # transform to R expression and parse
-    # req = str_replace(req, " in ", " %in% ")
-    # req = str_replace(req, "\\{", " c( ")
-    # req = str_replace(req, "\\}", " ) ")
-    # print(req)
-    req = parse(text = req)
+    # FIXME: I dont really understand this code, taken from plyr::as.quoted
+    # FIXME: BBmsic function
+    req = structure(list(parse(text = req)[[1L]]), env = parent.frame(), class = "quoted")[[1L]]
+
     param.requires[[id]] = req
     result[[id1]]$requires = req
   }
