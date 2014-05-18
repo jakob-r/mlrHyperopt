@@ -1,6 +1,6 @@
 #FIXME: conditionals and defaults and forbiddens
 parseParamFile = function(scen) {
-  checkArg(scen, "AClibScenario")
+  aAClibScenario(scen)
   path = file.path(scen$aclib.dir, scen$paramfile)
 
   lines = readTxtTrimAndRemove(path)
