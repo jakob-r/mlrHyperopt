@@ -92,9 +92,7 @@ parseParamFile = function(scen) {
     # build string and parse it to quoted expression
     req = sprintf("%s in c(%s)", id2, collapse(vals))
     req = str_replace(req, " in ", " %in% ")
-    # FIXME: I dont really understand this code, taken from plyr::as.quoted
-    # FIXME: BBmsic function
-    req = structure(list(parse(text = req)[[1L]]), env = parent.frame(), class = "quoted")[[1L]]
+    req = asQuoted(req)
 
     param.requires[[id]] = req
     result[[id1]]$requires = req
