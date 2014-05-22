@@ -20,7 +20,9 @@ parseParamFile = function(scen) {
 
   # remove Conditionals start line
   lines = lines[!str_detect(lines, "Conditionals:")]
-
+  # remove forbidden start line
+  lines = lines[!str_detect(lines, "Forbidden:")]
+  
   lines.params = lines
 
   #FIXME: remove debug prints
@@ -97,10 +99,39 @@ parseParamFile = function(scen) {
     param.requires[[id]] = req
     result[[id1]]$requires = req
   }
+  
+  ### parse forbidden 
+  # The syntax for forbidden parameter combinations is as follows: <parameter name N> = <value N>
+  if(length(lines.forbidden) >= 1){
+    forbidden.list = list()
+    for (i in seq_along(lines.forbidden)){
+      line = lines.forbidden[i]
+      s = removeChars(line, c("\\{", "\\}"))
+      s = str_split(s, ",")[[1L]]
+      s = str_split(s, "\\=")
+      
+      # formulate the forbidden condition as an if(... & ... & ...) operation
+      forbiddenCond = vector("character")
+      for(j in 1:length(s)){
+        tmpForbid = s[[j]][2L]
+        tmpForbid = sprintf("'%s'",tmpForbid)
+        tmpVar = sprintf("'%s'", s[[j]][1L])
+        forbiddenCond[j] = sprintf("%s in c(%s)", tmpVar, collapse(tmpForbid))
+        forbiddenCond[j] = str_replace(forbiddenCond[j], " in ", " %in% ")
+      }
+      # FIXME: is the format - formulation as a bool cond of the type: if(... & ... & ...) ok?
+      forbiddenCond = collapse(paste(forbiddenCond[1L], paste0("& ",forbiddenCond[2:length(s)])))
+      forbiddenCond = removeChars(forbiddenCond, "\\,")
+      # FIXME: is "list" format for the forbiddens ok, or should it be "vector"?
+      forbidden.list[[i]] = forbiddenCond
+    }
+  }else{
+    forbidden.list = NULL
+  }
 
   #FIXME: can it happen that we have more than 1 condition for a param? probably yes! we need to add them up!
 
-  makeParamSet(params = result)
+  makeParamSet(params = result,forbidden = forbidden.list)
 }
 
 parseDefault = function(s, convert = as.character) {
