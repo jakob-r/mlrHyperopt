@@ -119,9 +119,11 @@ parseParamFile = function(scen) {
         forbiddenCond[j] = sprintf("%s in c(%s)", tmpVar, collapse(tmpForbid))
         forbiddenCond[j] = str_replace(forbiddenCond[j], " in ", " %in% ")
       }
-      # FIXME: is the format - formulation as a bool cond of the type: if(... & ... & ...) ok?
-      forbiddenCond = collapse(paste(forbiddenCond[1L], paste0("& ",forbiddenCond[2:length(s)])))
-      forbiddenCond = removeChars(forbiddenCond, "\\,")
+      # FIX: is the format - formulation as a bool cond of the type: if(... & ... & ...) ok?
+      
+      # combine all conditions into one bool condition
+      for(k in 2:length(s)) forbiddenCond[k] = paste0(" & ", forbiddenCond[k])
+      forbiddenCond = removeChars(collapse(forbiddenCond),"\\,")
       # FIXME: is "list" format for the forbiddens ok, or should it be "vector"?
       forbidden.list[[i]] = forbiddenCond
     }
