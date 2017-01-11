@@ -17,7 +17,8 @@ Depends:
 Imports:
     checkmate (>= 1.9.0),
     jsonlite,
-    BBmisc
+    BBmisc,
+    hashids
 Suggests:
     mlrMBO,
     testthat
