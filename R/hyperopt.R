@@ -7,6 +7,9 @@
 #'
 #' @param task [\code{Task}]
 #'  mlr Task
+#' @param learner [\code{Learner}]
+#'  The learner that is subject to the Hyperparameter Tuning.
+#'  If no learner is given the learner referenced in the \code{par.set} will be used, if available.
 #' @param par.set [\code{ParamSet}]
 #'  ParamHelpers Parameter Set
 #' @param par.set.id [\code{character}]

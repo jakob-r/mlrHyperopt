@@ -1,6 +1,6 @@
 Package: mlrHyperopt
 Type: Package
-Title: Easy Hyperparameteroptimization with mlr and mlrMBO.
+Title: Easy Hyperparameteroptimization with mlr and mlrMBO
 Description: Simplified tuning of hyperparameters for machine learning methods.
 Version: 0.1.0
 Authors@R: c(
@@ -15,7 +15,7 @@ Depends:
     ParamHelpers,
     mlr
 Imports:
-    checkmate,
+    checkmate (>= 1.9.0),
     jsonlite,
     BBmisc
 Suggests:

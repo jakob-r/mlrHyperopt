@@ -2,8 +2,16 @@
 #'
 #' @description Uploads a ParamSet and returns the ID.
 #'
-#' @param id [\code{character}]
-#'  A unique identifier of the Parameter Set
+#' @param par.set [\code{ParSet}]
+#'  The Parameter Set that you want to upload.
+#' @param learner [\code{Learner}]
+#'  The Learner that belongs to that Parameter Set.
+#'  Can be left out if the \code{par.set} contains a reference to a learner.
+#' @param user.email [\code{character(1)}]
+#'  Your email to identify yourself to the server.
+#'  Does not have to be a valid one, but this identifier makes it easier to find your own submissions or submissions by colleagues.
+#'  In the future we might switch to an authentification system.
+#'  It could be advantageous to supply a working email if you want to migrate your submissions then.
 #' @return [\code{character}]
 #' @export
 
