@@ -10,11 +10,29 @@ convertExpressionToCall = function(req) {
   req
 }
 
+# Checks if a Param Set fits to a Learer
+# @param learner [Learner]
+# @param par.set [ParamSet]
+# @return TRUE/FALSE and attribute "error" why FALSE
+checkLearnerParamSet = function(learner, par.set) {
+  if (!is.null(par.set$ref.learner.id) && par.set$ref.learner.id != getLearnerId(learner)) {
+    error = sprintf("The ParamSet is referenced to the learner %s but the learner is %s", par.set$ref.learner.id, getLearnerId(learner))
+    return(setAttribute(FALSE, "error", error))
+  }
+  x = setdiff(names(par.set$pars), names(getParamSet(learner)$pars))
+  if (length(x) > 0L) {
+    error = sprintf("The ParamSet contains Params that are not supported by the Learner: %s", collapse(x))
+    return(setAttribute(FALSE, "error", error))
+  }
+  return(TRUE)
+}
+
 # All allowed Parameter Types
 getSupportedParamTypes = function() {
   c("numeric", "numericvector", "integer", "integervector", "logical", "logicalvector", "discrete", "discretevector", "character", "charactervector")
 }
 
+# All supported Values for discrete Parameters
 getSupportedDiscreteValues = function() {
   c("character", "integer", "numeric", "data.frame", "matrix", "Date", "POSIXt", "factor", "complex", "raw")
 }
