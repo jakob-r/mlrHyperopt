@@ -2,10 +2,10 @@
 #'
 #' @param ids [\code{character}]
 #'  One ore more unique identifiers of the Parameter Set
-#' @return [\code{ParamSet}|list of ParamSets]
+#' @return [List of \code{ParamSets}]
 #' @export
 
-downloadParSet = function(ids) {
+downloadParSets = function(ids) {
   assert_character(ids)
 
   # establish connection to DB
@@ -16,18 +16,15 @@ downloadParSet = function(ids) {
   }
 
   # query for results
-  db.res = pardb[[ids]]
+  assert_subset(x = ids, choices = names(pardb))
+  db.res = mget(ids, envir=pardb)
 
   # loop through ids
   par.sets = lapply(db.res, function(x) {
     par.set = JSONtoParamSet(x$par.set.json)
     par.set$ref.learner.id = x$learner.id
+    par.set
   })
 
-  # return a list only if multiple par.sets are requested
-  if (length(ids) == 1) {
-    return(par.sets[[1]])
-  } else {
-    return(par.sets)
-  }
+  par.sets
 }

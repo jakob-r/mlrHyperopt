@@ -18,6 +18,6 @@ test_that("uploading a ParSet and downloading it works", {
   expect_error(uploadParSet(par.set.ref, lrn.wrong), "The ParamSet is referenced to the learner classif.svm but the learner is classif.randomForest")
 
   new.id = uploadParSet(par.set, lrn.good)
-  par.set.downloaded = downloadParSet(new.id)
+  par.set.downloaded = downloadParSets(new.id)[[1]]
   expect_equal(par.set.ref, par.set.downloaded)
 })
