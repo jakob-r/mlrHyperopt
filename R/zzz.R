@@ -2,4 +2,5 @@
 #' @import checkmate
 #' @import jsonlite
 #' @import hashids
+#' @import stringi
 NULL

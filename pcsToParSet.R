@@ -1,9 +1,6 @@
-#FIXME: conditionals and defaults and forbiddens
-parseParamFile = function(scen) {
-  checkAClibScenario(scen)
-  path = file.path(scen$aclib.dir, scen$paramfile)
 
-  lines = readTxtTrimAndRemove(path)
+pcsToParSet = function(pcs) {
+  lines = stri_split_lines1(pcs)
   lines = removeComments(lines)
   result = list()
   param.requires = list()
@@ -22,7 +19,7 @@ parseParamFile = function(scen) {
   lines = lines[!str_detect(lines, "Conditionals:")]
   # remove forbidden start line
   lines = lines[!str_detect(lines, "Forbidden:")]
-  
+
   lines.params = lines
 
   #FIXME: remove debug prints
@@ -99,8 +96,8 @@ parseParamFile = function(scen) {
     param.requires[[id]] = req
     result[[id1]]$requires = req
   }
-  
-  ### parse forbidden 
+
+  ### parse forbidden
   # The syntax for forbidden parameter combinations is as follows: <parameter name N> = <value N>
   if(length(lines.forbidden) >= 1){
     forbidden.list = list()
@@ -109,7 +106,7 @@ parseParamFile = function(scen) {
       s = removeChars(line, c("\\{", "\\}"))
       s = str_split(s, ",")[[1L]]
       s = str_split(s, "\\=")
-      
+
       # formulate the forbidden condition as an if(... & ... & ...) operation
       forbiddenCond = vector("character")
       for(j in 1:length(s)){
@@ -120,7 +117,7 @@ parseParamFile = function(scen) {
         forbiddenCond[j] = str_replace(forbiddenCond[j], " in ", " %in% ")
       }
       # FIX: is the format - formulation as a bool cond of the type: if(... & ... & ...) ok?
-      
+
       # combine all conditions into one bool condition
       for(k in 2:length(s)) forbiddenCond[k] = paste0(" & ", forbiddenCond[k])
       forbiddenCond = removeChars(collapse(forbiddenCond),"\\,")

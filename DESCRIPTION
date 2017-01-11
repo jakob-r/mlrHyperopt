@@ -19,7 +19,8 @@ Imports:
     checkmate (>= 1.8.2),
     jsonlite,
     BBmisc,
-    hashids
+    hashids,
+    stringi
 Suggests:
     mlrMBO,
     testthat
