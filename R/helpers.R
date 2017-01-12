@@ -12,19 +12,32 @@ convertExpressionToCall = function(req) {
 
 # Checks if a Param Set fits to a Learer
 # @param learner [Learner]
-# @param par.set [ParamSet]
+# @param par.config [ParConfig]
 # @return TRUE/FALSE and attribute "error" why FALSE
-checkLearnerParamSet = function(learner, par.set) {
-  if (!is.null(par.set$ref.learner.id) && par.set$ref.learner.id != getLearnerId(learner)) {
-    error = sprintf("The ParamSet is referenced to the learner %s but the learner is %s", par.set$ref.learner.id, getLearnerId(learner))
+checkLearnerParConfig = function(learner, par.config) {
+  if (!is.null(par.config$associated.learner.class) && par.config$associated.learner.class != getLearnerClass(learner)) {
+    error = sprintf("The ParConfig is referenced to the learner %s but the learner is %s", par.config$associated.learner.class, getLearnerClass(learner))
     return(setAttribute(FALSE, "error", error))
   }
-  x = setdiff(names(par.set$pars), names(getParamSet(learner)$pars))
+  x = setdiff(names(par.config$pars), names(getParConfig(learner)$pars))
   if (length(x) > 0L) {
-    error = sprintf("The ParamSet contains Params that are not supported by the Learner: %s", collapse(x))
+    error = sprintf("The ParConfig contains Params that are not supported by the Learner: %s", collapse(x))
     return(setAttribute(FALSE, "error", error))
   }
   return(TRUE)
+}
+
+# Checks if Learner is valid or creates one
+checkLearner = function(learner) {
+  if (is.character(learner))
+    learner = makeLearner(learner)
+  else
+    assert_class(learner, classes = "Learner")
+  return(learner)
+}
+
+getLearnerClass = function(learner) {
+  class(learner)[[1]]
 }
 
 # All allowed Parameter Types

@@ -9,39 +9,45 @@
 #'  mlr Task
 #' @param learner [\code{Learner}]
 #'  The learner that is subject to the Hyperparameter Tuning.
-#'  If no learner is given the learner referenced in the \code{par.set} will be used, if available.
-#' @param par.set [\code{ParamSet}]
-#'  ParamHelpers Parameter Set
-#' @param par.set.id [\code{character}]
-#'  Unique identifier for a Parameter Set.
-#'  This will be downloaded from the mlrHyperopt servers.
-#' @param control [\code{list}]
+#'  If no learner is given the learner referenced in the \code{par.config} will be used, if available.
+#' @template arg_parconfig
+#' @param hyper.control [\code{list}]
 #'  This control object defines how the Hyperparameter Optimization should be conducted.
+#' @param show.info [\code{logical(1)}]\cr
+#'   Print verbose output on console?
+#'   Default is set via \code{\link{configureMlr}}.
+#' @import mlr
 #' @export
 
-hyperopt = function(task, learner = NULL, par.set = NULL, par.set.id = NULL, control = NULL) {
+hyperopt = function(task, learner = NULL, par.config = NULL, hyper.control = NULL, show.info = getMlrOption("show.info")) {
   assert_class(task, classes = "Task")
 
-  if (!is.null(par.set) && !is.null(par.set.id)) {
-    stopf("You can either specify a par.set or a par.set.id, not both!")
-  } else if (!is.null(par.set)) {
-    assert_class(par.set, classes = "ParamSet")
-  } else if (!is.null(par.set.id)) {
-    par.set = downloadParSet(ids = par.set.id)
+  if (!is.null(par.config)) {
+    assert_class(par.config, "ParConfig")
   } else {
-    par.set = generateParSet(task = task, learner = learner)
+    par.config = generateParConfig(task = task, learner = learner)
   }
 
   if (!is.null(learner)) {
-    assert_class(learner, classes = "Learner")
+    learner = checkLearner(learner)
   } else {
-    learner = generateLearner(task = task, par.set = par.set)
+    learner = generateLearner(task = task, par.config = par.config)
   }
 
-  if (!is.null(ctrl)) {
-    assert_list(ctrl)
+  if (!is.null(hyper.control)) {
+    assert_list(hyper.control)
   } else {
-    ctrl = generateCtrl(task = task, learner = learner, par.set = par.set)
+    hyper.control = generateHyperControl(task = task, learner = learner, par.config = par.config)
   }
 
+  learner = setHyperPars(learner, par.vals = getParConfigParVals(par.config))
+  tune.res = tuneParams(
+    learner = learner,
+    task = task,
+    resampling = getHyperControlResampling(hyper.control),
+    measures = getHyperControlMeasures(hyper.control),
+    par.set = getParConfigParSet(par.config),
+    control = getHyperControlMlrControl(hyper.control),
+    show.info = show.info)
+  return(tune.res)
 }

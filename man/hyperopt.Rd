@@ -4,8 +4,8 @@
 \alias{hyperopt}
 \title{Tune Hyperparameters for a machine learning task}
 \usage{
-hyperopt(task, learner = NULL, par.set = NULL, par.set.id = NULL,
-  control = NULL)
+hyperopt(task, learner = NULL, par.config = NULL, hyper.control = NULL,
+  show.info = getMlrOption("show.info"))
 }
 \arguments{
 \item{task}{[\code{Task}]
@@ -13,17 +13,17 @@ mlr Task}
 
 \item{learner}{[\code{Learner}]
 The learner that is subject to the Hyperparameter Tuning.
-If no learner is given the learner referenced in the \code{par.set} will be used, if available.}
+If no learner is given the learner referenced in the \code{par.config} will be used, if available.}
 
-\item{par.set}{[\code{ParamSet}]
-ParamHelpers Parameter Set}
+\item{par.config}{[\code{ParConfig}]
+The Parameter Configuration}
 
-\item{par.set.id}{[\code{character}]
-Unique identifier for a Parameter Set.
-This will be downloaded from the mlrHyperopt servers.}
-
-\item{control}{[\code{list}]
+\item{hyper.control}{[\code{list}]
 This control object defines how the Hyperparameter Optimization should be conducted.}
+
+\item{show.info}{[\code{logical(1)}]\cr
+Print verbose output on console?
+Default is set via \code{\link{configureMlr}}.}
 }
 \description{
 Tunes the Hyperparameters for a given task and learner.

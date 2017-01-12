@@ -1,5 +1,6 @@
-#' @title Downloads multiple Parameter Set from the mlrHyperopt servers
+#' @title Downloads multiple Parameter Configurations from the mlrHyperopt servers
 #'
+#' @description Retrieve the Paramater Configurations for the given ids from the mlrHyperopt servers.
 #' @param ids [\code{character}]
 #'  One ore more unique identifiers of the Parameter Set
 #' @return [List of \code{ParConfig}s]
@@ -31,6 +32,7 @@ downloadParConfigs = function(ids) {
 
 #' @title Downloads a single ParConfig.
 #' 
+#' @description Retrieve a Paramater Configuration for the given id from the mlrHyperopt servers.
 #' @param id [\code{character}]
 #'  Unique identifier for a Parameter Set.
 #'  This will be downloaded from the mlrHyperopt servers.

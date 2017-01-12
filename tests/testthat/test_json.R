@@ -8,7 +8,7 @@ test_that("converting to JSON and back", {
       makeDiscreteParam(id = "kernel", values = c("polynomial", "radial")),
       makeIntegerParam(id = "degree", default = 3L, lower = 1L, requires = quote(kernel=="polynomial")),
       makeNumericParam(id = "gamma", lower = -5, upper = 5, trafo = function(x) 2^x)),
-    mixed.paramset = makeParamSet(
+    mixed.ParSet = makeParamSet(
       makeNumericParam(id = "x1", lower = -1L, upper = 1),
       makeNumericParam(id = "x2", lower = 0, upper = Inf),
       makeNumericParam(id = "x3", allow.inf = TRUE, default = Inf),
@@ -25,12 +25,12 @@ test_that("converting to JSON and back", {
     ))
 
   json = paramSetToJSON(par.sets$svm.sample)
-  par.set2 = JSONtoParamSet(json)
+  par.set2 = JSONtoParSet(json)
   expect_equal(par.sets$svm.sample, par.set2)
 
-  json = paramSetToJSON(par.sets$mixed.paramset)
-  par.set3 = JSONtoParamSet(json)
-  expect_equal(par.sets$mixed.paramset, par.set3)
+  json = paramSetToJSON(par.sets$mixed.ParSet)
+  par.set3 = JSONtoParSet(json)
+  expect_equal(par.sets$mixed.ParSet, par.set3)
 
   f = function(x) x
   unsupported.par.sets = list(

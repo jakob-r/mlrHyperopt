@@ -1,9 +1,11 @@
 ## Convert ParamSet To JSON
 
+#' @import jsonlite
+
 # converts a ParamSet to JSON
 # @param par.set [ParamSet]
 # @return JSON
-paramSetToJSON = function(par.set) {
+parSetToJSON = function(par.set) {
   res.list = lapply(par.set$pars, paramToJSONList)
   toJSON(res.list)
 }
@@ -23,10 +25,7 @@ paramToJSONList = function(param) {
   }
   # handle values for discrete param, currently not supported
   if (param$type == "discrete") {
-    value.classes = sapply(param$values, class)
-    if (any(value.classes %nin% getSupportedDiscreteValues())) {
-      stopf("The values for Param %s contain currently unsupported types: %s", param$id, names(value.classes[value.classes %nin% getSupportedDiscreteValues()]))
-    }
+    par.vals = checkDiscreteJSON(param$values)
   }
   # handle trafo
   if (!is.null(param$trafo)) {
@@ -35,12 +34,21 @@ paramToJSONList = function(param) {
   res.list
 }
 
+# converts json to a List of parameter values
+# @param par.vals [\code{list}]
+# @return JSON
+parValsToJSON = function(par.vals) {
+  par.vals = checkDiscreteJSON(par.vals)
+  toJSON(par.vals)
+}
+
+
 ## Convert JSON to ParamSet
 
 # converts JSON to a ParamSet
 # @param json [char]
 # @return ParamSet
-JSONtoParamSet = function(json) {
+JSONtoParSet = function(json) {
   ps.list = fromJSON(json)
   param.list = lapply(ps.list, JSONListToParam)
   par.set = do.call(makeParamSet, param.list)
@@ -73,4 +81,22 @@ JSONListToParam = function(par.list) {
   supported.args = formalArgs(paramFunction)
   param = do.call(paramFunction, par.list[names(par.list) %in% supported.args], quote = TRUE)
   param
+}
+
+# converts json to a List of parameter values
+# @param json [\code{character}]
+# @return List
+JSONtoParVals = function(json) {
+  fromJSON(json)
+}
+
+
+## json helpers
+
+checkDiscreteJSON = function(par.vals) {
+  value.classes = sapply(par.vals, class)
+  if (any(value.classes %nin% getSupportedDiscreteValues())) {
+    stopf("The values for Param %s contain currently unsupported types: %s", param$id, names(value.classes[value.classes %nin% getSupportedDiscreteValues()]))
+  }
+  par.vals
 }

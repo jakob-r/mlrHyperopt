@@ -1,2 +1,7 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+todo-files
+.gitignore
+.travis.yml
+README.md
+man-roxygen
