@@ -24,11 +24,11 @@ test_that("converting to JSON and back", {
       makeCharacterVectorParam(id = "x13", len = 2)
     ))
 
-  json = paramSetToJSON(par.sets$svm.sample)
+  json = parSetToJSON(par.sets$svm.sample)
   par.set2 = JSONtoParSet(json)
   expect_equal(par.sets$svm.sample, par.set2)
 
-  json = paramSetToJSON(par.sets$mixed.ParSet)
+  json = parSetToJSON(par.sets$mixed.ParSet)
   par.set3 = JSONtoParSet(json)
   expect_equal(par.sets$mixed.ParSet, par.set3)
 
@@ -37,6 +37,6 @@ test_that("converting to JSON and back", {
     special.vals = makeParamSet(makeNumericVectorParam(id = "x5", lower = 0, upper = Inf, len = 3, special.vals = list(-Inf))),
     discrete.unsupported = makeParamSet(makeDiscreteParam(id = "x8", values = list(a = "char", b = 2L, c = 2.2, d = f, "e")))
   )
-  expect_error(paramSetToJSON(unsupported.par.sets$special.vals), "currently not supported: special.vals")
-  expect_error(paramSetToJSON(unsupported.par.sets$discrete.unsupported), "contain currently unsupported types: d")
+  expect_error(parSetToJSON(unsupported.par.sets$special.vals), "currently not supported: special.vals")
+  expect_error(parSetToJSON(unsupported.par.sets$discrete.unsupported), "contain currently unsupported types: d")
 })
