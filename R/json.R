@@ -25,7 +25,7 @@ paramToJSONList = function(param) {
   }
   # handle values for discrete param, currently not supported
   if (param$type == "discrete") {
-    par.vals = checkDiscreteJSON(param$values)
+    par.vals = checkDiscreteJSON(param$values, param$id)
   }
   # handle trafo
   if (!is.null(param$trafo)) {
@@ -38,7 +38,7 @@ paramToJSONList = function(param) {
 # @param par.vals [\code{list}]
 # @return JSON
 parValsToJSON = function(par.vals) {
-  par.vals = checkDiscreteJSON(par.vals)
+  par.vals = checkDiscreteJSON(par.vals, "Values")
   toJSON(par.vals)
 }
 
@@ -93,10 +93,10 @@ JSONtoParVals = function(json) {
 
 ## json helpers
 
-checkDiscreteJSON = function(par.vals) {
+checkDiscreteJSON = function(par.vals, param.id = character()) {
   value.classes = sapply(par.vals, class)
   if (any(value.classes %nin% getSupportedDiscreteValues())) {
-    stopf("The values for Param %s contain currently unsupported types: %s", param$id, names(value.classes[value.classes %nin% getSupportedDiscreteValues()]))
+    stopf("The values for Param %s contain currently unsupported types: %s", param.id, names(value.classes[value.classes %nin% getSupportedDiscreteValues()]))
   }
   par.vals
 }

@@ -8,20 +8,27 @@
 #'
 #' @param par.set [\code{ParamSet}]
 #'  The Parameter Set.
-#' @param par.vals [\code{list}]
-#'  Specific constant parameter settings.
 #' @param learner [\code{Learner}]
 #'  mlr Learner.
-#' @param learner.class [\code{character(1)}]
+#' @param par.vals [\code{list}]
+#'  Specific constant parameter settings.
 #' @return [\code{ParConfig}]
 #' @family ParConfig
 #' @aliases ParConfig
 #' @export
 
-makeParConfig = function(par.set, par.vals = NULL, learner = NULL, learner.class = NULL) {
-  learner = checkLearner(learner)
-  if (is.null(learner.class))
+makeParConfig = function(par.set, learner = NULL, par.vals = NULL) {
+  
+  if (!is.null(learner)) {
+    learner = checkLearner(learner)
+    learner.fits.par.config = checkLearnerParSet(learner = learner, par.set = par.set)
+    if (!learner.fits.par.config) {
+      stop(attr(learner.fits.par.config, "error"))
+    }
     learner.class = getLearnerClass(learner)
+  } else {
+    learner.class = NULL
+  }
   #FIXME check not pass learner and learner.class!
   makeS3Obj(
     classes = "ParConfig",

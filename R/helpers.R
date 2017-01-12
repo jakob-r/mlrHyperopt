@@ -12,14 +12,10 @@ convertExpressionToCall = function(req) {
 
 # Checks if a Param Set fits to a Learer
 # @param learner [Learner]
-# @param par.config [ParConfig]
+# @param par.set [ParamSet]
 # @return TRUE/FALSE and attribute "error" why FALSE
-checkLearnerParConfig = function(learner, par.config) {
-  if (!is.null(par.config$associated.learner.class) && par.config$associated.learner.class != getLearnerClass(learner)) {
-    error = sprintf("The ParConfig is referenced to the learner %s but the learner is %s", par.config$associated.learner.class, getLearnerClass(learner))
-    return(setAttribute(FALSE, "error", error))
-  }
-  x = setdiff(names(par.config$pars), names(getParConfig(learner)$pars))
+checkLearnerParSet = function(learner, par.set) {
+    x = setdiff(names(par.set$pars), names(getLearnerParamSet(learner)$pars))
   if (length(x) > 0L) {
     error = sprintf("The ParConfig contains Params that are not supported by the Learner: %s", collapse(x))
     return(setAttribute(FALSE, "error", error))
