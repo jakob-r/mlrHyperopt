@@ -11,7 +11,7 @@ test_that("uploading a ParConfig and downloading it works", {
   lrn.wrong = makeLearner("classif.randomForest")
   lrn.good = makeLearner("classif.svm")
 
-  par.config = makeParConfig(par.set, par.vals, lrn.good)
+  par.config = makeParConfig(par.set, lrn.good, par.vals)
 
   new.id = uploadParConfig(par.config)
   par.config.downloaded = downloadParConfig(new.id)
