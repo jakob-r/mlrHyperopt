@@ -15,10 +15,9 @@ convertExpressionToCall = function(req) {
 # @param par.set [ParamSet]
 # @return TRUE/FALSE and attribute "error" why FALSE
 checkLearnerParSet = function(learner, par.set) {
-    x = setdiff(names(par.set$pars), names(getLearnerParamSet(learner)$pars))
+  x = setdiff(names(par.set$pars), names(getLearnerParamSet(learner)$pars))
   if (length(x) > 0L) {
-    error = sprintf("The ParConfig contains Params that are not supported by the Learner: %s", collapse(x))
-    return(setAttribute(FALSE, "error", error))
+    stopf("The ParConfig contains Params that are not supported by the Learner: %s", collapse(x))
   }
   return(TRUE)
 }
@@ -34,6 +33,12 @@ checkLearner = function(learner) {
 
 getLearnerClass = function(learner) {
   class(learner)[[1]]
+}
+
+getLearnerName = function(learner) {
+  learner.class = getLearnerClass(learner)
+  learner.type = getLearnerType(learner)
+  stri_replace_first_fixed(learner.class, paste0(learner.type,"."), "")
 }
 
 # All allowed Parameter Types

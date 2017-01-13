@@ -22,16 +22,16 @@
 hyperopt = function(task, learner = NULL, par.config = NULL, hyper.control = NULL, show.info = getMlrOption("show.info")) {
   assert_class(task, classes = "Task")
 
-  if (!is.null(par.config)) {
-    assert_class(par.config, "ParConfig")
-  } else {
-    par.config = generateParConfig(task = task, learner = learner)
-  }
-
   if (!is.null(learner)) {
     learner = checkLearner(learner)
   } else {
     learner = generateLearner(task = task, par.config = par.config)
+  }
+
+  if (!is.null(par.config)) {
+    assert_class(par.config, "ParConfig")
+  } else {
+    par.config = generateParConfig(task = task, learner = learner)
   }
 
   if (!is.null(hyper.control)) {

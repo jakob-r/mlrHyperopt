@@ -41,3 +41,20 @@ test_that("ParConfig spots mistakes", {
   # expect_error(makeParConfig(par.set, lrn.good, par.vals = par.vals.bad), "Params that are not supported by the Learner: foo")
   # expect_error(makeParConfig(par.set.out.of.bound, lrn.good), "Params that are out of bound: cost")
 })
+
+test_that("ParConfig getters/setters work", {
+  par.set = makeParamSet(
+    makeNumericParam(id = "cost",  upper = 15, lower = 0)
+    )
+  lrn.good = makeLearner("classif.svm")
+  lrn.okay = makeLearner("regr.svm")
+  lrn.bad = makeLearner("classif.randomForest")
+
+  par.config = makeParConfig(par.set, lrn.good)
+  par.config2 = setParConfigLearnerType(par.config, "regr")
+  expect_equal(getParConfigLearnerClass(par.config2), getLearnerClass(lrn.okay))
+  par.config3 = setParConfigLearner(par.config, lrn.okay)
+  expect_equal(getParConfigLearnerClass(par.config3), getLearnerClass(lrn.okay))
+
+  expect_error(setParConfigLearner(par.config, lrn.bad), "Params that are not supported by the Learner")
+})

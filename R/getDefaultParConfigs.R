@@ -20,4 +20,5 @@ getDefaultParConfig = function(learner) {
   if (is.null(res)) {
     res = default.par.configs[[learner.class.typeless]]
   }
+  res
 }
