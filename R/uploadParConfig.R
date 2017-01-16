@@ -3,9 +3,6 @@
 #' @description Uploads a ParConfig and returns the ID.
 #'
 #' @template arg_parconfig
-#' @param learner [\code{Learner}]
-#'  The Learner that belongs to that Parameter Set.
-#'  Can be left out if the \code{par.config} contains a reference to a learner.
 #' @param user.email [\code{character(1)}]
 #'  Your email to identify yourself to the server.
 #'  Does not have to be a valid one, but this identifier makes it easier to find your own submissions or submissions by colleagues.

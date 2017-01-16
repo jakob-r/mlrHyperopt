@@ -5,7 +5,7 @@
 \title{Tune Hyperparameters for a machine learning task}
 \usage{
 hyperopt(task, learner = NULL, par.config = NULL, hyper.control = NULL,
-  show.info = getMlrOption("show.info"))
+  show.info = getMlrOptions()$show.info)
 }
 \arguments{
 \item{task}{[\code{Task}]
@@ -15,11 +15,11 @@ mlr Task}
 The learner that is subject to the Hyperparameter Tuning.
 If no learner is given the learner referenced in the \code{par.config} will be used, if available.}
 
-\item{par.config}{[\code{ParConfig}]
+\item{par.config}{[\code{\link{ParConfig}}]
 The Parameter Configuration}
 
-\item{hyper.control}{[\code{list}]
-This control object defines how the Hyperparameter Optimization should be conducted.}
+\item{hyper.control}{[\code{\link{HyperControl}}]
+The Hyperparameter Control Object}
 
 \item{show.info}{[\code{logical(1)}]\cr
 Print verbose output on console?

@@ -11,15 +11,14 @@
 #'  The learner that is subject to the Hyperparameter Tuning.
 #'  If no learner is given the learner referenced in the \code{par.config} will be used, if available.
 #' @template arg_parconfig
-#' @param hyper.control [\code{list}]
-#'  This control object defines how the Hyperparameter Optimization should be conducted.
+#' @template arg_hypercontrol
 #' @param show.info [\code{logical(1)}]\cr
 #'   Print verbose output on console?
 #'   Default is set via \code{\link{configureMlr}}.
 #' @import mlr
 #' @export
 
-hyperopt = function(task, learner = NULL, par.config = NULL, hyper.control = NULL, show.info = getMlrOption("show.info")) {
+hyperopt = function(task, learner = NULL, par.config = NULL, hyper.control = NULL, show.info = getMlrOptions()$show.info) {
   assert_class(task, classes = "Task")
 
   if (!is.null(learner)) {

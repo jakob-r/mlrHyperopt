@@ -14,8 +14,41 @@
 
 generateHyperControl = function(task, learner, par.config) {
 
+  # very superficial way to determine resampling based on task size
+  task.n = getTaskSize(task)
+  if (task.n < 10) {
+    resampling = makeResampleDesc("LOO")
+  } else if (task.n < 100) {
+    resampling = makeResampleDesc("RepCV")
+  } else if (task.n < 500) {
+    resampling = makeResampleDesc("CV")
+  } else if (task.n < 1000) {
+    resampling = makeResampleDesc("Bootstrap", iters = 5)
+  } else {
+    resampling = makeResampleDesc("Holdout")
+  }
+
+  # determine a suitable tuning method
+  par.set = getParConfigParSet(par.config)
+  if (all(getParamTypes(par.set) %in% c("numeric", "integer", "numericvector", "integervector"))) {
+    mbo.control = mlrMBO::makeMBOControl()
+    mbo.control = mlrMBO::setMBOControlInfill(mbo.control, crit = "ei")
+    mbo.control = mlrMBO::setMBOControlTermination(max.evals = 25)
+    mlr.control = mlr:::makeTuneControlMBO(mbo.control = mbo.control, mbo.keep.result = TRUE)
+  } else if (getParamNr(par.set) == 1) {
+    mlr.control = makeTuneControlGrid(resolution = 25)
+  } else if (getParamNr(par.set) == 2) {
+    mlr.control = makeTuneControlGrid(resolution = 5)
+  } else {
+    mlr.control = makeTuneControlRandom(maxit = 25)
+  }
+
+
+  # determine a suitable measure
+  measures = list(getDefaultMeasure(task), timetrain, timepredict)
+
   makeHyperControl(
-    control = control,
+    mlr.control = mlr.control,
     resampling = resampling,
     measures = measures)
 }

@@ -4,7 +4,7 @@
 #' @description
 #' Defines how the hyperparameter tuning should be conducted
 #'
-#' @param control [\code{\link[mlr]{TuneControl}}]\cr
+#' @param mlr.control [\code{\link[mlr]{TuneControl}}]\cr
 #'   Control object for search method. Also selects the optimization algorithm for tuning.
 #' @param resampling [\code{\link[mlr]{ResampleDesc}}]
 #'  The resampling determines how the performance is obtained during tuning.
@@ -16,19 +16,89 @@
 #' @aliases HyperControl
 #' @export
 
-makeHyperControl = function(control = NULL, resampling = NULL, measures = NULL) {
-  
-  assert_class(control, classes = "TuneControl")
-  
+makeHyperControl = function(mlr.control = NULL, resampling = NULL, measures = NULL) {
+
+  assert_class(mlr.control, classes = "TuneControl")
+
   if (!inherits(resampling, "ResampleDesc") &&  !inherits(resampling, "ResampleInstance"))
   stop("Argument resampling must be of class ResampleDesc or ResampleInstance!")
-  
+
   ensureVector(measures, n = 1L, cl = "Measure")
   assert_list(measures, min.len = 1, types = "Measure")
 
   makeS3Obj(
     classes = "HyperControl",
-    control = control,
+    mlr.control = mlr.control,
     resampling = resampling,
     measures = measures)
+}
+
+## Getter
+
+#' @title Get the Resample Describtion
+#' @description Get the Resample Describtion
+#' @template arg_hypercontrol
+#' @return [\code{\link[mlr]{ResampleDesc}}|\code{\link[mlr]{ResampleInstance}}].
+#' @export
+#' @family HyperControl
+getHyperControlResampling = function(hyper.control) {
+  hyper.control$resampling
+}
+
+#' @title Get the Measures
+#' @description Get the Measures
+#' @template arg_hypercontrol
+#' @return [\code{\link[mlr]{measures}}].
+#' @export
+#' @family HyperControl
+getHyperControlMeasures = function(hyper.control) {
+  hyper.control$measures
+}
+
+#' @title Get the mlr Tuning Object
+#' @description Get the mlr Tuning Object
+#' @template arg_hypercontrol
+#' @return [\code{\link[mlr]{TuneControl}}].
+#' @export
+#' @family HyperControl
+getHyperControlMlrControl = function(hyper.control) {
+  hyper.control$mlr.control
+}
+
+## Setter
+
+#' @title Set the mlr resampling Object
+#' @description Set the mlr resampling Object
+#' @template arg_hypercontrol
+#' @inheritParams makeHyperControl
+#' @return [\code{HyperControl}]
+#' @export
+#' @family HyperControl
+setHyperControlResampling = function(hyper.control, resampling) {
+  hyper.control$resampling = resampling
+  hyper.control
+}
+
+#' @title Set the measures
+#' @description Set the measures
+#' @template arg_hypercontrol
+#' @inheritParams makeHyperControl
+#' @return [\code{HyperControl}]
+#' @export
+#' @family HyperControl
+setHyperControlMeasures = function(hyper.control, measures) {
+  hyper.control$measures = measures
+  hyper.control
+}
+
+#' @title Set the mlr TuneControl Object
+#' @description Set the mlr TuneControl Object
+#' @template arg_hypercontrol
+#' @inheritParams makeHyperControl
+#' @return [\code{HyperControl}]
+#' @export
+#' @family HyperControl
+setHyperControlMeasures = function(hyper.control, mlr.control) {
+  hyper.control$mlr.control = mlr.control
+  hyper.control
 }

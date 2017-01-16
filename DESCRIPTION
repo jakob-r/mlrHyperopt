@@ -16,6 +16,7 @@ Depends:
     ParamHelpers,
     mlr
 Imports:
+    methods,
     checkmate (>= 1.8.2),
     jsonlite,
     BBmisc,
