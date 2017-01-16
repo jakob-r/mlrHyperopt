@@ -24,5 +24,7 @@ Imports:
     stringi
 Suggests:
     mlrMBO,
-    testthat
+    testthat,
+    e1071,
+    randomForest
 RoxygenNote: 5.0.1
