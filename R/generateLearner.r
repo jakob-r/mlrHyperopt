@@ -1,14 +1,14 @@
-# ' @title
-# ' Generates a Learner for a given task and ParConfig.
-# '
-# ' @description
-# ' Generates a Learner for a given task and ParConfig
-# '
-# ' @param task [\code{Task}]
-# '  The Task
-# ' @param par.config [\code{ParConfig}]
-# ' @return [\code{Learner}]
-# ' @export
+#' @title
+#' Generates a Learner for a given task and ParConfig.
+#'
+#' @description
+#' Generates a Learner for a given task and ParConfig
+#'
+#' @param task [\code{Task}]
+#'  The Task
+#' @param par.config [\code{ParConfig}]
+#' @return [\code{Learner}]
+#' @export
 generateLearner = function(task, par.config) {
   assert_class(task, "Task")
   assert_class(par.config, "ParConfig")
@@ -22,5 +22,8 @@ generateLearner = function(task, par.config) {
   }
   par.config = setParConfigLearnerType(par.config, task.type)
   learner = makeLearner(getParConfigLearnerClass(par.config))
+  if (!is.null(getParConfigParVals(par.config))) {
+    learner = setHyperPars(learner, par.vals = getParConfigParVals(par.config))
+  }
   learner
 }

@@ -15,10 +15,13 @@ getDefaultParConfig = function(learner) {
   type = getLearnerType(learner)
   learner.class = getLearnerClass(learner)
   learner.class.typeless = stri_replace_all_fixed(learner.class, type, "")
-  default.par.configs = getDefaultParConfigList()
-  res = default.par.configs[[learner.class]]
+  default.par.set.vals = getDefaultParSetValues()
+  res = default.par.set.vals[[learner.class]]
   if (is.null(res)) {
-    res = default.par.configs[[learner.class.typeless]]
+    res = default.par.set.vals[[learner.class.typeless]]
   }
-  res
+  if (is.null(res)) {
+    stopf("For the learner %s no default is available.", getLearnerClass(learner))
+  }
+  makeParConfig(par.set = res$par.set, learner = learner, par.vals = res$par.vals)
 }

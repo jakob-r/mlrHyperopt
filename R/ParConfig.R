@@ -135,3 +135,39 @@ setParConfigLearner = function(par.config, learner) {
   par.config$associated.learner.type = getLearnerType(learner)
   par.config
 }
+
+#' @title Set a new Parameter Set
+#' @description
+#'  Set a new Parameter Set
+#' @template arg_parconfig
+#' @param par.set [\code{ParamSet}]
+#'  The Parameter Set.
+#' @return [\code{ParConfig}].
+#' @export
+#' @family ParConfig
+setParConfigParSet = function(par.config, par.set) {
+  assert_class(par.set, "ParamSet")
+  learner.class = getParConfigLearnerClass(par.config)
+  if (!is.null(learner.class)) {
+    checkLearnerParSet(
+      learner = makeLearner(getParConfigLearnerClass(par.config)),
+      par.set = par.set)
+  }
+  par.config$par.set = par.set
+  par.config
+}
+
+#' @title Set Parameter Values
+#' @description
+#'  Set Parameter Values
+#' @template arg_parconfig
+#' @param par.vals [\code{list}]
+#'  Specific constant parameter settings.
+#' @return [\code{ParConfig}].
+#' @export
+#' @family ParConfig
+setParConfigParVals = function(par.config, par.vals) {
+  assert_list(par.vals, names = "named", any.missing = FALSE)
+  par.config$par.vals = par.vals
+  par.config
+}

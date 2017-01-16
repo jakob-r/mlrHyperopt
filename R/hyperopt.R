@@ -15,6 +15,7 @@
 #' @param show.info [\code{logical(1)}]\cr
 #'   Print verbose output on console?
 #'   Default is set via \code{\link{configureMlr}}.
+#' @return [\code{\link[mlr]{TuneResult}}]
 #' @import mlr
 #' @export
 
@@ -39,12 +40,21 @@ hyperopt = function(task, learner = NULL, par.config = NULL, hyper.control = NUL
     hyper.control = generateHyperControl(task = task, learner = learner, par.config = par.config)
   }
 
-  learner = setHyperPars(learner, par.vals = getParConfigParVals(par.config))
+  if (!is.null(getParConfigParVals(par.config))) {
+    learner = setHyperPars(learner, par.vals = getParConfigParVals(par.config))
+  }
+
+  measures = getHyperControlMeasures(hyper.control)
+  # for some measures the learner has to change it's type
+  if ("req.prob" %in% measures[[1]]$properties) {
+    learner = setPredictType(learner, "prob")
+  }
+
   tune.res = tuneParams(
     learner = learner,
     task = task,
     resampling = getHyperControlResampling(hyper.control),
-    measures = getHyperControlMeasures(hyper.control),
+    measures = measures,
     par.set = getParConfigParSet(par.config),
     control = getHyperControlMlrControl(hyper.control),
     show.info = show.info)

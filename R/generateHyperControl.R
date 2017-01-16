@@ -1,18 +1,21 @@
-# ' @title
-# ' Generates a hyperparameter tuning control object
-# '
-# ' @description
-# ' Tries to automatically create a suitable hyperparameter tuning control.
-# '
-# ' @param task [\code{Task}]
-# '  Task
-# ' @param learner [\code{Learner}]
-# '  Learner
-# ' @param par.config [\code{ParConfig}]
-# ' @return [\code{HyperControl}]
-# ' @export
+#' @title
+#' Generates a hyperparameter tuning control object
+#'
+#' @description
+#' Tries to automatically create a suitable hyperparameter tuning control.
+#'
+#' @param task [\code{Task}]
+#'  Task
+#' @param learner [\code{Learner}]
+#'  Learner
+#' @param par.config [\code{ParConfig}]
+#' @return [\code{HyperControl}]
+#' @export
 
 generateHyperControl = function(task, learner, par.config) {
+  assert_class(task, "Task")
+  learner = checkLearner(learner)
+  assert_class(par.config, "ParConfig")
 
   # very superficial way to determine resampling based on task size
   task.n = getTaskSize(task)
@@ -33,8 +36,9 @@ generateHyperControl = function(task, learner, par.config) {
   if (all(getParamTypes(par.set) %in% c("numeric", "integer", "numericvector", "integervector"))) {
     mbo.control = mlrMBO::makeMBOControl()
     mbo.control = mlrMBO::setMBOControlInfill(mbo.control, crit = "ei")
-    mbo.control = mlrMBO::setMBOControlTermination(max.evals = 25)
-    mlr.control = mlr:::makeTuneControlMBO(mbo.control = mbo.control, mbo.keep.result = TRUE)
+    mbo.control = mlrMBO::setMBOControlTermination(mbo.control, max.evals = 25)
+    mbo.learner = makeLearner("regr.km", predict.type = "se", covtype = "matern5_2", optim.method = "gen", nugget.estim = TRUE, jitter = TRUE)
+    mlr.control = mlr:::makeTuneControlMBO(mbo.control = mbo.control, mbo.keep.result = TRUE, learner = mbo.learner)
   } else if (getParamNr(par.set) == 1) {
     mlr.control = makeTuneControlGrid(resolution = 25)
   } else if (getParamNr(par.set) == 2) {

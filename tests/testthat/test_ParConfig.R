@@ -58,3 +58,14 @@ test_that("ParConfig getters/setters work", {
 
   expect_error(setParConfigLearner(par.config, lrn.bad), "Params that are not supported by the Learner")
 })
+
+test_that("generate ParConfig works", {
+  tasks = list(classif = iris.task, regr = bh.task)
+  learners = makeLearners(c("regr.randomForest", "classif.svm"))
+  for (learner in learners) {
+    task = tasks[[getLearnerType(learner)]]
+    par.config = generateParConfig(task = task, learner = learner)
+    expect_class(par.config, "ParConfig")
+  }
+  expect_error(generateParConfig(task = tasks[["classif"]], learner = "classif.binomial"), "no default")
+})

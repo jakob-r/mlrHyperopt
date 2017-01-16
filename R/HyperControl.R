@@ -98,7 +98,7 @@ setHyperControlMeasures = function(hyper.control, measures) {
 #' @return [\code{HyperControl}]
 #' @export
 #' @family HyperControl
-setHyperControlMeasures = function(hyper.control, mlr.control) {
+setHyperControlMlrControl = function(hyper.control, mlr.control) {
   hyper.control$mlr.control = mlr.control
   hyper.control
 }

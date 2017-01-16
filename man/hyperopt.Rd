@@ -25,6 +25,9 @@ The Hyperparameter Control Object}
 Print verbose output on console?
 Default is set via \code{\link{configureMlr}}.}
 }
+\value{
+[\code{\link[mlr]{TuneResult}}]
+}
 \description{
 Tunes the Hyperparameters for a given task and learner.
 Tries to find the best parameter set to tune for the given learner.
