@@ -1,14 +1,15 @@
 language: r
 sudo: false
+cache: packages
 
 r:
-  - oldrel
   - release
-  - devel
 
 r_github_packages:
   - mlr-org/mlrMBO
   - jimhester/covr
+
+warnings_are_errors: false
 
 after_success:
    - Rscript -e 'covr::coveralls()'

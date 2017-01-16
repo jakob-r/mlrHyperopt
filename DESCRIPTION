@@ -26,5 +26,6 @@ Suggests:
     mlrMBO,
     testthat,
     e1071,
-    randomForest
+    randomForest,
+    DiceKriging
 RoxygenNote: 5.0.1
