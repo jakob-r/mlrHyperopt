@@ -1,0 +1,10 @@
+language: r
+sudo: false
+
+r:
+  - oldrel
+  - release
+  - devel
+
+r_github_packages:
+  - mlr-org/mlrMBO
