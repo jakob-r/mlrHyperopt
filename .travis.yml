@@ -8,3 +8,7 @@ r:
 
 r_github_packages:
   - mlr-org/mlrMBO
+  - jimhester/covr
+
+after_success:
+   - Rscript -e 'covr::coveralls()'
