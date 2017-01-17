@@ -10,28 +10,24 @@ downloadParConfigs = function(ids) {
 
   assert_character(ids)
 
-  # establish connection to DB
-  if (file.exists("pardb.Rds")) {
-    pardb = readRDS("pardb.Rds")
-  } else {
-    stop("Connection to database could not be established!")
+  req = POST("http://mlrhyperopt.jakob-r.de/download.php", body = list(ids = as.numeric(ids)), encode = "json", accept_json())
+  if (status_code(req) != 200) {
+    stopf("The server returned an unexpected result: %s", content(req, "text"))
   }
 
-  # query for results
-  assert_subset(x = ids, choices = names(pardb))
-  db.res = mget(ids, envir=pardb)
+  db.res = content(req)
 
   # loop through ids
   par.configs = lapply(db.res, function(x) {
-    par.set = JSONtoParSet(x$par.set.json)
-    par.vals = JSONtoParVals(x$par.vals.json)
-    makeParConfig(par.set = par.set, par.vals = par.vals, learner = x$learner.class)
+    par.set = JSONtoParSet(x$json_parconfig)
+    par.vals = JSONtoParVals(x$json_parvals)
+    makeParConfig(par.set = par.set, par.vals = par.vals, learner = x$learner_class)
   })
 
 }
 
 #' @title Downloads a single ParConfig.
-#' 
+#'
 #' @description Retrieve a Paramater Configuration for the given id from the mlrHyperopt servers.
 #' @param id [\code{character}]
 #'  Unique identifier for a Parameter Set.
