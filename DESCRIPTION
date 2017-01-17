@@ -19,6 +19,7 @@ Imports:
     methods,
     checkmate (>= 1.8.2),
     jsonlite,
+    httr,
     BBmisc,
     hashids,
     stringi

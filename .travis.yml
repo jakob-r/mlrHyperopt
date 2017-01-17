@@ -6,10 +6,12 @@ r:
   - release
 
 r_github_packages:
+  - berndbischl/ParamHelpers
+  - mlr-org/mlr
   - mlr-org/mlrMBO
   - jimhester/covr
 
-warnings_are_errors: false
+warnings_are_errors: true
 
 after_success:
    - Rscript -e 'covr::coveralls()'

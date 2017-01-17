@@ -3,3 +3,6 @@
 #' @import checkmate
 #' @import ParamHelpers
 NULL
+
+#FIXME: Delete when mlrMBO is on CRAN
+makeTuneControlMBO = getFromNamespace("makeTuneControlMBO", "mlr")
