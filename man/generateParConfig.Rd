@@ -22,4 +22,8 @@ If now good Parameter Configuration Set is known this function tries to find one
 \note{
 The output of this function might change over time with coming updates. Not recommended for reprocuible research unless you save the output.
 }
+\examples{
+par.config = generateParConfig(iris.task, "classif.svm")
+print(par.config)
+}
 

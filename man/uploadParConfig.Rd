@@ -22,4 +22,9 @@ It could be advantageous to supply a working email if you want to migrate your s
 \description{
 Uploads a ParConfig and returns the ID.
 }
+\examples{
+par.config = generateParConfig(iris.task, "classif.svm")
+id = uploadParConfig(par.config, "jon.doe@example.com")
+print(id)
+}
 

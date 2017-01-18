@@ -24,6 +24,14 @@ Default is the default measure for the task, see here \code{\link{getDefaultMeas
 \description{
 Defines how the hyperparameter tuning should be conducted
 }
+\examples{
+hyper.control = makeHyperControl(
+  mlr.control = makeTuneControlDesign(design = generateDesign(n = 10)),
+  resampling = cv2,
+  measures = acc
+)
+hyperopt(task = iris.task, learner = "classif.svm", hyper.control = hyper.control)
+}
 \seealso{
 Other HyperControl: \code{\link{getHyperControlMeasures}},
   \code{\link{getHyperControlMlrControl}},

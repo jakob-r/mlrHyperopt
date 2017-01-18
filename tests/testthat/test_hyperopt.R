@@ -25,9 +25,10 @@ test_that("hyperopt works", {
 
   # does it work for a tiny task
   data = data.frame(a = 1:10, x = factor(rep(1:2, each = 5)))
-  mini.task = makeClassifTask(data, target = "x")
+  mini.task = makeClassifTask(data = data, target = "x")
   par.set = makeParamSet(makeIntegerParam(id = "ntree", lower = 1, upper = 10))
   par.vals = list(nodesize = 2)
   par.config = makeParConfig(par.set = par.set, learner.name = "randomForest", par.vals = par.vals)
-  res3 = hyperopt(mini.task, learner = "classif.svm")
+  res3 = hyperopt(mini.task, par.config = par.config)
+  expect_class(res3, "TuneResult")
 })

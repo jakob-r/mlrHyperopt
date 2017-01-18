@@ -32,4 +32,7 @@ Default is set via \code{\link{configureMlr}}.}
 Tunes the Hyperparameters for a given task and learner.
 Tries to find the best parameter set to tune for the given learner.
 }
+\examples{
+hyperopt(iris.task, "classif.svm")
+}
 

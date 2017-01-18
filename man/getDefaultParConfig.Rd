@@ -16,4 +16,9 @@ An mlr Learner.}
 \description{
 For a given Learner this method will return a usefull default Parameter Set for Tuning.
 }
+\examples{
+learner = makeLearner("classif.randomForest")
+par.config = getDefaultParConfig(learner)
+print(par.config)
+}
 

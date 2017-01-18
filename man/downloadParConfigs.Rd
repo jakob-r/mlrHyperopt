@@ -16,4 +16,8 @@ One ore more unique identifiers of the Parameter Set}
 \description{
 Retrieve the Paramater Configurations for the given ids from the mlrHyperopt servers.
 }
+\examples{
+par.configs = downloadParConfigs(c("8","29"))
+print(par.configs)
+}
 
