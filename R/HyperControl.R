@@ -30,7 +30,7 @@ makeHyperControl = function(mlr.control = NULL, resampling = NULL, measures = NU
   if (!inherits(resampling, "ResampleDesc") &&  !inherits(resampling, "ResampleInstance"))
   stop("Argument resampling must be of class ResampleDesc or ResampleInstance!")
 
-  ensureVector(measures, n = 1L, cl = "Measure")
+  measures = ensureVector(measures, n = 1L, cl = "Measure")
   assert_list(measures, min.len = 1, types = "Measure")
 
   makeS3Obj(
@@ -95,7 +95,7 @@ setHyperControlResampling = function(hyper.control, resampling) {
 #' @export
 #' @family HyperControl
 setHyperControlMeasures = function(hyper.control, measures) {
-  ensureVector(measures, n = 1L, cl = "Measure")
+  measures = ensureVector(measures, n = 1L, cl = "Measure")
   assert_list(measures, min.len = 1, types = "Measure")
   hyper.control$measures = measures
   hyper.control
