@@ -28,8 +28,8 @@ uploadParConfig = function(par.config, user.email = NULL) {
     )
 
   req = httr::POST("http://mlrhyperopt.jakob-r.de/upload.php", body = post, encode = "json", httr::accept_json())
-  if (status_code(req) != 200) {
+  if (httr::status_code(req) != 200) {
     stopf("The server returned an unexpected result: %s", content(req, "text"))
   }
-  as.character(content(req)$id)
+  as.character(httr::content(req)$id)
 }

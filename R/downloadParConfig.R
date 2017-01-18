@@ -15,7 +15,7 @@ downloadParConfigs = function(ids) {
     stopf("The server returned an unexpected result: %s", content(req, "text"))
   }
 
-  db.res = content(req)
+  db.res = httr::content(req)
 
   # loop through ids
   par.configs = lapply(db.res, function(x) {
