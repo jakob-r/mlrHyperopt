@@ -16,7 +16,7 @@
 #' @aliases HyperControl
 #' @examples
 #' hyper.control = makeHyperControl(
-#'   mlr.control = makeTuneControlDesign(design = generateDesign(n = 10)),
+#'   mlr.control = makeTuneControlRandom(maxit = 5),
 #'   resampling = cv2,
 #'   measures = acc
 #' )
