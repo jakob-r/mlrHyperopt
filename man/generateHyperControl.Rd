@@ -30,7 +30,9 @@ getHyperControlMlrControl(hyper.control)
 getHyperControlResampling(hyper.control)
 # change what is inside
 hyper.control = setHyperControlMeasures(hyper.control, measures = medse)
-hyper.control = setHyperControlMlrControl(hyper.control, mlr.control = makeTuneControlRandom(maxit = 10))
+hyper.control = setHyperControlMlrControl(
+  hyper.control,
+  mlr.control = makeTuneControlRandom(maxit = 10))
 hyper.control = setHyperControlResampling(hyper.control, resampling = cv3)
 hyperopt(task = bh.task, par.config = par.config, hyper.control = hyper.control)
 }

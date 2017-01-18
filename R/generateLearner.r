@@ -9,7 +9,7 @@
 #' @param par.config [\code{ParConfig}]
 #' @return [\code{Learner}]
 #' @examples
-#' par.configs = downloadParConfig("8")
+#' par.config = downloadParConfig("8")
 #' learner = generateLearner(iris.task, par.config)
 #' print(learner)
 #' @export

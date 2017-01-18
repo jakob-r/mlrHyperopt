@@ -28,7 +28,7 @@ makeHyperControl = function(mlr.control = NULL, resampling = NULL, measures = NU
   assert_class(mlr.control, classes = "TuneControl")
 
   if (!inherits(resampling, "ResampleDesc") &&  !inherits(resampling, "ResampleInstance"))
-  stop("Argument resampling must be of class ResampleDesc or ResampleInstance!")
+    stop("Argument resampling must be of class ResampleDesc or ResampleInstance!")
 
   measures = ensureVector(measures, n = 1L, cl = "Measure")
   assert_list(measures, min.len = 1, types = "Measure")
@@ -83,6 +83,7 @@ getHyperControlMlrControl = function(hyper.control) {
 #' @family HyperControl
 setHyperControlResampling = function(hyper.control, resampling) {
   if (!inherits(resampling, "ResampleDesc") &&  !inherits(resampling, "ResampleInstance"))
+    stop("Argument resampling must be of class ResampleDesc or ResampleInstance!")
   hyper.control$resampling = resampling
   hyper.control
 }

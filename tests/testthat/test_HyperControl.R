@@ -18,7 +18,7 @@ test_that("generate HyperControl", {
     hyper.control = setHyperControlMlrControl(hyper.control, mlr.control = makeTuneControlRandom(maxit = 10))
     hyper.control = setHyperControlResampling(hyper.control, resampling = cv3)
     expect_equal(getHyperControlMeasures(hyper.control), list(timetrain))
-    expect_equal(getHyperControlMeasures(hyper.control), makeTuneControlRandom(maxit = 10))
-    expect_equal(getHyperControlMeasures(hyper.control), cv3)
+    expect_equal(getHyperControlMlrControl(hyper.control), makeTuneControlRandom(maxit = 10))
+    expect_equal(getHyperControlResampling(hyper.control), cv3)
   }
 })

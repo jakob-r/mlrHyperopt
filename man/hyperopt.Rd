@@ -33,6 +33,18 @@ Tunes the Hyperparameters for a given task and learner.
 Tries to find the best parameter set to tune for the given learner.
 }
 \examples{
+# the shortest way of hyperparameter optimization
 hyperopt(iris.task, "classif.svm")
+
+# manually defining the paramer space configuration
+par.config = makeParConfig(
+  par.set = makeParamSet(
+    makeIntegerParam("mtry", lower = 1, upper = 4),
+    makeDiscreteParam("ntree", values = c(10, 25, 50))
+  ),
+  par.vals = list(replace = FALSE),
+  learner.name = "randomForest"
+)
+hyperopt(bh.task, par.config = par.config)
 }
 
