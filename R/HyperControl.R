@@ -14,6 +14,13 @@
 #' @return [\code{HyperControl}]
 #' @family HyperControl
 #' @aliases HyperControl
+#' @examples
+#' hyper.control = makeHyperControl(
+#'   mlr.control = makeTuneControlDesign(design = generateDesign(n = 10)),
+#'   resampling = cv2,
+#'   measures = acc
+#' )
+#' hyperopt(task = iris.task, learner = "classif.svm", hyper.control = hyper.control)
 #' @export
 
 makeHyperControl = function(mlr.control = NULL, resampling = NULL, measures = NULL) {
@@ -75,6 +82,7 @@ getHyperControlMlrControl = function(hyper.control) {
 #' @export
 #' @family HyperControl
 setHyperControlResampling = function(hyper.control, resampling) {
+  if (!inherits(resampling, "ResampleDesc") &&  !inherits(resampling, "ResampleInstance"))
   hyper.control$resampling = resampling
   hyper.control
 }
@@ -87,6 +95,8 @@ setHyperControlResampling = function(hyper.control, resampling) {
 #' @export
 #' @family HyperControl
 setHyperControlMeasures = function(hyper.control, measures) {
+  ensureVector(measures, n = 1L, cl = "Measure")
+  assert_list(measures, min.len = 1, types = "Measure")
   hyper.control$measures = measures
   hyper.control
 }
@@ -99,6 +109,7 @@ setHyperControlMeasures = function(hyper.control, measures) {
 #' @export
 #' @family HyperControl
 setHyperControlMlrControl = function(hyper.control, mlr.control) {
+  assert_class(mlr.control, classes = "TuneControl")
   hyper.control$mlr.control = mlr.control
   hyper.control
 }

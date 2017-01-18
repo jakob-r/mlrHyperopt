@@ -17,6 +17,8 @@
 #'   Default is set via \code{\link{configureMlr}}.
 #' @return [\code{\link[mlr]{TuneResult}}]
 #' @import mlr
+#' @examples
+#' hyperopt(iris.task, "classif.svm")
 #' @export
 
 hyperopt = function(task, learner = NULL, par.config = NULL, hyper.control = NULL, show.info = getMlrOptions()$show.info) {

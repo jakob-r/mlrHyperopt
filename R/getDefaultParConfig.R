@@ -8,6 +8,10 @@
 #'  An mlr Learner.
 #' @return [\code{ParConfig}]
 #' @import stringi
+#' @examples
+#' learner = makeLearner("classif.randomForest")
+#' par.config = getDefaultParConfig(learner)
+#' print(par.config)
 #' @export
 
 getDefaultParConfig = function(learner) {

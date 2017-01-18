@@ -9,8 +9,14 @@
 #'  In the future we might switch to an authentification system.
 #'  It could be advantageous to supply a working email if you want to migrate your submissions then.
 #' @return [\code{character}]
+#' @examples
+#' par.config = generateParConfig(iris.task, "classif.svm")
+#' id = uploadParConfig(par.config, "jon.doe@example.com")
+#' print(id)
 #' @import httr
 #' @export
+
+
 
 uploadParConfig = function(par.config, user.email = NULL) {
   assert_class(par.config, "ParConfig")

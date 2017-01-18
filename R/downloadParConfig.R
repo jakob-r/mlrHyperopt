@@ -4,6 +4,9 @@
 #' @param ids [\code{character}]
 #'  One ore more unique identifiers of the Parameter Set
 #' @return [List of \code{ParConfig}s]
+#' @examples
+#' par.configs = downloadParConfigs(c("8","29"))
+#' print(par.configs)
 #' @export
 
 downloadParConfigs = function(ids) {
@@ -34,6 +37,10 @@ downloadParConfigs = function(ids) {
 #'  Unique identifier for a Parameter Set.
 #'  This will be downloaded from the mlrHyperopt servers.
 #' @return [\code{ParConfig}]
+#' @examples
+#' par.config = downloadParConfig("8")
+#' print(par.config)
+#' @export
 downloadParConfig = function(id) {
   assert_string(id)
   downloadParConfigs(id)[[1]]

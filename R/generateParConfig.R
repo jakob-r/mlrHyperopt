@@ -11,6 +11,9 @@
 #' @param learner [\code{Learner}]
 #'  The learner that is subject to the Hyperparameter Tuning.
 #' @return [\code{ParConfig}]
+#' @examples
+#' par.config = generateParConfig(iris.task, "classif.svm")
+#' print(par.config)
 #' @export
 generateParConfig = function(task, learner) {
   assertClass(task, "Task")

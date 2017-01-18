@@ -8,6 +8,10 @@
 #'  The Task
 #' @param par.config [\code{ParConfig}]
 #' @return [\code{Learner}]
+#' @examples
+#' par.configs = downloadParConfig("8")
+#' learner = generateLearner(iris.task, par.config)
+#' print(learner)
 #' @export
 generateLearner = function(task, par.config) {
   assert_class(task, "Task")
