@@ -22,4 +22,12 @@ test_that("hyperopt works", {
   res2 = hyperopt(task = sonar.task, hyper.control = hyper.control, par.config = par.config)
   expect_number(res2$y, lower = 0.8)
   expect_true(getOptPathLength(res2$opt.path) == 10)
+
+  # does it work for a tiny task
+  data = data.frame(a = 1:10, x = factor(rep(1:2, each = 5)))
+  mini.task = makeClassifTask(data, target = "x")
+  par.set = makeParamSet(makeIntegerParam(id = "ntree", lower = 1, upper = 10))
+  par.vals = list(nodesize = 2)
+  par.config = makeParConfig(par.set = par.set, learner.name = "randomForest", par.vals = par.vals)
+  res3 = hyperopt(mini.task, learner = "classif.svm")
 })
