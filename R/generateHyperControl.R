@@ -33,14 +33,14 @@ generateHyperControl = function(task, learner, par.config) {
 
   # determine a suitable tuning method
   par.set = getParConfigParSet(par.config)
-  if (all(getParamTypes(par.set) %in% c("numeric", "integer", "numericvector", "integervector"))) {
+  if (getParamNr(par.set) == 1) {
+    mlr.control = makeTuneControlGrid(resolution = 25)
+  } else if (all(getParamTypes(par.set) %in% c("numeric", "integer", "numericvector", "integervector"))) {
     mbo.control = mlrMBO::makeMBOControl()
     mbo.control = mlrMBO::setMBOControlInfill(mbo.control, crit = mlrMBO::makeMBOInfillCriterionEI())
     mbo.control = mlrMBO::setMBOControlTermination(mbo.control, max.evals = 25)
     mbo.learner = makeLearner("regr.km", predict.type = "se", covtype = "matern5_2", nugget.estim = TRUE, jitter = TRUE)
     mlr.control = makeTuneControlMBO(mbo.control = mbo.control, mbo.keep.result = TRUE, learner = mbo.learner)
-  } else if (getParamNr(par.set) == 1) {
-    mlr.control = makeTuneControlGrid(resolution = 25)
   } else if (getParamNr(par.set) == 2) {
     mlr.control = makeTuneControlGrid(resolution = 5)
   } else {

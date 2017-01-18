@@ -1,0 +1,66 @@
+---
+title: "mlrHyperopt"
+author: "Jakob Richter"
+output:
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: false
+      smooth_scroll: false
+vignette: >
+  %\VignetteIndexEntry{mlrHyperopt}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE, cache = FALSE}
+set.seed(123)
+knitr::opts_chunk$set(cache = TRUE, collapse = FALSE, results = 'hold')
+knitr::knit_hooks$set(document = function(x){
+  gsub("```\n*```r*\n*", "", x)
+})
+```
+
+This Vignette is supposed to give you a short introduction and a glance at the key features of `mlrHyperopt`.
+For updated information make sure to check the GitHub project page:
+
+- [Project Page](https://github.com/jakob-r/mlrHyperopt/)
+- Online documentation of [mlrMBO](https://jakob-r.github.io/mlrHyperopt/)
+- [Status](http://mlrhyper.jakob-r.de/status.php) of the online database.
+
+## Purpose
+
+The main goal of `mlrHyperopt` is to break boundaries and make Hyperparameter optimization super easy.
+Often beginners of machine learning and even experts don't know which parameters have to be tuned for certain machine learning methods.
+Sometimes experts also don't neccessarily agree on the tuning parameters and their ranges.
+This package tries to tackle these problems by offering:
+
+- Recommended parameter space configurations for the most common learners.
+- A fully automatic, *zero conf*, one line hyper parameter configuration.
+- Option to **upload** a good parameter space configuration for a specific learner to share with colleagues and researchers.
+- Possibility to **download** publicly available parameter space configurations for the machine learning method of your choice.
+- An extensible interface to use the full variaty of [mlr](http://mlr-org.github.com/mlr) of learners and tuning options.
+- Namely: *grid search*, *cma-es*, *[model-based optimization](http://mlr-org.github.com/mlr/mlrMBO)* and *random search*.
+
+## Requirements
+
+As the name indicates `mlrHyperopt` relies heavily on `mlr`.
+Additionally `mlrMBO` will be used automatically for pure numeric Parameter Spaces of dimension 2 or higher.
+Most used objects are documented in `mlr`. 
+To create your own `task` check the mlr-tutorial on how to create [Learning Tasks](http://mlr-org.github.io/mlr-tutorial/release/html/task/index.html), [Learners](http://mlr-org.github.io/mlr-tutorial/release/html/learner/index.html), [Tuning Parameter Sets for Learners](http://mlr-org.github.io/mlr-tutorial/release/html/tune/index.html), as well as [custom resampling strategies](http://mlr-org.github.io/mlr-tutorial/release/html/resample/index.html).
+
+## Getting started
+
+Hyperparameter Tuning with `mlrHyperopt` can be done in one line:
+
+```{r oneLineExample, message=FALSE}
+library(mlrHyperopt)
+res = hyperopt(iris.task, learner = "classif.svm")
+res
+```
+
+To obtain full control of what is happening you can define every argument yourself or just depend partially on the automatic processes.
+```{r detailedExample}
+
+
+```
