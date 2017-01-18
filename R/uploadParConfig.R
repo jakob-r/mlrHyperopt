@@ -27,7 +27,7 @@ uploadParConfig = function(par.config, user.email = NULL) {
     learner_class = learner.class
     )
 
-  req = POST("http://mlrhyperopt.jakob-r.de/upload.php", body = post, encode = "json", accept_json())
+  req = httr::POST("http://mlrhyperopt.jakob-r.de/upload.php", body = post, encode = "json", httr::accept_json())
   if (status_code(req) != 200) {
     stopf("The server returned an unexpected result: %s", content(req, "text"))
   }

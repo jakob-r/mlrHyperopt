@@ -10,7 +10,7 @@ downloadParConfigs = function(ids) {
 
   assert_character(ids)
 
-  req = POST("http://mlrhyperopt.jakob-r.de/download.php", body = list(ids = as.numeric(ids)), encode = "json", accept_json())
+  req = httr::POST("http://mlrhyperopt.jakob-r.de/download.php", body = list(ids = as.numeric(ids)), encode = "json", httr::accept_json())
   if (status_code(req) != 200) {
     stopf("The server returned an unexpected result: %s", content(req, "text"))
   }
@@ -24,6 +24,7 @@ downloadParConfigs = function(ids) {
     makeParConfig(par.set = par.set, par.vals = par.vals, learner = x$learner_class)
   })
 
+  par.configs
 }
 
 #' @title Downloads a single ParConfig.
