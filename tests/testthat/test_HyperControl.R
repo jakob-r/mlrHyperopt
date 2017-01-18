@@ -12,5 +12,13 @@ test_that("generate HyperControl", {
     expect_list(getHyperControlMeasures(hyper.control), types = "Measure")
     expect_class(getHyperControlMlrControl(hyper.control), class = "TuneControl")
     expect_class(getHyperControlResampling(hyper.control), class = "ResampleDesc")
+
+    #setters work well
+    hyper.control = setHyperControlMeasures(hyper.control, measures = medse)
+    hyper.control = setHyperControlMlrControl(hyper.control, mlr.control = makeTuneControlRandom(maxit = 10))
+    hyper.control = setHyperControlResampling(hyper.control, resampling = cv3)
+    expect_equal(getHyperControlMeasures(hyper.control), list(medse))
+    expect_equal(getHyperControlMeasures(hyper.control), makeTuneControlRandom(maxit = 10))
+    expect_equal(getHyperControlMeasures(hyper.control), cv3)
   }
 })
