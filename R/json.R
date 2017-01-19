@@ -6,7 +6,8 @@
 # @param par.set [ParamSet]
 # @return JSON
 parSetToJSON = function(par.set) {
-  res.list = lapply(par.set$pars, paramToJSONList)
+  pars = par.set$pars[order(names(par.set$pars))] # order parameters alphabetically for unified storage and comparable hashes
+  res.list = lapply(pars, paramToJSONList)
   toJSON(res.list)
 }
 
@@ -25,7 +26,7 @@ paramToJSONList = function(param) {
   }
   # handle values for discrete param, currently not supported
   if (param$type == "discrete") {
-    par.vals = checkDiscreteJSON(param$values, param$id)
+    res.list$values = checkDiscreteJSON(param$values, param$id)
   }
   # handle trafo
   if (!is.null(param$trafo)) {
