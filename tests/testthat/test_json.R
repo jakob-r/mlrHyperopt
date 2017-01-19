@@ -26,10 +26,12 @@ test_that("converting to JSON and back", {
 
   json = parSetToJSON(par.sets$svm.sample)
   par.set2 = JSONtoParSet(json)
+  par.set2$pars = par.set2$pars[names(par.sets$svm.sample$pars)]
   expect_equal(par.sets$svm.sample, par.set2)
 
   json = parSetToJSON(par.sets$mixed.ParSet)
   par.set3 = JSONtoParSet(json)
+  par.set3$pars = par.set3$pars[names(par.sets$svm.sample$pars)]
   expect_equal(par.sets$mixed.ParSet, par.set3)
 
   f = function(x) x
