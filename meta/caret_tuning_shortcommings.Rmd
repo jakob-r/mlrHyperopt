@@ -1,0 +1,77 @@
+---
+title: "caret tuning shortcomings"
+author: "Jakob Richter"
+date: "March 22, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Caret Tuning
+
+## Increasing tuning budget does not necessarily increase fineness of tuning
+
+Example: Boosting
+```{r caret tunging}
+library(caret)
+fitControl = trainControl(method = "repeatedcv", number = 3, repeats = 3)
+gbmFit1 = train(Species ~ ., data = iris, method = "gbm", trControl = fitControl, verbose = FALSE, tuneLength = 5)
+summary(gbmFit1$results)
+gbmFit1$bestTune
+gbmFit2 = train(Species ~ ., data = iris, method = "gbm", trControl = fitControl, verbose = FALSE, tuneLength = 10)
+summary(gbmFit2$results)
+gbmFit2$bestTune
+```
+_Note:_ `tuneLength` did not specify the number of tuning evaluations because of `expand.grid`.
+If the original grid is unknown we don't know how many evaluations to expect.
+
+Tuning Space defined in _caret_:
+```{r, eval=FALSE}
+grid = function(x, y, len = NULL, search = "grid") {
+  if(search == "grid") {
+    out <- expand.grid(
+      interaction.depth = seq(1, len),
+      n.trees = floor((1:len) * 50),
+      shrinkage = .1,
+      n.minobsinnode = 10)
+  } else {
+    out <- data.frame(
+      n.trees = floor(runif(len, min = 1, max = 5000)),
+      interaction.depth = sample(1:10, replace = TRUE, size = len),         
+      shrinkage = runif(len, min = .001, max = .6),
+      n.minobsinnode = sample(5:25, replace = TRUE, size = len) )
+    out <- out[!duplicated(out),]
+  }
+  out
+}
+```
+
+Improve tuning space with a better definition:
+```{r sameBudget}
+library(ParamHelpers)
+ps.gbm.grid = makeParamSet(
+  makeIntegerParam("interaction.depth", lower = 1, upper = expression(p)),
+  makeIntegerParam("n.trees", lower = 1, upper = floor(sqrt(5000)), trafo = function(x) x^2),
+  makeDiscreteParam("shrinkage", values = 0.001),
+  makeDiscreteParam("n.minobsinnode", values = 10),
+  keys = c("p")
+)
+
+ps.gbm.random = makeParamSet(
+  makeIntegerParam("interaction.depth", lower = 1, upper = expression(p)),
+  makeIntegerParam("n.trees", lower = 1, upper = floor(sqrt(5000)), trafo = function(x) x^2),
+  makeNumericParam("shrinkage", lower = 0.001, upper = 0.6),
+  makeIntegerParam("n.minobsinnode", lower = 5, upper = 25),
+  keys = c("p")
+)
+ps.gbm.grid = evaluateParamExpressions(ps.gbm.grid, dict = list(p = ncol(iris)-1))
+grid.tune.gbm = generateGridDesign(ps.gbm.grid, resolution = 5, )
+grid.tune.gbm$shrinkage = as.numeric(grid.tune.gbm$shrinkage)
+grid.tune.gbm$n.minobsinnode = as.numeric(grid.tune.gbm$n.minobsinnode)
+gbmFit3 = train(Species ~ ., data = iris, method = "gbm", trControl = fitControl, verbose = FALSE, tuneGrid = grid.tune.gbm)
+max(gbmFit3$results$Accuracy, na.rm = TRUE)
+max(gbmFit2$results$Accuracy, na.rm = TRUE)
+```
+
