@@ -5,6 +5,9 @@ cache: packages
 r:
   - release
 
+r_packages:
+  - rgenoud
+
 r_github_packages:
   - berndbischl/ParamHelpers
   - mlr-org/mlr
