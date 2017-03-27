@@ -72,5 +72,7 @@ hyperopt = function(task, learner = NULL, par.config = NULL, hyper.control = NUL
     par.set = getParConfigParSet(par.config),
     control = getHyperControlMlrControl(hyper.control),
     show.info = show.info)
+
+  tune.res$learner = setHyperPars(learner, par.vals = tune.res$x)
   return(tune.res)
 }
