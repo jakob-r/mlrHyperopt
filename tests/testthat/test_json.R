@@ -9,10 +9,10 @@ test_that("converting to JSON and back", {
       makeIntegerParam(id = "degree", default = 3L, lower = 1L, requires = quote(kernel=="polynomial")),
       makeNumericParam(id = "gamma", lower = -5, upper = 5, trafo = function(x) 2^x)),
     mixed.ParSet = makeParamSet(
-      makeNumericParam(id = "x1", lower = -1L, upper = 1),
+      makeNumericParam(id = "x1", lower = expression(sqrt(n/2)^2), upper = 1),
       makeNumericParam(id = "x2", lower = 0, upper = Inf),
       makeNumericParam(id = "x3", allow.inf = TRUE, default = Inf),
-      makeNumericVectorParam(id = "x4", lower = -1L, upper = 1, len = 2),
+      makeNumericVectorParam(id = "x4", lower = -1L, upper = 1, len = 2, default = expression(floor(p/2))),
       makeNumericVectorParam(id = "x5", lower = 0, upper = Inf, len = 3),
       makeIntegerParam(id = "x6", lower = -1L, upper = 1),
       makeIntegerVectorParam(id = "x7", lower = -10L, upper = 10, len = 2),
@@ -21,7 +21,8 @@ test_that("converting to JSON and back", {
       makeLogicalParam(id = "x10"),
       makeLogicalVectorParam(id = "x11", len = 2),
       makeCharacterParam(id = "x12"),
-      makeCharacterVectorParam(id = "x13", len = 2)
+      makeCharacterVectorParam(id = "x13", len = 2),
+      keys = c("n", "p")
     ))
 
   json = parSetToJSON(par.sets$svm.sample)

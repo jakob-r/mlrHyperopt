@@ -1,6 +1,7 @@
 ## Convert ParamSet To JSON
 
 #' @import jsonlite
+#' @import stringi
 
 # converts a ParamSet to JSON
 # @param par.set [ParamSet]
@@ -20,10 +21,18 @@ paramToJSONList = function(param) {
     stopf("The Param fields for Param %s are currently not supported: %s", param$id, intersect(names(res.list), getForbiddenParamFields()))
   }
   res.list = res.list[names(res.list) %in% getSupportedParamFields()]
-  # handle requires
+  # deparse all requirements
   if (!is.null(param$requires)) {
     res.list$requires = deparse(param$requires)
   }
+  # deparse all expressions
+  res.list = lapply(res.list, function(x) {
+    if (is.expression(x)) {
+      deparse(x)
+    } else {
+      x
+    }
+  })
   # handle values for discrete param, currently not supported
   if (param$type == "discrete") {
     res.list$values = checkDiscreteJSON(param$values, param$id)
@@ -40,7 +49,7 @@ paramToJSONList = function(param) {
 # @return JSON
 parValsToJSON = function(par.vals) {
   par.vals = checkDiscreteJSON(par.vals, "Values")
-  toJSON(par.vals)
+  toJSON(par.vals, force = TRUE)
 }
 
 
@@ -51,8 +60,10 @@ parValsToJSON = function(par.vals) {
 # @return ParamSet
 JSONtoParSet = function(json) {
   ps.list = fromJSON(json)
-  param.list = lapply(ps.list, JSONListToParam)
-  par.set = do.call(makeParamSet, param.list)
+  param.list.and.keys = lapply(ps.list, JSONListToParam)
+  param.list = extractSubList(param.list.and.keys, "param", simplify = FALSE)
+  param.keys = unique(extractSubList(param.list.and.keys, "keys", simplify = TRUE))
+  par.set = makeParamSet(params = param.list, keys = param.keys)
   par.set
 }
 
@@ -62,11 +73,24 @@ JSONtoParSet = function(json) {
 JSONListToParam = function(par.list) {
   type = par.list$type
   par.list$type = NULL
+  # convert Requirement expression
   if (!is.null(par.list$requires)) {
     par.list$requires = convertExpressionToCall(parse(text = par.list$requires))
   }
+  # parse trafo
   if (!is.null(par.list$trafo)) {
     par.list$trafo = eval(parse(text = par.list$trafo))
+  }
+  # parse expressions in parameter values and boundaries (actually everywhere)
+  keys = NULL
+  for (i in names(par.list)) {
+    x = par.list[[i]]
+    if (is.character(x) && stri_startswith_fixed(x, "expression(")) {
+      par.list[[i]] = eval(parse(text = x))
+      #fixme: dirty way to match all variable names but not the expression
+      x = stri_replace_all_regex(x, pattern = "[[:space:]]", "")
+      keys = c(keys, stri_match_all_regex(x, pattern = "\\b[A-Za-z_.]+(?!\\()\\b")[[1]][,1])
+    }
   }
   paramFunction = switch(type,
                          numeric = makeNumericParam,
@@ -81,7 +105,7 @@ JSONListToParam = function(par.list) {
                          charactervector = makeCharacterVectorParam)
   supported.args = formalArgs(paramFunction)
   param = do.call(paramFunction, par.list[names(par.list) %in% supported.args], quote = TRUE)
-  param
+  list(param = param, keys = keys)
 }
 
 # converts json to a List of parameter values
