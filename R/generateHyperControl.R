@@ -50,8 +50,8 @@ generateHyperControl = function(task, learner, par.config) {
   if (getParamNr(par.set) == 1) {
     mlr.control = makeTuneControlGrid(resolution = 25)
   } else if (all(getParamTypes(par.set) %in% c("numeric", "integer", "numericvector", "integervector"))) {
-    mbo.control = mlrMBO::makeMBOControl()
-    mbo.control = mlrMBO::setMBOControlInfill(mbo.control, crit = mlrMBO::makeMBOInfillCriterionEI())
+    mbo.control = mlrMBO::makeMBOControl(final.method = "best.predicted")
+    mbo.control = mlrMBO::setMBOControlInfill(mbo.control, crit = mlrMBO::crit.eqi)
     mbo.control = mlrMBO::setMBOControlTermination(mbo.control, max.evals = 25)
     mlr.control = makeTuneControlMBO(mbo.control = mbo.control, mbo.keep.result = TRUE)
   } else if (getParamNr(par.set) == 2) {
