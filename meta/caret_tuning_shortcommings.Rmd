@@ -11,6 +11,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Caret Tuning
 
+## It is quite hidden
+Many people are confused why trainig takes so much longer
+<https://www.google.de/search?q=r+caret+slow>
+
 ## Increasing tuning budget does not necessarily increase fineness of tuning
 
 Example: Boosting
@@ -27,14 +31,14 @@ gbmFit2$bestTune
 _Note:_ `tuneLength` did not specify the number of tuning evaluations because of `expand.grid`.
 If the original grid is unknown we don't know how many evaluations to expect.
 
-Tuning Space defined in _caret_:
+Tuning Space defined in _caret_ for _gbm_:
 ```{r, eval=FALSE}
 grid = function(x, y, len = NULL, search = "grid") {
   if(search == "grid") {
     out <- expand.grid(
-      interaction.depth = seq(1, len),
+      interaction.depth = seq(1, len), <-- Why so dependent from tuning budget?
       n.trees = floor((1:len) * 50),
-      shrinkage = .1,
+      shrinkage = .1, # <-- Why set fixed here?
       n.minobsinnode = 10)
   } else {
     out <- data.frame(
@@ -45,6 +49,80 @@ grid = function(x, y, len = NULL, search = "grid") {
     out <- out[!duplicated(out),]
   }
   out
+}
+```
+
+Tuning Space defined in _caret_ for _boosting_ (aka _AdaBoost_):
+```{r, eval=FALSE}
+grid = function(x, y, len = NULL, search = "grid") {
+  types <- c("Breiman", "Freund", "Zhu")
+  if(search == "grid") {
+    out <- expand.grid(mfinal = floor((1:len) * 50),
+                       maxdepth = seq(1, len), # <-- WHAT????
+                       coeflearn = types)
+  } else {
+    out <- data.frame(mfinal = sample(1:1000, replace = TRUE, size = len),
+                      maxdepth = sample(1:30, replace = TRUE, size = len),
+                      coeflearn = sample(types, replace = TRUE, size = len))
+  }
+  out
+},
+```
+
+Tuning Space defined in _caret_ for _C5.0.default_:
+```{r, eval = FALSE}
+grid = function(x, y, len = NULL, search = "grid") {
+  if(search == "grid") {
+    c5seq <- if(len == 1)  1 else  c(1, 10*((2:min(len, 11)) - 1))
+    out <- expand.grid(trials = c5seq, model = c("tree", "rules"), winnow = c(TRUE, FALSE))
+  } else {
+    out <- data.frame(trials = sample(1:100, replace = TRUE, size = len),
+                      model = sample(c("tree", "rules"), replace = TRUE, size = len), # <-- that parameter does not affect the performance at all!
+                      winnow = sample(c(TRUE, FALSE), replace = TRUE, size = len))
+  }
+  out
+},
+```
+_Proof (kind of)_:
+```{r}
+library("mlr")
+set.seed(1)
+ra = resample(learner = makeLearner("classif.C50", rules = FALSE), task = iris.task, resampling = cv10)
+set.seed(1)
+rb = resample(learner = makeLearner("classif.C50", rules = TRUE), task = iris.task, resampling = cv10)
+ra$measures.test == rb$measures.test
+```
+
+_caret_ does some things without making it very transparent:
+```{r, eval = FALSE}
+grid = function(x, y, len = NULL, search = "grid"){
+  if(search == "grid") {
+    out <- expand.grid(mtry = caret::var_seq(p = ncol(x), 
+                                             classification = is.factor(y), 
+                                             len = len),
+                       coefReg = seq(0.01, 1, length = len),
+                       coefImp = seq(0, 1, length = len))
+  } else {
+    out <- data.frame(mtry = sample(1:ncol(x), size = len, replace = TRUE),
+                      coefReg = runif(len, min = 0, max = 1),
+                      coefImp = runif(len, min = 0, max = 1))
+  }
+  out
+},
+fit = function(x, y, wts, param, lev, last, classProbs, ...) {
+  theDots <- list(...)
+  theDots$importance <- TRUE
+  args <- list(x = x, y = y, mtry = param$mtry)
+  args <- c(args, theDots)                       
+  firstFit <- do.call("randomForest", args)
+  firstImp <- randomForest:::importance(firstFit)
+  if(is.factor(y))
+  {
+    firstImp <- firstImp[,"MeanDecreaseGini"]/max(firstImp[,"MeanDecreaseGini"])
+  } else firstImp <- firstImp[,"%IncMSE"]/max(firstImp[,"%IncMSE"])
+  firstImp <- ((1 - param$coefImp) * param$coefReg) + (param$coefImp * firstImp)
+  
+  RRF(x, y, mtry = param$mtry, coefReg = firstImp, ...)
 }
 ```
 
@@ -74,4 +152,8 @@ gbmFit3 = train(Species ~ ., data = iris, method = "gbm", trControl = fitControl
 max(gbmFit3$results$Accuracy, na.rm = TRUE)
 max(gbmFit2$results$Accuracy, na.rm = TRUE)
 ```
+
+## Caret with better spaces?
+
+Still no effective tuning aside from _grid search_ and _random search_.
 
