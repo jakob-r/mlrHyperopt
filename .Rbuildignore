@@ -5,3 +5,4 @@ todo-files
 .travis.yml
 README.md
 man-roxygen
+meta

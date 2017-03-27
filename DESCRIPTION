@@ -28,5 +28,6 @@ Suggests:
     testthat,
     e1071,
     randomForest,
-    DiceKriging
+    DiceKriging,
+    rgenoud
 RoxygenNote: 6.0.1
