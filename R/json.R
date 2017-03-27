@@ -88,8 +88,7 @@ JSONListToParam = function(par.list) {
     if (is.character(x) && stri_startswith_fixed(x, "expression(")) {
       par.list[[i]] = eval(parse(text = x))
       #fixme: dirty way to match all variable names but not the expression
-      x = stri_replace_all_regex(x, pattern = "[[:space:]]", "")
-      keys = c(keys, stri_match_all_regex(x, pattern = "\\b[A-Za-z_.]+(?!\\()\\b")[[1]][,1])
+      keys = c(keys, all.vars(par.list[[i]]))
     }
   }
   paramFunction = switch(type,
