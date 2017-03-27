@@ -47,4 +47,3 @@ par.config = makeParConfig(
 )
 hyperopt(bh.task, par.config = par.config)
 }
-

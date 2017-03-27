@@ -23,4 +23,3 @@ par.config = downloadParConfig("8")
 learner = generateLearner(iris.task, par.config)
 print(learner)
 }
-

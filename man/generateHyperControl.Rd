@@ -36,4 +36,3 @@ hyper.control = setHyperControlMlrControl(
 hyper.control = setHyperControlResampling(hyper.control, resampling = cv3)
 hyperopt(task = bh.task, par.config = par.config, hyper.control = hyper.control)
 }
-

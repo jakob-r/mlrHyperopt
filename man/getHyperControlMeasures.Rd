@@ -24,4 +24,3 @@ Other HyperControl: \code{\link{getHyperControlMlrControl}},
   \code{\link{setHyperControlMlrControl}},
   \code{\link{setHyperControlResampling}}
 }
-

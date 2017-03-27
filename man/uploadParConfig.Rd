@@ -27,4 +27,3 @@ par.config = generateParConfig(iris.task, "classif.svm")
 id = uploadParConfig(par.config, "jon.doe@example.com")
 print(id)
 }
-

@@ -26,4 +26,3 @@ The output of this function might change over time with coming updates. Not reco
 par.config = generateParConfig(iris.task, "classif.svm")
 print(par.config)
 }
-

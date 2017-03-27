@@ -20,4 +20,3 @@ Retrieve the Paramater Configurations for the given ids from the mlrHyperopt ser
 par.configs = downloadParConfigs(c("8","29"))
 print(par.configs)
 }
-

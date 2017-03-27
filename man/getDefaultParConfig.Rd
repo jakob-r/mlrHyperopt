@@ -21,4 +21,3 @@ learner = makeLearner("classif.randomForest")
 par.config = getDefaultParConfig(learner)
 print(par.config)
 }
-
