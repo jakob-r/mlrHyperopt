@@ -9,8 +9,8 @@ library(stringi)
 
 # define what learners to benchmark
 lrns = data.frame(
-  mlr = c("boosting", "C50", "RFF", "ada", "blackboost", "extraTrees", "randomForest", "ksvm", "glmboost"),
-  caret = c("AdaBoost.M1", "C5.0", "RFFglobal", "ada", "blackboost", "extraTrees", "randomForest", "svmRadial", "glmboost")
+  mlr = c("boosting", "C50", "RRF", "ada", "blackboost", "extraTrees", "randomForest", "ksvm", "glmboost"),
+  caret = c("AdaBoost.M1", "C5.0", "RRFglobal", "ada", "blackboost", "extraTrees", "randomForest", "svmRadial", "glmboost")
   )
 
 # define the datasets
@@ -23,7 +23,9 @@ mlr.taskslist = lapply(oml.tasks, convertOMLTaskToMlr)
 # batchtools stuff ####
 unlink("~/nobackup/mlrHyperCaret", recursive = TRUE)
 reg = makeExperimentRegistry(file.dir = "~/nobackup/mlrHyperCaret", seed = 1, packages = c("methods","utils", "mlr", "mlrHyperopt", "BBmisc", "stringi"))
-reg$cluster.functions = makeClusterFunctionsMulticore(ncpus = 3)
+if (reg$cluster.functions$name == "Interactive") {
+  reg$cluster.functions = makeClusterFunctionsMulticore(ncpus = 3)
+}
 
 ## Problem generation
 pdes = lapply(mlr.taskslist, function(data) {
@@ -96,10 +98,12 @@ ades = list(
 addExperiments(pdes, ades)
 
 ### subset to a small test set
-run.ids = findExperiments(prob.name = "sonar", prob.pars = (fold %in% 1:3), algo.pars = (learner %in% c("svmRadial", "ksvm")))
+#run.ids = findExperiments(prob.name = "sonar", prob.pars = (fold %in% 1:3), algo.pars = (learner %in% c("svmRadial", "ksvm")))
+run.ids = findExperiments(prob.name = "sonar", prob.pars = (fold %in% 1:5))
 submitJobs(run.ids)
 #testJob(548)
 Sys.sleep(2)
+
 ## Finding Resuls
 res = reduceResultsDataTable(fun = function(job, res) data.table(measure = res$measure, time = res$time))
 res = res[getJobPars(res)]
@@ -117,4 +121,4 @@ res.list = reduceResultsList()
 good.caret = res.list[[10]]
 good.mlrHyper = res.list[[20]]
 good.caret$model$results
-as.data.frame(good.mlrHyper$model$hyperopt.res$opt.path)
+as.data.frame(trafoOptPath(good.mlrHyper$model$hyperopt.res$opt.path))
