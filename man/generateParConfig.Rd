@@ -2,7 +2,7 @@
 % Please edit documentation in R/generateParConfig.R
 \name{generateParConfig}
 \alias{generateParConfig}
-\title{Gemerates a suitable Parameter Configuration Set for a given Task and a Learner}
+\title{Generates a suitable Parameter Configuration Set for a given Task and a Learner}
 \usage{
 generateParConfig(learner, task = NULL)
 }
@@ -20,7 +20,7 @@ The Task}
 If now good Parameter Configuration Set is known this function tries to find one based on the given info.
 }
 \note{
-The output of this function might change over time with coming updates. Not recommended for reprocuible research unless you save the output.
+The output of this function might change over time with coming updates. Not recommended for reproducible research unless you save the output.
 }
 \examples{
 par.config = generateParConfig("classif.svm")

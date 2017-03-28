@@ -14,7 +14,7 @@ An mlr Learner.}
 [\code{ParConfig}]
 }
 \description{
-For a given Learner this method will return a usefull default Parameter Set for Tuning.
+For a given Learner this method will return a useful default Parameter Set for Tuning.
 }
 \examples{
 learner = makeLearner("classif.randomForest")

@@ -16,7 +16,7 @@ The Parameter Configuration}
 [\code{ParConfig}].
 }
 \description{
-Can be usefull when you want to use Parameter Configuration on a different type of task.
+Can be useful when you want to use Parameter Configuration on a different type of task.
 }
 \seealso{
 Other ParConfig: \code{\link{getParConfigLearnerClass}},

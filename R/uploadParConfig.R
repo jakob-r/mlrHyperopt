@@ -6,7 +6,7 @@
 #' @param user.email [\code{character(1)}]
 #'  Your email to identify yourself to the server.
 #'  Does not have to be a valid one, but this identifier makes it easier to find your own submissions or submissions by colleagues.
-#'  In the future we might switch to an authentification system.
+#'  In the future we might switch to an authentication system.
 #'  It could be advantageous to supply a working email if you want to migrate your submissions then.
 #' @return [\code{character}]
 #' @examples

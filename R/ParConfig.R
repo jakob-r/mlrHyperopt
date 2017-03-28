@@ -14,11 +14,10 @@
 #'  Specific constant parameter settings.
 #' @param learner.name [\code{character(1)}]
 #'  Will be overwritten if \code{learner} is passed.
-#'  Can be used to associate the Parameter Configuration to a Learner without specifing if it belongs to e.g. classification or regression.
+#'  Can be used to associate the Parameter Configuration to a Learner without specifying if it belongs to e.g. classification or regression.
 #' @return [\code{ParConfig}]
 #' @family ParConfig
 #' @aliases ParConfig
-#' @import stringi
 #' @export
 
 makeParConfig = function(par.set, learner = NULL, par.vals = NULL, learner.name = NULL) {
@@ -103,7 +102,7 @@ getParConfigLearnerName = function(par.config) par.config$associated.learner.nam
 
 #' @title Set the type of the associated learner
 #' @description
-#'  Can be usefull when you want to use Parameter Configuration on a different type of task.
+#'  Can be useful when you want to use Parameter Configuration on a different type of task.
 #' @template arg_parconfig
 #' @param type [\code{character(1)}]
 #' @return [\code{ParConfig}].

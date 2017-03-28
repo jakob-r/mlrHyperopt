@@ -20,7 +20,7 @@ Specific constant parameter settings.}
 
 \item{learner.name}{[\code{character(1)}]
 Will be overwritten if \code{learner} is passed.
-Can be used to associate the Parameter Configuration to a Learner without specifing if it belongs to e.g. classification or regression.}
+Can be used to associate the Parameter Configuration to a Learner without specifying if it belongs to e.g. classification or regression.}
 }
 \value{
 [\code{ParConfig}]

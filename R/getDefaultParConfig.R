@@ -2,7 +2,7 @@
 #' Gives a default ParConfig for a Learner
 #'
 #' @description
-#' For a given Learner this method will return a usefull default Parameter Set for Tuning.
+#' For a given Learner this method will return a useful default Parameter Set for Tuning.
 #'
 #' @param learner [\code{Learner}]
 #'  An mlr Learner.

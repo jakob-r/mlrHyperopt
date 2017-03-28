@@ -1,5 +1,5 @@
 #' @title
-#' Gemerates a suitable Parameter Configuration Set for a given Task and a Learner
+#' Generates a suitable Parameter Configuration Set for a given Task and a Learner
 #'
 #' @description
 #' If now good Parameter Configuration Set is known this function tries to find one based on the given info.

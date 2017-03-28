@@ -45,8 +45,8 @@ makeHyperControl = function(mlr.control = NULL, resampling = NULL, measures = NU
 
 ## Getter
 
-#' @title Get the Resample Describtion
-#' @description Get the Resample Describtion
+#' @title Get the Resample Description
+#' @description Get the Resample Description
 #' @template arg_hypercontrol
 #' @return [\code{\link[mlr]{ResampleDesc}}|\code{\link[mlr]{ResampleInstance}}].
 #' @export

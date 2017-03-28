@@ -2,7 +2,7 @@
 % Please edit documentation in R/HyperControl.R
 \name{getHyperControlResampling}
 \alias{getHyperControlResampling}
-\title{Get the Resample Describtion}
+\title{Get the Resample Description}
 \usage{
 getHyperControlResampling(hyper.control)
 }
@@ -14,7 +14,7 @@ The Hyperparameter Control Object}
 [\code{\link[mlr]{ResampleDesc}}|\code{\link[mlr]{ResampleInstance}}].
 }
 \description{
-Get the Resample Describtion
+Get the Resample Description
 }
 \seealso{
 Other HyperControl: \code{\link{getHyperControlMeasures}},
