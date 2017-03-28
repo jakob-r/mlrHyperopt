@@ -21,8 +21,8 @@ oml.tasks = lapply(task_infos$task.id, getOMLTask)
 mlr.taskslist = lapply(oml.tasks, convertOMLTaskToMlr)
 
 # batchtools stuff ####
-unlink("~/nobackup/mlrHyperCaret", recursive = TRUE)
-reg = makeExperimentRegistry(file.dir = "~/nobackup/mlrHyperCaret", seed = 1, packages = c("methods","utils", "mlr", "mlrHyperopt", "BBmisc", "stringi"))
+#unlink("~/nobackup/mlrHyperCaret", recursive = TRUE)
+reg = makeExperimentRegistry(file.dir = "~/nobackup/mlrHyperCaret2", seed = 1, packages = c("methods","utils", "mlr", "mlrHyperopt", "BBmisc", "stringi"))
 if (reg$cluster.functions$name == "Interactive") {
   reg$cluster.functions = makeClusterFunctionsMulticore(ncpus = 3)
 }
@@ -48,10 +48,12 @@ algo.caret = function(job, data, instance, learner, budget = NULL, search = "gri
   if (!is.null(budget)) {
     train.args = c(train.args, tuneLength = budget)
   }
+
   time.start = Sys.time()
   m = do.call(what = train, args = train.args)
-  time.end = Sys.time()
   p = predict(m, newdata = test.data$data)
+  time.end = Sys.time()
+
   accFun = paste0("measure",toupper(data$mlr.measures[[1]]$id))
   r = do.call(accFun, list(truth = test.data$target, response = p))
 
@@ -68,15 +70,17 @@ algo.mlrHyperopt = function(job, data, instance, learner, budget = NULL, search 
   train.task = subsetTask(data$mlr.task, subset = train.inds)
   test.task = subsetTask(data$mlr.task, subset = test.inds)
   learner.type = stri_trans_tolower(stri_replace_all_fixed(class(train.task)[1], "Task", ""))
+
   time.start = Sys.time()
   lrn = makeLearner(sprintf("%s.%s", learner.type, learner))
   par.config = generateParConfig(learner = lrn, task = train.task)
-  hc = generateHyperControl(task = train.task, learner = lrn, par.config = par.config)
+  hc = generateHyperControl(task = train.task, learner = lrn, par.config = par.config, budget.evals = budget)
   hc$measures = data$mlr.measures
   r = hyperopt(task = train.task, hyper.control = hc, learner = lrn, par.config = par.config)
   m = train(learner = r$learner, task = train.task)
-  time.end = Sys.time()
   p = predict(m, task = test.task)
+  time.end = Sys.time()
+
   r2 = performance(pred = p, measures = data$mlr.measures, task = test.task, model = m)
   return(list(
     model = list(hyperopt.res = r, trained.model = m, all.measures = r2),
@@ -90,7 +94,7 @@ addAlgorithm(name = "caret", fun = algo.caret)
 addAlgorithm(name = "mlrHyperopt", fun = algo.mlrHyperopt)
 ades = list(
   caret = expand.grid(learner = lrns$caret, budget = c(10,25,50), search = c("grid", "random")),
-  mlrHyperopt = data.frame(learner = lrns$mlr)
+  mlrHyperopt = expand.grid(learner = lrns$caret, budget = c(10,25,50))
 )
 
 
@@ -99,19 +103,29 @@ addExperiments(pdes, ades)
 
 ### subset to a small test set
 #run.ids = findExperiments(prob.name = "sonar", prob.pars = (fold %in% 1:3), algo.pars = (learner %in% c("svmRadial", "ksvm")))
-run.ids = findExperiments(prob.name = "sonar", prob.pars = (fold %in% 1:5))
+run.ids = findExperiments(prob.name %in% c("sonar", "heart-statlog"), prob.pars = (fold %in% 1:5))
 submitJobs(run.ids)
 #testJob(548)
-Sys.sleep(2)
+waitForJobs()
 
-## Finding Resuls
+stop("Finished!")
+##
+# Finding Resuls ####
+##
+reg = loadRegistry("~/sfbrdata/nobackup/mlrHyperCaret2/", update.paths = FALSE)
 res = reduceResultsDataTable(fun = function(job, res) data.table(measure = res$measure, time = res$time))
+res.backup = res
 res = res[getJobPars(res)]
 
+# matching learner names
+lrns2 = as.data.table(lrns)
+lrns2 = plyr::rename(lrns2, c(caret = "learner"))
+res = merge(res, lrns2, all.x = TRUE, by = "learner")
+res[!is.na(mlr), learner := mlr, ]
 # Visualizing Results
 library(ggplot2)
-g = ggplot(data = res, aes(x = paste(learner, algorithm, search, budget), y = measure, fill = paste(learner, algorithm)))
-g + geom_boxplot()
+g = ggplot(data = res, aes(x = paste(algorithm, search, budget), y = measure, fill = paste(search)))
+g + geom_boxplot() + facet_grid(~problem+learner)
 g = ggplot(data = res, aes(x = 1-measure, y = time, color = paste(learner, algorithm, search)))
 g + geom_point()
 
