@@ -7,7 +7,7 @@ test_that("generate HyperControl", {
   for (learner in learners) {
     task = tasks[[getLearnerType(learner)]]
     par.config = generateParConfig(learner = learner, task = task)
-    hyper.control = generateHyperControl(task = task, learner = learner, par.config = par.config)
+    hyper.control = generateHyperControl(task = task, learner = learner, par.config = par.config, budget.evals = 10)
     expect_class(hyper.control, "HyperControl")
     expect_list(getHyperControlMeasures(hyper.control), types = "Measure")
     expect_class(getHyperControlMlrControl(hyper.control), class = "TuneControl")

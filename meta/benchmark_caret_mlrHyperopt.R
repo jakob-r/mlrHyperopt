@@ -44,7 +44,7 @@ algo.caret = function(job, data, instance, learner, budget = NULL, search = "gri
   test.inds = data$mlr.rin$test.inds[[instance$fold]]
   train.data = getTaskData(data$mlr.task, target.extra = TRUE, subset = train.inds)
   test.data = getTaskData(data$mlr.task, target.extra = TRUE, subset = test.inds)
-  train.args = list(x = train.data$data, y = train.data$target, method = learner, trControl = fitControl, verbose = FALSE)
+  train.args = list(x = train.data$data, y = train.data$target, method = learner, trControl = fitControl)
   if (!is.null(budget)) {
     train.args = c(train.args, tuneLength = budget)
   }

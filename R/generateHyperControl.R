@@ -7,6 +7,8 @@
 #' @template arg_task
 #' @template arg_learner
 #' @template arg_parconfig
+#' @param budget.evals [\code{integer}]
+#'  How many function evaluations do you want to allow? Default is 25.
 #' @return [\code{HyperControl}]
 #' @examples
 #' par.config = getDefaultParConfig("regr.randomForest")
@@ -24,7 +26,7 @@
 #' hyperopt(task = bh.task, par.config = par.config, hyper.control = hyper.control)
 #' @export
 
-generateHyperControl = function(task, learner = NULL, par.config = NULL) {
+generateHyperControl = function(task, learner = NULL, par.config = NULL, budget.evals = 25) {
   assert_class(task, "Task")
 
   if (is.null(learner)) {
@@ -54,16 +56,16 @@ generateHyperControl = function(task, learner = NULL, par.config = NULL) {
   # determine a suitable tuning method
   par.set = getParConfigParSet(par.config)
   if (getParamNr(par.set) == 1) {
-    mlr.control = makeTuneControlGrid(resolution = 25)
+    mlr.control = makeTuneControlGrid(resolution = budget.evals)
   } else if (all(getParamTypes(par.set) %in% c("numeric", "integer", "numericvector", "integervector"))) {
     mbo.control = mlrMBO::makeMBOControl(final.method = "best.predicted")
     mbo.control = mlrMBO::setMBOControlInfill(mbo.control, crit = mlrMBO::crit.eqi)
-    mbo.control = mlrMBO::setMBOControlTermination(mbo.control, max.evals = 25)
+    mbo.control = mlrMBO::setMBOControlTermination(mbo.control, max.evals = budget.evals)
     mlr.control = makeTuneControlMBO(mbo.control = mbo.control, mbo.keep.result = TRUE)
   } else if (getParamNr(par.set) == 2) {
-    mlr.control = makeTuneControlGrid(resolution = 5)
+    mlr.control = makeTuneControlGrid(resolution = floor(sqrt(budget.evals)))
   } else {
-    mlr.control = makeTuneControlRandom(maxit = 25)
+    mlr.control = makeTuneControlRandom(maxit = budget.evals)
   }
 
 

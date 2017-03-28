@@ -18,6 +18,9 @@ The resampling determines how the performance is obtained during tuning.}
 \item{measures}{[\code{\link[mlr]{Measure}} | list of \code{\link[mlr]{Measure}}]\cr
 Performance measure(s) to evaluate.
 Default is the default measure for the task, see here \code{\link{getDefaultMeasure}}.}
+
+\item{par.config}{[\code{\link{ParConfig}}]
+The Parameter Configuration}
 }
 \value{
 [\code{HyperControl}]

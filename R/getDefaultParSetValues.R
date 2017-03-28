@@ -13,7 +13,7 @@ getDefaultParSetValues = function() {
       makeLogicalParam(id = "winnow", default = FALSE)
     ),
     # Regularized Random Forest (more like RFFglobal in caret)
-    .RFF = makeParamSet(
+    .RRF = makeParamSet(
       makeIntegerParam(id = "mtry", lower = 1L, default = expression(floor(p/3))),
       makeNumericParam(id = "coefReg", default = 0.8, lower = 0, upper = 1),
       keys = "p"
