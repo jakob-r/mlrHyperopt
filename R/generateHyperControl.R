@@ -24,8 +24,12 @@
 #' hyperopt(task = bh.task, par.config = par.config, hyper.control = hyper.control)
 #' @export
 
-generateHyperControl = function(task, learner, par.config = NULL) {
+generateHyperControl = function(task, learner = NULL, par.config = NULL) {
   assert_class(task, "Task")
+
+  if (is.null(learner)) {
+    learner = getParConfigLearnerClass(par.config = par.config)
+  }
   learner = checkLearner(learner)
 
   if (is.null(par.config)) {

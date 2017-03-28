@@ -11,6 +11,7 @@
 #' @param measures [\code{\link[mlr]{Measure}} | list of \code{\link[mlr]{Measure}}]\cr
 #'   Performance measure(s) to evaluate.
 #'   Default is the default measure for the task, see here \code{\link{getDefaultMeasure}}.
+#' @template arg_parconfig
 #' @return [\code{HyperControl}]
 #' @family HyperControl
 #' @aliases HyperControl

@@ -60,8 +60,19 @@ res
 ```
 
 To obtain full control of what is happening you can define every argument yourself or just depend partially on the automatic processes.
-```{r detailedExample}
-pc = generateParConfig(learner = "classif.svm")
-hc = generateHyperControl(task = iris.task, learner = "classif.svm")
+```{r detailedExample, warning=FALSE}
+pc = generateParConfig(learner = "classif.randomForest")
+# The tuning parameter set:
+getParConfigParSet(pc)
+# Setting constant values:
+pc = setParConfigParVals(pc, par.vals = list(mtry = 3))
+hc = generateHyperControl(task = iris.task, par.config = pc)
+# Inspecting the resamling strategy used for tuning
+getHyperControlResampling(hc)
+# Changing the resampling strategy
+hc = setHyperControlResampling(hc, makeResampleDesc("Bootstrap", iters = 3))
 
+# Starting the hyperparameter tuning
+res = hyperopt(iris.task, par.config = pc, hyper.control = hc, show.info = FALSE)
+res
 ```

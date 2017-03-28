@@ -4,7 +4,7 @@
 \alias{generateHyperControl}
 \title{Generates a hyperparameter tuning control object}
 \usage{
-generateHyperControl(task, learner, par.config = NULL)
+generateHyperControl(task, learner = NULL, par.config = NULL)
 }
 \arguments{
 \item{task}{[\code{Task}]
