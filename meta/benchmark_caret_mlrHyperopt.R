@@ -103,7 +103,7 @@ addExperiments(pdes, ades)
 
 ### subset to a small test set
 #run.ids = findExperiments(prob.name = "sonar", prob.pars = (fold %in% 1:3), algo.pars = (learner %in% c("svmRadial", "ksvm")))
-run.ids = findExperiments(prob.name %in% c("sonar", "heart-statlog"), prob.pars = (fold %in% 1:5))
+run.ids = findExperiments(prob.pars = (fold %in% 1:5))
 submitJobs(run.ids)
 #testJob(548)
 waitForJobs()
