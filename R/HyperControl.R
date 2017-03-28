@@ -23,7 +23,7 @@
 #' hyperopt(task = iris.task, learner = "classif.svm", hyper.control = hyper.control)
 #' @export
 
-makeHyperControl = function(mlr.control = NULL, resampling = NULL, measures = NULL) {
+makeHyperControl = function(mlr.control = NULL, resampling = NULL, measures = NULL, par.config = NULL) {
 
   assert_class(mlr.control, classes = "TuneControl")
 
@@ -32,12 +32,14 @@ makeHyperControl = function(mlr.control = NULL, resampling = NULL, measures = NU
 
   measures = ensureVector(measures, n = 1L, cl = "Measure")
   assert_list(measures, min.len = 1, types = "Measure")
+  if (!is.null(par.config)) assert_class(par.config, classes = "ParConfig")
 
   makeS3Obj(
     classes = "HyperControl",
     mlr.control = mlr.control,
     resampling = resampling,
-    measures = measures)
+    measures = measures,
+    par.config = par.config)
 }
 
 ## Getter

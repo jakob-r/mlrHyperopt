@@ -9,7 +9,7 @@ hyperopt(task, learner = NULL, par.config = NULL, hyper.control = NULL,
 }
 \arguments{
 \item{task}{[\code{Task}]
-mlr Task}
+The Task}
 
 \item{learner}{[\code{Learner}]
 The learner that is subject to the Hyperparameter Tuning.

@@ -5,8 +5,7 @@
 #' Tunes the Hyperparameters for a given task and learner.
 #' Tries to find the best parameter set to tune for the given learner.
 #'
-#' @param task [\code{Task}]
-#'  mlr Task
+#' @template arg_task
 #' @param learner [\code{Learner}]
 #'  The learner that is subject to the Hyperparameter Tuning.
 #'  If no learner is given the learner referenced in the \code{par.config} will be used, if available.
@@ -45,7 +44,7 @@ hyperopt = function(task, learner = NULL, par.config = NULL, hyper.control = NUL
   if (!is.null(par.config)) {
     assert_class(par.config, "ParConfig")
   } else {
-    par.config = generateParConfig(task = task, learner = learner)
+    par.config = generateParConfig(learner = learner, task = task)
   }
 
   if (!is.null(hyper.control)) {
@@ -69,7 +68,7 @@ hyperopt = function(task, learner = NULL, par.config = NULL, hyper.control = NUL
     task = task,
     resampling = getHyperControlResampling(hyper.control),
     measures = measures,
-    par.set = getParConfigParSet(par.config),
+    par.set = getParConfigParSet(par.config, task = task),
     control = getHyperControlMlrControl(hyper.control),
     show.info = show.info)
 

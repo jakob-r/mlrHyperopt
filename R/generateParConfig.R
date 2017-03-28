@@ -6,18 +6,21 @@
 #'
 #' @template note_repro
 #'
-#' @param task [\code{Task}]
-#'  Task the learner should be tuned on.
-#' @param learner [\code{Learner}]
-#'  The learner that is subject to the Hyperparameter Tuning.
+#' @template arg_learner
+#' @template arg_task
 #' @return [\code{ParConfig}]
 #' @examples
-#' par.config = generateParConfig(iris.task, "classif.svm")
+#' par.config = generateParConfig("classif.svm")
 #' print(par.config)
 #' @export
-generateParConfig = function(task, learner) {
-  assertClass(task, "Task")
+generateParConfig = function(learner, task = NULL) {
   learner = checkLearner(learner)
-  assert_set_equal(getTaskType(task), getLearnerType(learner))
+  if (!is.null(task)) {
+    assertClass(task, "Task")
+    assert_set_equal(getTaskType(task), getLearnerType(learner))
+  }
+  # in the future we might generate a different par.config based on the task
+  # for now we have expressions in the ParamSet, which should cover data based
+  # parameters in the beginning.
   getDefaultParConfig(learner)
 }

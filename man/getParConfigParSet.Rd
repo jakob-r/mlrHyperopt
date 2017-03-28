@@ -4,17 +4,20 @@
 \alias{getParConfigParSet}
 \title{Get the \code{ParamSet} of the configuration}
 \usage{
-getParConfigParSet(par.config)
+getParConfigParSet(par.config, task = NULL)
 }
 \arguments{
 \item{par.config}{[\code{\link{ParConfig}}]
 The Parameter Configuration}
+
+\item{task}{[\code{Task}]
+The Task}
 }
 \value{
 [\code{ParamSet}].
 }
 \description{
-Get the \code{ParamSet} of the configuration
+Get the \code{ParamSet} of the configuration. If a task is supplied the expressions will be evaluated.
 }
 \seealso{
 Other ParConfig: \code{\link{getParConfigLearnerClass}},

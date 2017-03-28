@@ -64,7 +64,7 @@ test_that("generate ParConfig works", {
   learners = makeLearners(c("regr.randomForest", "classif.svm"))
   for (learner in learners) {
     task = tasks[[getLearnerType(learner)]]
-    par.config = generateParConfig(task = task, learner = learner)
+    par.config = generateParConfig(learner = learner, task = task)
     expect_class(par.config, "ParConfig")
   }
   expect_error(generateParConfig(task = tasks[["classif"]], learner = "classif.binomial"), "no default")

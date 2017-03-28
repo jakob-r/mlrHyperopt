@@ -4,16 +4,17 @@
 \alias{generateHyperControl}
 \title{Generates a hyperparameter tuning control object}
 \usage{
-generateHyperControl(task, learner, par.config)
+generateHyperControl(task, learner, par.config = NULL)
 }
 \arguments{
 \item{task}{[\code{Task}]
-Task}
+The Task}
 
 \item{learner}{[\code{Learner}]
 Learner}
 
-\item{par.config}{[\code{ParConfig}]}
+\item{par.config}{[\code{\link{ParConfig}}]
+The Parameter Configuration}
 }
 \value{
 [\code{HyperControl}]

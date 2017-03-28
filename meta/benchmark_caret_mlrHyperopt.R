@@ -70,7 +70,7 @@ algo.mlrHyperopt = function(job, data, instance, learner, budget = NULL, search 
   learner.type = stri_trans_tolower(stri_replace_all_fixed(class(train.task)[1], "Task", ""))
   time.start = Sys.time()
   lrn = makeLearner(sprintf("%s.%s", learner.type, learner))
-  par.config = generateParConfig(task = train.task, learner = lrn)
+  par.config = generateParConfig(learner = lrn, task = train.task)
   hc = generateHyperControl(task = train.task, learner = lrn, par.config = par.config)
   hc$measures = data$mlr.measures
   r = hyperopt(task = train.task, hyper.control = hc, learner = lrn, par.config = par.config)

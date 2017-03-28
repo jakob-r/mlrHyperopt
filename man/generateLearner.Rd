@@ -10,7 +10,8 @@ generateLearner(task, par.config)
 \item{task}{[\code{Task}]
 The Task}
 
-\item{par.config}{[\code{ParConfig}]}
+\item{par.config}{[\code{\link{ParConfig}}]
+The Parameter Configuration}
 }
 \value{
 [\code{Learner}]

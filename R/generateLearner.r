@@ -4,9 +4,8 @@
 #' @description
 #' Generates a Learner for a given task and ParConfig
 #'
-#' @param task [\code{Task}]
-#'  The Task
-#' @param par.config [\code{ParConfig}]
+#' @template arg_task
+#' @template arg_parconfig
 #' @return [\code{Learner}]
 #' @examples
 #' par.config = downloadParConfig("8")

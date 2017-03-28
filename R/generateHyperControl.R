@@ -4,11 +4,9 @@
 #' @description
 #' Tries to automatically create a suitable hyperparameter tuning control.
 #'
-#' @param task [\code{Task}]
-#'  Task
-#' @param learner [\code{Learner}]
-#'  Learner
-#' @param par.config [\code{ParConfig}]
+#' @template arg_task
+#' @template arg_learner
+#' @template arg_parconfig
 #' @return [\code{HyperControl}]
 #' @examples
 #' par.config = getDefaultParConfig("regr.randomForest")
@@ -26,9 +24,13 @@
 #' hyperopt(task = bh.task, par.config = par.config, hyper.control = hyper.control)
 #' @export
 
-generateHyperControl = function(task, learner, par.config) {
+generateHyperControl = function(task, learner, par.config = NULL) {
   assert_class(task, "Task")
   learner = checkLearner(learner)
+
+  if (is.null(par.config)) {
+    par.config = generateParConfig(learner = learner)
+  }
   assert_class(par.config, "ParConfig")
 
   # very superficial way to determine resampling based on task size
@@ -67,5 +69,6 @@ generateHyperControl = function(task, learner, par.config) {
   makeHyperControl(
     mlr.control = mlr.control,
     resampling = resampling,
-    measures = measures)
+    measures = measures,
+    par.config = par.config)
 }

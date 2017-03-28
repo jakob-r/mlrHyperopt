@@ -17,7 +17,7 @@ test_that("hyperopt works", {
     resampling = makeResampleDesc("Holdout"),
     measures = list(auc)
   )
-  par.config = generateParConfig(sonar.task, lrn)
+  par.config = generateParConfig(lrn, sonar.task)
   par.set = getParConfigParSet(par.config)
   par.set = filterParams(par.set, ids = "cost")
   par.config = setParConfigParSet(par.config, par.set)
@@ -31,7 +31,9 @@ test_that("hyperopt works", {
   # triggers Grid Search
   data = data.frame(a = 1:10, x = factor(rep(1:2, each = 5)))
   mini.task = makeClassifTask(data = data, target = "x")
-  par.set = makeParamSet(makeIntegerParam(id = "ntree", lower = 1, upper = 10))
+  par.set = makeParamSet(
+    makeIntegerParam(id = "ntree", lower = expression(ceiling(n/10)), upper = expression(n*2)),
+    keys = "n")
   par.vals = list(nodesize = 2)
   par.config = makeParConfig(par.set = par.set, learner.name = "randomForest", par.vals = par.vals)
   res3 = hyperopt(mini.task, par.config = par.config)

@@ -10,7 +10,18 @@
 #'  It could be advantageous to supply a working email if you want to migrate your submissions then.
 #' @return [\code{character}]
 #' @examples
-#' par.config = generateParConfig(iris.task, "classif.svm")
+#' par.set = makeParamSet(
+#'   makeIntegerParam(
+#'     id = "mtry",
+#'     lower = expression(floor(p^0.25)),
+#'     upper = expression(ceiling(p^0.75)),
+#'     default = expression(round(p^0.5))),
+#'   keys = "p")
+#' par.config = makeParConfig(
+#'   par.set = par.set,
+#'   par.vals = list(ntree = 200),
+#'   learner.name = "randomForest"
+#'   )
 #' id = uploadParConfig(par.config, "jon.doe@example.com")
 #' print(id)
 #' @import httr

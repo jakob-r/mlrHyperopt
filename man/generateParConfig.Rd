@@ -4,14 +4,14 @@
 \alias{generateParConfig}
 \title{Gemerates a suitable Parameter Configuration Set for a given Task and a Learner}
 \usage{
-generateParConfig(task, learner)
+generateParConfig(learner, task = NULL)
 }
 \arguments{
-\item{task}{[\code{Task}]
-Task the learner should be tuned on.}
-
 \item{learner}{[\code{Learner}]
-The learner that is subject to the Hyperparameter Tuning.}
+Learner}
+
+\item{task}{[\code{Task}]
+The Task}
 }
 \value{
 [\code{ParConfig}]
@@ -23,6 +23,6 @@ If now good Parameter Configuration Set is known this function tries to find one
 The output of this function might change over time with coming updates. Not recommended for reprocuible research unless you save the output.
 }
 \examples{
-par.config = generateParConfig(iris.task, "classif.svm")
+par.config = generateParConfig("classif.svm")
 print(par.config)
 }

@@ -47,12 +47,19 @@ makeParConfig = function(par.set, learner = NULL, par.vals = NULL, learner.name 
 ## Getter
 
 #' @title Get the \code{ParamSet} of the configuration
-#' @description Get the \code{ParamSet} of the configuration
+#' @description Get the \code{ParamSet} of the configuration. If a task is supplied the expressions will be evaluated.
 #' @template arg_parconfig
+#' @template arg_task
 #' @return [\code{ParamSet}].
 #' @export
 #' @family ParConfig
-getParConfigParSet = function(par.config) par.config$par.set
+getParConfigParSet = function(par.config, task = NULL) {
+  if (!is.null(task)) {
+    evaluateParamExpressions(par.config$par.set, dict = getTaskDictionary(task))
+  } else {
+    par.config$par.set
+  }
+}
 
 #' @title Get the constant parameter settings of the configuration
 #' @description Get the constant parameter settings of the configuration

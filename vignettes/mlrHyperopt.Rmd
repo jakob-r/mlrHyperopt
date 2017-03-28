@@ -61,6 +61,7 @@ res
 
 To obtain full control of what is happening you can define every argument yourself or just depend partially on the automatic processes.
 ```{r detailedExample}
-
+pc = generateParConfig(learner = "classif.svm")
+hc = generateHyperControl(task = iris.task, learner = "classif.svm")
 
 ```
