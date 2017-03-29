@@ -30,8 +30,8 @@ res
 ```
 
     ## Tune result:
-    ## Op. pars: cost=3.28e+04; gamma=0.00024
-    ## mmce.test.mean=0.0267
+    ## Op. pars: cost=4.77; gamma=0.0612
+    ## mmce.test.mean=0.02
 
 Mainly it uses the [learner implemented in *mlr*](http://mlr-org.github.io/mlr-tutorial/devel/html/integrated_learners/index.html) and uses the [tuning methods also available in *mlr*](http://mlr-org.github.io/mlr-tutorial/devel/html/tune/index.html). Unfortunately *mlr* lacks of well defined *search spaces* for each learner to make hyperparameter tuning easy.
 
@@ -44,7 +44,7 @@ Development Status
 
 ### Web Server
 
-*Under heavy construction*. *ParConfigs* are up- and downloaded via JSON and stored on the server in a database. The very basic version is coded in PHP and available under <https://github.com/jakob-r/mlrHyperopt>. I plan to implement everything with Ruby on Rails, including a basic user management with API-Keys.
+*Under heavy construction*. *ParConfigs* are up- and downloaded via JSON and stored on the server in a database. The very basic version is coded in PHP and available under <https://github.com/jakob-r/mlrHyperoptServer>. I plan to implement everything with Ruby on Rails, including a basic user management with API-Keys.
 
 ### R package
 

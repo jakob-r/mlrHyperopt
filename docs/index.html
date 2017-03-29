@@ -94,8 +94,8 @@
 res =<span class="st"> </span><span class="kw"><a href="reference/hyperopt.html">hyperopt</a></span>(iris.task, <span class="dt">learner =</span> <span class="st">"classif.svm"</span>)
 res</code></pre></div>
 <pre><code>## Tune result:
-## Op. pars: cost=258; gamma=0.0162
-## mmce.test.mean=0.0267</code></pre>
+## Op. pars: cost=5.71e+03; gamma=0.000901
+## mmce.test.mean=0.0333</code></pre>
 <p>Mainly it uses the <a href="http://mlr-org.github.io/mlr-tutorial/devel/html/integrated_learners/index.html">learner implemented in <em>mlr</em></a> and uses the <a href="http://mlr-org.github.io/mlr-tutorial/devel/html/tune/index.html">tuning methods also available in <em>mlr</em></a>. Unfortunately <em>mlr</em> lacks of well defined <em>search spaces</em> for each learner to make hyperparameter tuning easy.</p>
 <p><em>mlrHyperopt</em> includes default <em>search spaces</em> for the most common machine learning methods like <em>random forest</em>, <em>svm</em> and <em>boosting</em>.</p>
 <p>As the developer can not be an expert on all machine learning methods available for <em>R</em> and <em>mlr</em>, <em>mlrHyperopt</em> also offers a web service to share, upload and download improved <em>search spaces</em>.</p>
@@ -106,7 +106,7 @@ res</code></pre></div>
 <div id="web-server" class="section level3">
 <h3 class="hasAnchor">
 <a href="#web-server" class="anchor"> </a>Web Server</h3>
-<p><em>Under heavy construction</em>. <em>ParConfigs</em> are up- and downloaded via JSON and stored on the server in a database. The very basic version is coded in PHP and available under <a href="https://github.com/jakob-r/mlrHyperopt" class="uri">https://github.com/jakob-r/mlrHyperopt</a>. I plan to implement everything with Ruby on Rails, including a basic user management with API-Keys.</p>
+<p><em>Under heavy construction</em>. <em>ParConfigs</em> are up- and downloaded via JSON and stored on the server in a database. The very basic version is coded in PHP and available under <a href="https://github.com/jakob-r/mlrHyperoptServer" class="uri">https://github.com/jakob-r/mlrHyperoptServer</a>. I plan to implement everything with Ruby on Rails, including a basic user management with API-Keys.</p>
 </div>
 <div id="r-package" class="section level3">
 <h3 class="hasAnchor">

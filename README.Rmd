@@ -42,7 +42,7 @@ As the developer can not be an expert on all machine learning methods available 
 
 *Under heavy construction*.
 _ParConfigs_ are up- and downloaded via JSON and stored on the server in a database.
-The very basic version is coded in PHP and available under <https://github.com/jakob-r/mlrHyperopt>.
+The very basic version is coded in PHP and available under <https://github.com/jakob-r/mlrHyperoptServer>.
 I plan to implement everything with Ruby on Rails, including a basic user management with API-Keys.
 
 ### R package
