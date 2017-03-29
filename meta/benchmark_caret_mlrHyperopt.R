@@ -10,7 +10,7 @@ library(stringi)
 # define what learners to benchmark
 lrns = data.frame(
   mlr = c("boosting", "C50", "RRF", "ada", "blackboost", "extraTrees", "randomForest", "ksvm", "glmboost"),
-  caret = c("AdaBoost.M1", "C5.0", "RRFglobal", "ada", "blackboost", "extraTrees", "randomForest", "svmRadial", "glmboost")
+  caret = c("AdaBoost.M1", "C5.0", "RRFglobal", "ada", "blackboost", "extraTrees", "rf", "svmRadial", "glmboost")
   )
 
 # define the datasets
@@ -94,7 +94,7 @@ addAlgorithm(name = "caret", fun = algo.caret)
 addAlgorithm(name = "mlrHyperopt", fun = algo.mlrHyperopt)
 ades = list(
   caret = expand.grid(learner = lrns$caret, budget = c(10,25,50), search = c("grid", "random")),
-  mlrHyperopt = expand.grid(learner = lrns$caret, budget = c(10,25,50))
+  mlrHyperopt = expand.grid(learner = lrns$mlr, budget = c(10,25,50))
 )
 
 
@@ -125,9 +125,9 @@ res[!is.na(mlr), learner := mlr, ]
 # Visualizing Results
 library(ggplot2)
 g = ggplot(data = res, aes(x = paste(algorithm, search, budget), y = measure, fill = paste(search)))
-g + geom_boxplot() + facet_grid(~problem+learner)
-g = ggplot(data = res, aes(x = 1-measure, y = time, color = paste(learner, algorithm, search)))
-g + geom_point()
+g + geom_boxplot() + facet_grid(problem~learner)
+g = ggplot(data = res, aes(x = measure, y = time, color = algorithm))
+g + geom_point() + faceremt_grid(problem~learner)
 
 
 # Detailed Analysis
