@@ -19,12 +19,15 @@ downloadParConfigs = function(ids) {
   }
 
   db.res = httr::content(req)
+  db.res = unique(db.res)
+  db.res = db.res[!sapply(extractSubList(db.res, "json_parconfig"), is.null)]
 
   # loop through ids
   par.configs = lapply(db.res, function(x) {
+    x = x[nzchar(x)]
     par.set = JSONtoParSet(x$json_parconfig)
     par.vals = JSONtoParVals(x$json_parvals)
-    makeParConfig(par.set = par.set, par.vals = par.vals, learner = x$learner_class)
+    makeParConfig(par.set = par.set, par.vals = par.vals, learner = x$learner_class, learner.name = x$learner_name)
   })
 
   par.configs

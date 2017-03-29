@@ -31,17 +31,20 @@
 
 uploadParConfig = function(par.config, user.email = NULL) {
   assert_class(par.config, "ParConfig")
+  user.email = coalesce(user.email, "<anonymous>")
   assert_string(user.email, null.ok = TRUE)
-  if (is.null(user.email)) {
-    user.email = "<anonymous>"
-  }
 
-  learner.class = getParConfigLearnerClass(par.config)
+  learner.class = coalesce(getParConfigLearnerClass(par.config), "")
+  learner.type = coalesce(getParConfigLearnerType(par.config), "")
+  learner.name = coalesce(getParConfigLearnerName(par.config), "")
+
   post = list(
     user_email = user.email,
     json_parconfig = parSetToJSON(getParConfigParSet(par.config)),
     json_parvals = parValsToJSON(getParConfigParVals(par.config)),
-    learner_class = learner.class
+    learner_class = learner.class,
+    learner_type = learner.type,
+    learner_name = learner.name
     )
 
   req = httr::POST("http://mlrhyperopt.jakob-r.de/upload.php", body = post, encode = "json", httr::accept_json())
