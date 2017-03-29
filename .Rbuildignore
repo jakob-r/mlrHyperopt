@@ -6,3 +6,8 @@ todo-files
 README.md
 man-roxygen
 meta
+^_pkgdown\.yml$
+^docs$
+^vignettes/.+_cache$
+^vignettes/.+_files$
+^vignettes/.+\.html$

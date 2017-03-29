@@ -4,9 +4,7 @@ Title: Easy Hyperparameteroptimization with mlr and mlrMBO
 Description: Simplified tuning of hyperparameters for machine learning methods.
 Version: 0.0.1
 Authors@R: c(
-    person("Richter", "Jakob", NULL, "jakob1richter@gmail.com", role = c("cre", "aut")),
-    person("Michel", "Lang", NULL, "michellang@gmail.com", role = "aut"),
-    person("Bernd", "Bischl", email = "bernd_bischl@gmx.net", role = c("aut"))
+    person("Richter", "Jakob", NULL, "jakob1richter@gmail.com", role = c("cre", "aut"))
     )
 URL: https://github.com/jakob-r/mlrHyperopt
 BugReports: https://github.com/jakob-r/mlrHyperopt/issues

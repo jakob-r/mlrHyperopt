@@ -2,7 +2,7 @@
 % Please edit documentation in R/ParConfig.R
 \name{getParConfigParSet}
 \alias{getParConfigParSet}
-\title{Get the \code{ParamSet} of the configuration}
+\title{Get the ParamSet of the configuration}
 \usage{
 getParConfigParSet(par.config, task = NULL)
 }

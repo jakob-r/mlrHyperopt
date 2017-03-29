@@ -45,7 +45,7 @@ makeParConfig = function(par.set, learner = NULL, par.vals = NULL, learner.name 
 
 ## Getter
 
-#' @title Get the \code{ParamSet} of the configuration
+#' @title Get the ParamSet of the configuration
 #' @description Get the \code{ParamSet} of the configuration. If a task is supplied the expressions will be evaluated.
 #' @template arg_parconfig
 #' @template arg_task

@@ -15,10 +15,7 @@ vignette: >
 
 ```{r setup, include = FALSE, cache = FALSE}
 set.seed(123)
-knitr::opts_chunk$set(cache = TRUE, collapse = FALSE, results = 'hold')
-knitr::knit_hooks$set(document = function(x){
-  gsub("```\n*```r*\n*", "", x)
-})
+knitr::opts_chunk$set(cache = TRUE, collapse = FALSE)
 ```
 
 This Vignette is supposed to give you a short introduction and a glance at the key features of `mlrHyperopt`.
@@ -32,14 +29,14 @@ For updated information make sure to check the GitHub project page:
 
 The main goal of `mlrHyperopt` is to break boundaries and make Hyperparameter optimization super easy.
 Often beginners of machine learning and even experts don't know which parameters have to be tuned for certain machine learning methods.
-Sometimes experts also don't neccessarily agree on the tuning parameters and their ranges.
+Sometimes experts also don't necessarily agree on the tuning parameters and their ranges.
 This package tries to tackle these problems by offering:
 
 - Recommended parameter space configurations for the most common learners.
 - A fully automatic, *zero conf*, one line hyper parameter configuration.
 - Option to **upload** a good parameter space configuration for a specific learner to share with colleagues and researchers.
 - Possibility to **download** publicly available parameter space configurations for the machine learning method of your choice.
-- An extensible interface to use the full variaty of [mlr](http://mlr-org.github.com/mlr) of learners and tuning options.
+- An extensible interface to use the full variety of [mlr](http://mlr-org.github.com/mlr) of learners and tuning options.
 - Namely: *grid search*, *cma-es*, *[model-based optimization](http://mlr-org.github.com/mlr/mlrMBO)* and *random search*.
 
 ## Requirements
@@ -53,9 +50,9 @@ To create your own `task` check the mlr-tutorial on how to create [Learning Task
 
 Hyperparameter Tuning with `mlrHyperopt` can be done in one line:
 
-```{r oneLineExample, message=FALSE}
+```{r oneLineExample, message=FALSE, warning=FALSE}
 library(mlrHyperopt)
-res = hyperopt(iris.task, learner = "classif.svm")
+res = hyperopt(iris.task, learner = "classif.randomForest")
 res
 ```
 
@@ -111,7 +108,7 @@ With this id you can later download this specific _ParConfig_.
 
 ### Downloading Parameter Configurations
 
-You can donwload a specific parameter configuration using the id:
+You can download a specific parameter configuration using the id:
 
 ```{r downloadParConfig}
 downloadParConfig(id)

@@ -1,0 +1,56 @@
+templates:
+  params:
+    bootswatch: cosmo
+
+navbar:
+  left:
+  - text: Introduction
+    href: articles/mlrHyperopt.html
+    icon: fa-bolt
+  - text: Reference
+    icon: fa-book
+    href: reference/index.html
+
+reference:
+  - title: "hyperopt"
+    desc: "Start the hyperparameter optimization"
+    contents:
+      - hyperopt
+  - title: "generate Functions"
+    desc: "These functions are the 'smart' workers of mlrHyperopt"
+    contents:
+      - starts_with("generate")
+  - title: "HyperControl"
+    desc: "Interact with the main hyperopt control object."
+    contents:
+      - starts_with("setHyperControl")
+      - starts_with("getHyperControl")
+      - generateHyperControl
+      - makeHyperControl
+  - title: "ParConfig"
+    desc: "The ParConfig object contain information about the search space (par.set), the parameter settings (par.val) and the associated learner."
+    contents:
+      - generateParConfig
+      - getDefaultParConfig
+      - makeParConfig
+      - starts_with("setParConfig")
+      - starts_with("getParConfig")
+      - generateLearner
+  - title: "Interact with the server"
+    desc: "Functions to send and retrieve parameter configurations."
+    contents:
+      - starts_with("download")
+      - starts_with("upload")
+  - title: "Other"
+    contents:
+      - error_handling
+      - getGlobalOpt
+      - getSupportedInfillOptFunctions
+      - getSupportedMultipointInfillOptFunctions
+      - makeMBOLearner
+      - makeMBOTrafoFunction
+      - OptProblem
+      - OptResult
+      - OptState
+      - print.MBOControl
+      - trafos
