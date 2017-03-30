@@ -14,7 +14,7 @@ getDefaultParSetValues = function() {
     ),
     # Regularized Random Forest (more like RFFglobal in caret)
     .RRF = makeParamSet(
-      makeIntegerParam(id = "mtry", lower = 1L, default = expression(floor(p/3))),
+      makeIntegerParam(id = "mtry", lower = 1L, default = expression(floor(p/3)), upper = expression(p)),
       makeNumericParam(id = "coefReg", default = 0.8, lower = 0, upper = 1),
       keys = "p"
     ),
@@ -43,30 +43,49 @@ getDefaultParSetValues = function() {
     # For ksvm caret uses kernlab::sigest() +- 0.75
     .ksvm = makeParamSet(
       makeNumericParam(id = "C",  upper = 10, lower = -5, trafo = function(x) 2^x, default = log2(1)),
-      makeNumericParam(id = "sigma",  upper = 15, lower = -15, trafo = function(x) 2^x)
+      makeNumericParam(id = "sigma",  upper = 15, lower = -15, trafo = function(x) 2^x, default = expression(kernlab::sigest(as.matrix(getTaskData(task, target.extra = TRUE)[["data"]])), scaled = TRUE)),
+      keys = "task"
     ),
     # glmboost
     .glmboost = makeParamSet(
       makeNumericParam(id = "mstop", default = log2(100/10), lower = log2(1/10), upper = log2(1000/10), trafo = function(x) floor(2^x * 10)),
-      makeNumericParam("nu", lower = 0, upper = 1)
+      makeNumericParam("nu", lower = 0, upper = 1, default = 0.1)
     ),
     ## not compared to caret
-    # random forest
-    .randomForest = makeParamSet(
-      makeIntegerParam("ntree", lower = 0, upper = 7, trafo = function(x) 2^x * 10),
-      makeIntegerParam("nodesize", lower = 1, upper = 10)
+    # random forest (only mtry in caret)
+    classif.randomForest = makeParamSet(
+      makeNumericParam("ntree", lower = 0, upper = 7, trafo = function(x) round(2^x * 10), default = log2(500/10)),
+      makeIntegerParam("nodesize", lower = 1, upper = 10, default = 1),
+      makeIntegerParam("mtry", lower = 1L, upper = expression(p), default = expression(floor(sqrt(p)))),
+      keys = "p"
     ),
-    .ranger = makeParamSet(
-      makeIntegerParam("num.trees", lower = 0, upper = 7, trafo = function(x) 2^x * 10 ),
-      makeIntegerParam("min.node.size", lower = 1, upper = 10)
+    regr.randomForest = makeParamSet(
+      makeNumericParam("ntree", lower = 0, upper = 7, trafo = function(x) round(2^x * 10), default = log2(500/10)),
+      makeIntegerParam("nodesize", lower = 1, upper = 10, default = 1),
+      makeIntegerParam(id = "mtry", lower = 1L, upper = expression(p), default = expression(max(floor(p/3), 1))),
+      keys = "p"
+    ),
+    classif.ranger = makeParamSet(
+      makeIntegerParam("mtry", lower = 1L, upper = expression(p), default = expression(floor(sqrt(p)))),
+      makeNumericParam("num.trees", lower = 0, upper = 7, trafo = function(x) round(2^x * 10), default = log2(500/10)),
+      makeIntegerParam("min.node.size", lower = 1, upper = 10, default = 1),
+      keys = "p"
+    ),
+    regr.ranger = makeParamSet(
+      makeIntegerParam("mtry", lower = 1L, upper = expression(p), default = expression(max(floor(p/3), 1))),
+      makeNumericParam("num.trees", lower = 0, upper = 7, trafo = function(x) round(2^x * 10), default = log2(500/10)),
+      makeIntegerParam("min.node.size", lower = 1, upper = 10, default = 5),
+      keys = "p"
     ),
     ## svm
     .svm = makeParamSet(
-      makeNumericParam(id = "cost",  upper = 15, lower = -15, trafo = function(x) 2^x),
-      makeNumericParam(id = "gamma",  upper = 15, lower = -15, trafo = function(x) 2^x)
+      makeNumericParam(id = "cost",  upper = 15, lower = -15, trafo = function(x) 2^x, default = log2(1)),
+      makeNumericParam(id = "gamma",  upper = 15, lower = -15, trafo = function(x) 2^x, default = expression(log2(1/p))),
+      keys = "p"
     )
   )
   mkps = function(par.set, par.vals = list()) {
+    checkParamSetAndParVals(par.set = par.set, par.vals = par.vals)
     list(par.set = par.set, par.vals = par.vals)
   }
   lapply(par.sets, mkps)

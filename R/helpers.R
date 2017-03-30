@@ -65,3 +65,36 @@ getSupportedParamFields = function(extended = FALSE) {
 getForbiddenParamFields = function() {
   c("special.vals")
 }
+
+# Checks if a ParamSet and par.vals make sense together
+# @param par.set - The Parameter Set
+# @param par.vals - the parameter settings that complement the par.set for a given learner
+# @param req.defaults - are defaults required in the param set
+# @param dictionary - necessary to evaluate the bounds
+checkParamSetAndParVals = function(par.set, par.vals = list(), req.defaults = TRUE, dictionary = NULL) {
+
+  if (is.null(dictionary)) {
+    dictionary = getTaskDictionary(task = iris.task)
+  }
+
+  # all params with box constraints?
+  if (!hasFiniteBoxConstraints(par.set, dict = dictionary)) {
+    stop("The ParamSet has infitite box constraints unsuitable for tuning!")
+  }
+
+  # all params have defaults?
+  par.set.ids = getParamIds(par.set)
+  par.set.default.ids = names(getDefaults(par.set, dict = dictionary))
+  no.defaults = setdiff(par.set.ids, par.set.default.ids)
+  if (req.defaults && length(no.defaults) > 0) {
+    stopf("The parameter(s) %s do(es) not have default values!", collapse(no.defaults))
+  }
+
+  # par.vals dont conflict with par.set?
+  conflicting.par.vals = intersect(names(par.vals), par.set.ids)
+  if (length(conflicting.par.vals) > 0) {
+    stopf("The par.vals %s are conflicting with the parameters defined in the par.set!", collapse(conflicting.par.vals))
+  }
+
+  invisible(TRUE)
+}
