@@ -1,7 +1,10 @@
 ---
 output: github_document
 ---
-
+```{r, setup}
+set.seed(123)
+knitr::opts_chunk$set(cache = TRUE, collapse = FALSE, warning = FALSE, error = FALSE)
+```
 # mlrHyperopt
 
 [![Build Status](https://travis-ci.org/jakob-r/mlrHyperopt.svg?branch=master)](https://travis-ci.org/jakob-r/mlrHyperopt)

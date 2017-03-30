@@ -1,4 +1,9 @@
 
+``` r
+set.seed(123)
+knitr::opts_chunk$set(cache = TRUE, collapse = FALSE, warning = FALSE, error = FALSE)
+```
+
 mlrHyperopt
 ===========
 
@@ -30,7 +35,7 @@ res
 ```
 
     ## Tune result:
-    ## Op. pars: cost=4.77; gamma=0.0612
+    ## Op. pars: cost=12.6; gamma=0.0159
     ## mmce.test.mean=0.02
 
 Mainly it uses the [learner implemented in *mlr*](http://mlr-org.github.io/mlr-tutorial/devel/html/integrated_learners/index.html) and uses the [tuning methods also available in *mlr*](http://mlr-org.github.io/mlr-tutorial/devel/html/tune/index.html). Unfortunately *mlr* lacks of well defined *search spaces* for each learner to make hyperparameter tuning easy.
