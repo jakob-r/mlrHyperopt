@@ -1,9 +1,4 @@
 
-``` r
-set.seed(123)
-knitr::opts_chunk$set(cache = TRUE, collapse = FALSE, warning = FALSE, error = FALSE)
-```
-
 mlrHyperopt
 ===========
 
