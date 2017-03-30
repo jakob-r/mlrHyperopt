@@ -124,10 +124,10 @@ res = merge(res, lrns2, all.x = TRUE, by = "learner")
 res[!is.na(mlr), learner := mlr, ]
 # Visualizing Results
 library(ggplot2)
-g = ggplot(data = res, aes(x = paste(algorithm, search, budget), y = measure, fill = paste(search)))
-g + geom_boxplot() + facet_grid(problem~learner)
+g = ggplot(data = res, aes(x = paste(algorithm, search, budget), y = measure, fill = paste(algorithm,search)))
+g + geom_boxplot() + facet_grid(problem~learner, scales = "free")
 g = ggplot(data = res, aes(x = measure, y = time, color = algorithm))
-g + geom_point() + faceremt_grid(problem~learner)
+g + geom_point() + facet_grid(problem~learner)
 
 
 # Detailed Analysis
