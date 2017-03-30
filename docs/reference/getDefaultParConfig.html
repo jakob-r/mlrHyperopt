@@ -107,9 +107,10 @@ An mlr Learner.</dd>
     <pre class="examples"><div class='input'><span class='no'>learner</span> <span class='kw'>=</span> <span class='fu'>makeLearner</span>(<span class='st'>"classif.randomForest"</span>)
 <span class='no'>par.config</span> <span class='kw'>=</span> <span class='fu'>getDefaultParConfig</span>(<span class='no'>learner</span>)
 <span class='fu'>print</span>(<span class='no'>par.config</span>)</div><div class='output co'>#&gt; $par.set
-#&gt;             Type len Def  Constr Req Tunable Trafo
-#&gt; ntree    integer   -   -  0 to 7   -    TRUE     Y
-#&gt; nodesize integer   -   - 1 to 10   -    TRUE     -
+#&gt;             Type len            Def  Constr Req Tunable Trafo
+#&gt; ntree    numeric   -           5.64  0 to 7   -    TRUE     Y
+#&gt; nodesize integer   -              1 1 to 10   -    TRUE     -
+#&gt; mtry     integer   - floor(sqrt(p))  1 to p   -    TRUE     -
 #&gt; 
 #&gt; $par.vals
 #&gt; list()

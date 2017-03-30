@@ -104,15 +104,16 @@
 res =<span class="st"> </span><span class="kw"><a href="../reference/hyperopt.html">hyperopt</a></span>(iris.task, <span class="dt">learner =</span> <span class="st">"classif.randomForest"</span>)
 res</code></pre></div>
 <pre><code>## Tune result:
-## Op. pars: ntree=160; nodesize=6
-## mmce.test.mean=0.0467</code></pre>
+## Op. pars: ntree=50; nodesize=4; mtry=2
+## mmce.test.mean=0.04</code></pre>
 <p>To obtain full control of what is happening you can define every argument yourself or just depend partially on the automatic processes.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pc =<span class="st"> </span><span class="kw"><a href="../reference/generateParConfig.html">generateParConfig</a></span>(<span class="dt">learner =</span> <span class="st">"classif.randomForest"</span>)
 <span class="co"># The tuning parameter set:</span>
 <span class="kw"><a href="../reference/getParConfigParSet.html">getParConfigParSet</a></span>(pc)</code></pre></div>
-<pre><code>##             Type len Def  Constr Req Tunable Trafo
-## ntree    integer   -   -  0 to 7   -    TRUE     Y
-## nodesize integer   -   - 1 to 10   -    TRUE     -</code></pre>
+<pre><code>##             Type len            Def  Constr Req Tunable Trafo
+## ntree    numeric   -           5.64  0 to 7   -    TRUE     Y
+## nodesize integer   -              1 1 to 10   -    TRUE     -
+## mtry     integer   - floor(sqrt(p))  1 to p   -    TRUE     -</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Setting constant values:</span>
 pc =<span class="st"> </span><span class="kw"><a href="../reference/setParConfigParVals.html">setParConfigParVals</a></span>(pc, <span class="dt">par.vals =</span> <span class="kw">list</span>(<span class="dt">mtry =</span> <span class="dv">3</span>))
 hc =<span class="st"> </span><span class="kw"><a href="../reference/generateHyperControl.html">generateHyperControl</a></span>(<span class="dt">task =</span> iris.task, <span class="dt">par.config =</span> pc)
@@ -128,8 +129,8 @@ hc =<span class="st"> </span><span class="kw"><a href="../reference/setHyperCont
 res =<span class="st"> </span><span class="kw"><a href="../reference/hyperopt.html">hyperopt</a></span>(iris.task, <span class="dt">par.config =</span> pc, <span class="dt">hyper.control =</span> hc, <span class="dt">show.info =</span> <span class="ot">FALSE</span>)
 res</code></pre></div>
 <pre><code>## Tune result:
-## Op. pars: ntree=320; nodesize=10
-## mmce.test.mean=0.0324</code></pre>
+## Op. pars: ntree=154; nodesize=7; mtry=1
+## mmce.test.mean=0.0459</code></pre>
 </div>
 <div id="sharing-search-spaces" class="section level2">
 <h2 class="hasAnchor">
