@@ -25,6 +25,7 @@ Suggests:
     mlrMBO,
     testthat,
     e1071,
+    kernlab,
     randomForest,
     DiceKriging,
     rgenoud
