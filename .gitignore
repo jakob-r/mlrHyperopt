@@ -2,8 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
-vignettes/*_cache/
 vignettes/*_files/
 vignettes/*.html
 vignettes/*.R
-docs/articles/*_cache/
+*_cache
