@@ -124,14 +124,39 @@ res = merge(res, lrns2, all.x = TRUE, by = "learner")
 res[!is.na(mlr), learner := mlr, ]
 # Visualizing Results
 library(ggplot2)
+res$time = as.numeric(res$time, units = "secs")
 g = ggplot(data = res, aes(x = paste(algorithm, search, budget), y = measure, fill = paste(algorithm,search)))
 g + geom_boxplot() + facet_grid(problem~learner, scales = "free")
-g = ggplot(data = res, aes(x = measure, y = time, color = algorithm))
-g + geom_point() + facet_grid(problem~learner)
+g = ggplot(data = res, aes(x = measure, y = time, color = algorithm, size = as.factor(budget)))
+g + geom_point(alpha = 0.1) + facet_grid(learner~problem, scales = "free") + scale_y_log10()
+# extract the good parameter settings
 
 
 # Detailed Analysis
-res.list = reduceResultsList()
+res.list = reduceResultsList(ids = res[algorithm == "mlrHyperopt", job.id[1:10]])
+res.x = reduceResultsDataTable(fun = function(job, res) if(!is.null(res$model$bestTune)) res$model$bestTune else res$model$hyperopt.res$x, fill = TRUE)
+res.x = merge(res.x, getJobPars(res), all.y = FALSE)
+res.x.b = res.x
+hifu = function(x) {
+  if (all(is.na(x))) {
+    x[1:2]
+  } else if (is.integer(x)) {
+    as.integer(range(x, na.rm = TRUE))
+  } else if (is.numeric(x)) {
+    range(x, na.rm = TRUE)
+  } else if (is.factor(x) | is.character(x)) {
+    names(sort(table(x), decreasing = TRUE))[1:2]
+  } else {
+    x[1:2]
+  }
+}
+res.x[budget > 10 & algorithm == "caret", lapply(.SD, hifu), by = .(learner)]
+id.vars = c("algorithm", "fold", "learner", "budget", "search", "problem", "job.id")
+col.numeric = setdiff(names(which(sapply(res.x, is.numeric))), id.vars)
+m.res.x = melt(res.x[,c(id.vars, col.numeric),with = FALSE], id.vars = id.vars)
+m.res.x[variable %in% c("C", "sigma"), value := log2(value)]
+g = ggplot(m.res.x, mapping = aes(y = value, x = algorithm, color = learner))
+g + geom_violin() + geom_point(position = position_jitter(width = 0.2, height = 0)) + facet_wrap(~variable, scales = "free")
 good.caret = res.list[[10]]
 good.mlrHyper = res.list[[20]]
 good.caret$model$results
