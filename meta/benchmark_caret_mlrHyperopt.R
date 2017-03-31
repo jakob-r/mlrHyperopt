@@ -6,6 +6,7 @@ library(mlrHyperopt)
 library(OpenML)
 library(BBmisc)
 library(stringi)
+library(data.table)
 
 # define what learners to benchmark
 lrns = data.frame(
@@ -14,15 +15,15 @@ lrns = data.frame(
   )
 
 # define the datasets
-# https://www.openml.org/s/30 #formally 14
-
-task_infos = listOMLTasks(tag = "study_30")
+task_infos = listOMLTasks(tag = "study_14")
+task_infos = as.data.table(task_infos)
+task_infos = task_infos[number.of.missing.values == 0][1:10,]
 oml.tasks = lapply(task_infos$task.id, getOMLTask)
 mlr.taskslist = lapply(oml.tasks, convertOMLTaskToMlr)
 
 # batchtools stuff ####
 #unlink("~/nobackup/mlrHyperCaret", recursive = TRUE)
-reg = makeExperimentRegistry(file.dir = "~/nobackup/mlrHyperCaret2", seed = 1, packages = c("methods","utils", "mlr", "mlrHyperopt", "BBmisc", "stringi"))
+reg = makeExperimentRegistry(file.dir = "~/nobackup/mlrHyperCaret3", seed = 1, packages = c("methods","utils", "mlr", "mlrHyperopt", "BBmisc", "stringi"))
 if (reg$cluster.functions$name == "Interactive") {
   reg$cluster.functions = makeClusterFunctionsMulticore(ncpus = 3)
 }
