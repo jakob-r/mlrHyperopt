@@ -142,7 +142,7 @@ getParConfigLearnerName = function(par.config) par.config$associated.learner.nam
 #' @return [\code{ParConfig}].
 #' @export
 #' @family ParConfig
-setParConfigNote = function(par.config) {par.config$note}
+getParConfigNote = function(par.config) {par.config$note}
 
 ## Setter ####
 

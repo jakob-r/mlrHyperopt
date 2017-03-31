@@ -20,6 +20,7 @@ Get the constant parameter settings of the configuration
 Other ParConfig: \code{\link{getParConfigLearnerClass}},
   \code{\link{getParConfigLearnerName}},
   \code{\link{getParConfigLearnerType}},
+  \code{\link{getParConfigNote}},
   \code{\link{getParConfigParSet}},
   \code{\link{makeParConfig}},
   \code{\link{setParConfigLearnerType}},

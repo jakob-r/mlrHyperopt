@@ -23,6 +23,7 @@ Get the \code{ParamSet} of the configuration. If a task is supplied the expressi
 Other ParConfig: \code{\link{getParConfigLearnerClass}},
   \code{\link{getParConfigLearnerName}},
   \code{\link{getParConfigLearnerType}},
+  \code{\link{getParConfigNote}},
   \code{\link{getParConfigParVals}},
   \code{\link{makeParConfig}},
   \code{\link{setParConfigLearnerType}},

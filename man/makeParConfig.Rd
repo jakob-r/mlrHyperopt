@@ -38,6 +38,7 @@ You might want to pass a Learner to associate the \code{ParConfig} to a special 
 Other ParConfig: \code{\link{getParConfigLearnerClass}},
   \code{\link{getParConfigLearnerName}},
   \code{\link{getParConfigLearnerType}},
+  \code{\link{getParConfigNote}},
   \code{\link{getParConfigParSet}},
   \code{\link{getParConfigParVals}},
   \code{\link{setParConfigLearnerType}},

@@ -23,6 +23,7 @@ Set Parameter Values
 Other ParConfig: \code{\link{getParConfigLearnerClass}},
   \code{\link{getParConfigLearnerName}},
   \code{\link{getParConfigLearnerType}},
+  \code{\link{getParConfigNote}},
   \code{\link{getParConfigParSet}},
   \code{\link{getParConfigParVals}},
   \code{\link{makeParConfig}},

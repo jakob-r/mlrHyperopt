@@ -12,7 +12,7 @@
 #' @return [\code{HyperControl}]
 #' @examples
 #' par.config = getDefaultParConfig("regr.randomForest")
-#' hyper.control = generateHyperControl(bh.task, "regr.randomForest", par.config)
+#' hyper.control = generateHyperControl(bh.task, par.config)
 #' # get what is inside
 #' getHyperControlMeasures(hyper.control)
 #' getHyperControlMlrControl(hyper.control)

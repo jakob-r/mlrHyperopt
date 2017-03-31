@@ -2,11 +2,8 @@
 % Please edit documentation in R/ParConfig.R
 \name{setParConfigNote}
 \alias{setParConfigNote}
-\alias{setParConfigNote}
-\title{Get the note}
+\title{Set a note}
 \usage{
-setParConfigNote(par.config, note)
-
 setParConfigNote(par.config, note)
 }
 \arguments{
@@ -15,35 +12,18 @@ The Parameter Configuration}
 
 \item{note}{[\code{character(1)}]
 The note.}
-
-\item{par.config}{[\code{\link{ParConfig}}]
-The Parameter Configuration}
 }
 \value{
 [\code{ParConfig}].
-
-[\code{ParConfig}].
 }
 \description{
-Get the note attached to a Parameter Configuration.
-
 Attach note to the Parameter Configuration
 }
 \seealso{
 Other ParConfig: \code{\link{getParConfigLearnerClass}},
   \code{\link{getParConfigLearnerName}},
   \code{\link{getParConfigLearnerType}},
-  \code{\link{getParConfigParSet}},
-  \code{\link{getParConfigParVals}},
-  \code{\link{makeParConfig}},
-  \code{\link{setParConfigLearnerType}},
-  \code{\link{setParConfigLearner}},
-  \code{\link{setParConfigParSet}},
-  \code{\link{setParConfigParVals}}
-
-Other ParConfig: \code{\link{getParConfigLearnerClass}},
-  \code{\link{getParConfigLearnerName}},
-  \code{\link{getParConfigLearnerType}},
+  \code{\link{getParConfigNote}},
   \code{\link{getParConfigParSet}},
   \code{\link{getParConfigParVals}},
   \code{\link{makeParConfig}},
