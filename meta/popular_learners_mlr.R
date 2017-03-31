@@ -20,9 +20,10 @@ lrn.downloads = sapply(all.pkgs, function(pkgs) {
 })
 
 lrns$downloads = lrn.downloads
+lrns = lrns[order(downloads, decreasing = TRUE),]
+lrns[, .(class, name, package, downloads)]
 
-lrns[order(downloads, decreasing = TRUE), .(class, name, package, downloads)]
+lrns.small = lrns[, .SD[1,], by = .(name, package)]
+lrns.small[, .(class, name, package, downloads)]
 
-# Take only one representative per name and package
-lrns.small = lrns[order(downloads, decreasing = TRUE), .SD[1,], by = .(name, package)]
-lrns.small[1:20, .(class, name, package, downloads)]
+View(lrns[,list(learners = paste(class, collapse = ",")),by = .(package, downloads)])

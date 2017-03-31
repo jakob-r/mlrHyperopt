@@ -51,6 +51,37 @@ getDefaultParSetValues = function() {
       makeNumericParam(id = "mstop", default = log2(100/10), lower = log2(1/10), upper = log2(1000/10), trafo = function(x) floor(2^x * 10)),
       makeNumericParam("nu", lower = 0, upper = 1, default = 0.1)
     ),
+    # gbm
+    .gbm = makeParamset(
+      makeNumericParam(id = "n.trees", lower = log2(10/10), upper = log2(1000/10), trafo = function(x) round(2^x * 10), default = log2(500/10)),
+      makeIntegerParam(id = "interaction.depth", default = 1L, lower = 1L, upper = 10L),
+      makeNumericParam(id = "shrinkage", default = 0.001, lower = 0.001, upper = 0.6),
+      makeIntegerParam(id = "n.minobsinnode", default = 10L, lower = 5L, upper = 25L)
+    ),
+    # rpart - caret does an initial fit here
+    .rpart = makeParamSet(
+      makeNumericParam(id = "cp", default = 0.01, lower = 0, upper = 1)
+    ),
+    # nnet
+    .nnet = makeParamSet(
+      makeIntegerParam(id = "size", default = 3L, lower = 1L, upper = 20L),
+      makeNumericParam(id = "decay", default = log(-5,10), lower = -5, upper = 1, function(x) 10^x)
+    ),
+    # glmnet - caret dies an inital fit here (only for the grid search)
+    .glmet = makeParamSet(
+      makeNumericParam(id = "alpha", default = 1, lower = 0, upper = 1),
+      makeNumericParam(id = "lambda", default = log2(1), lower = -10, upper = 3, trafo = function(x) 2^x)
+    ),
+    # xgbTree (in mlr booster = gbtree) default
+    .xgboost = makeParamSet(
+      makeIntegerParam(id = "nrounds", default = 1L, lower = 1L, upper = 1000L),
+      makeIntegerParam(id = "max_depth", default = 6L, lower = 1L, upper = 10L),
+      makeNumericParam(id = "eta", default = 0.3, lower = 0.001, upper = 0.6),
+      makeNumericParam(id = "gamma", default = 0, lower = 0, max = 10),
+      makeNumericParam(id = "colsample_bytree", default = 0.5, lower = 0.3, upper = 0.7),
+      makeNumericParam(id = "min_child_weight", default = 1, lower = 0, upper = 20),
+      makeNumericParam(id = "subsample", default = 1, lower = 0.25, upper = 1)
+    ),
     ## not compared to caret
     # random forest (only mtry in caret)
     classif.randomForest = makeParamSet(
