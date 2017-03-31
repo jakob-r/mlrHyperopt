@@ -12,7 +12,6 @@
 #'   Performance measure(s) to evaluate.
 #'   Default is the default measure for the task, see here \code{\link{getDefaultMeasure}}.
 #' @template arg_parconfig
-#' @template arg_learner
 #' @return [\code{HyperControl}]
 #' @family HyperControl
 #' @aliases HyperControl
