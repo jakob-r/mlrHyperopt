@@ -17,8 +17,8 @@ lrns = data.frame(
 # define the datasets
 task_infos = listOMLTasks(tag = "study_14")
 task_infos = as.data.table(task_infos)
-task_infos = task_infos[number.of.missing.values == 0][1:10,]
-oml.tasks = lapply(task_infos$task.id, getOMLTask)
+task_infos = task_infos[number.of.missing.values == 0 & number.of.numeric.features == number.of.features - 1]
+oml.tasks = lapply(task_infos$task.id[1:10], getOMLTask)
 mlr.taskslist = lapply(oml.tasks, convertOMLTaskToMlr)
 
 # batchtools stuff ####
@@ -105,7 +105,7 @@ addExperiments(pdes, ades)
 ### subset to a small test set
 #run.ids = findExperiments(prob.name = "sonar", prob.pars = (fold %in% 1:3), algo.pars = (learner %in% c("svmRadial", "ksvm")))
 run.ids = findExperiments(prob.pars = (fold %in% 1:5))
-submitJobs(run.ids)
+submitJobs(run.ids, sleep = 5)
 #testJob(548)
 waitForJobs()
 
