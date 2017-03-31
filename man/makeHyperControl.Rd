@@ -21,6 +21,9 @@ Default is the default measure for the task, see here \code{\link{getDefaultMeas
 
 \item{par.config}{[\code{\link{ParConfig}}]
 The Parameter Configuration}
+
+\item{learner}{[\code{Learner}]
+Learner}
 }
 \value{
 [\code{HyperControl}]

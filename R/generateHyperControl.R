@@ -26,17 +26,17 @@
 #' hyperopt(task = bh.task, par.config = par.config, hyper.control = hyper.control)
 #' @export
 
-generateHyperControl = function(task, learner = NULL, par.config = NULL, budget.evals = 25) {
+generateHyperControl = function(task, par.config = NULL, learner = NULL, budget.evals = 25) {
   assert_class(task, "Task")
 
-  if (is.null(learner)) {
-    learner = getParConfigLearnerClass(par.config = par.config)
+  if (!is.null(par.config) && !is.null(learner)) {
+    stopf("If you have a ParConfig it is not necessary to pass a learner.")
   }
-  learner = checkLearner(learner)
 
   if (is.null(par.config)) {
-    par.config = generateParConfig(learner = learner)
+    par.config = generateParConfig(learner = learner, task = task)
   }
+
   assert_class(par.config, "ParConfig")
 
   # very superficial way to determine resampling based on task size

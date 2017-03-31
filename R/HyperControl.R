@@ -12,6 +12,7 @@
 #'   Performance measure(s) to evaluate.
 #'   Default is the default measure for the task, see here \code{\link{getDefaultMeasure}}.
 #' @template arg_parconfig
+#' @template arg_learner
 #' @return [\code{HyperControl}]
 #' @family HyperControl
 #' @aliases HyperControl
@@ -33,6 +34,7 @@ makeHyperControl = function(mlr.control = NULL, resampling = NULL, measures = NU
 
   measures = ensureVector(measures, n = 1L, cl = "Measure")
   assert_list(measures, min.len = 1, types = "Measure")
+
   if (!is.null(par.config)) assert_class(par.config, classes = "ParConfig")
 
   makeS3Obj(

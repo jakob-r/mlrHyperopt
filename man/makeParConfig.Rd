@@ -6,7 +6,7 @@
 \title{Make a Parameter Configuration}
 \usage{
 makeParConfig(par.set, learner = NULL, par.vals = NULL,
-  learner.name = NULL)
+  learner.name = NULL, note = character(1L))
 }
 \arguments{
 \item{par.set}{[\code{ParamSet}]
@@ -16,11 +16,15 @@ The Parameter Set.}
 mlr Learner or string that identifies the Learner.}
 
 \item{par.vals}{[\code{list}]
-Specific constant parameter settings.}
+Specific constant parameter settings.
+If the learner also has defined hyperparameters they will be combined using \code{link[BBmisc]{insert}} and a warning will be issued.}
 
 \item{learner.name}{[\code{character(1)}]
 Will be overwritten if \code{learner} is passed.
 Can be used to associate the Parameter Configuration to a Learner without specifying if it belongs to e.g. classification or regression.}
+
+\item{note}{[\code{character(1)}]
+The note you want to attach to the Parameter Configuration.}
 }
 \value{
 [\code{ParConfig}]
@@ -38,6 +42,7 @@ Other ParConfig: \code{\link{getParConfigLearnerClass}},
   \code{\link{getParConfigParVals}},
   \code{\link{setParConfigLearnerType}},
   \code{\link{setParConfigLearner}},
+  \code{\link{setParConfigNote}},
   \code{\link{setParConfigParSet}},
   \code{\link{setParConfigParVals}}
 }

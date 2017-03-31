@@ -4,18 +4,18 @@
 \alias{generateHyperControl}
 \title{Generates a hyperparameter tuning control object}
 \usage{
-generateHyperControl(task, learner = NULL, par.config = NULL,
+generateHyperControl(task, par.config = NULL, learner = NULL,
   budget.evals = 25)
 }
 \arguments{
 \item{task}{[\code{Task}]
 The Task}
 
-\item{learner}{[\code{Learner}]
-Learner}
-
 \item{par.config}{[\code{\link{ParConfig}}]
 The Parameter Configuration}
+
+\item{learner}{[\code{Learner}]
+Learner}
 
 \item{budget.evals}{[\code{integer}]
 How many function evaluations do you want to allow? Default is 25.}

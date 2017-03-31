@@ -25,6 +25,7 @@ Other ParConfig: \code{\link{getParConfigLearnerName}},
   \code{\link{makeParConfig}},
   \code{\link{setParConfigLearnerType}},
   \code{\link{setParConfigLearner}},
+  \code{\link{setParConfigNote}},
   \code{\link{setParConfigParSet}},
   \code{\link{setParConfigParVals}}
 }

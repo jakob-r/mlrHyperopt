@@ -28,5 +28,6 @@ Other ParConfig: \code{\link{getParConfigLearnerClass}},
   \code{\link{makeParConfig}},
   \code{\link{setParConfigLearnerType}},
   \code{\link{setParConfigLearner}},
+  \code{\link{setParConfigNote}},
   \code{\link{setParConfigParSet}}
 }

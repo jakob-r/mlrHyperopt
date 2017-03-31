@@ -12,15 +12,20 @@
 #'  mlr Learner or string that identifies the Learner.
 #' @param par.vals [\code{list}]
 #'  Specific constant parameter settings.
+#'  If the learner also has defined hyperparameters they will be combined using \code{link[BBmisc]{insert}} and a warning will be issued.
 #' @param learner.name [\code{character(1)}]
 #'  Will be overwritten if \code{learner} is passed.
 #'  Can be used to associate the Parameter Configuration to a Learner without specifying if it belongs to e.g. classification or regression.
+#' @param note [\code{character(1)}]
+#'  The note you want to attach to the Parameter Configuration.
 #' @return [\code{ParConfig}]
 #' @family ParConfig
 #' @aliases ParConfig
 #' @export
 
-makeParConfig = function(par.set, learner = NULL, par.vals = NULL, learner.name = NULL) {
+makeParConfig = function(par.set, learner = NULL, par.vals = NULL, learner.name = NULL, note = character(1L)) {
+  assert_class(par.set, "ParamSet")
+  assert_string(note)
 
   if (!is.null(learner)) {
     learner = checkLearner(learner)
@@ -28,22 +33,54 @@ makeParConfig = function(par.set, learner = NULL, par.vals = NULL, learner.name 
     learner.class = getLearnerClass(learner)
     learner.type = getLearnerType(learner)
     learner.name = getLearnerName(learner)
+    learner.par.vals = getLearnerParVals(learner)
+    # if par.vals are given, overwrite the ones from the learner itself
+    if (!is.null(par.vals) && length(learner.par.vals) > 0L) {
+      par.vals = insert(getLearnerParVals(learner), par.vals)
+      warning("par.vals of the learner were possibly overwritten by the users par.vals")
+    }
   } else {
     learner.class = NULL
     learner.type = NULL
   }
-  #FIXME check not pass learner and learner.class!
+
+  # check that par.vals do not conflict with par.set
+  if (!is.null(par.vals)) {
+    assert_list(par.vals, unique = TRUE, names = "named")
+    conflict.ids = intersect(names(par.vals), getParamIds(par.set))
+    if (length(conflict.ids) > 0) {
+      stopf("Following par.vals conflict with the par.set: %s", collapsef(conflict.ids))
+    }
+  }
+
   makeS3Obj(
     classes = "ParConfig",
     par.set = par.set,
     par.vals = par.vals,
     associated.learner.class = learner.class,
     associated.learner.type = learner.type,
-    associated.learner.name = learner.name
+    associated.learner.name = learner.name,
+    note = note
     )
 }
 
-## Getter
+
+## Printer ####
+
+#' @export
+print.ParConfig = function(x, ...) {
+  catf("Parameter Configuration")
+  if (!is.null({par.vals = getParConfigParVals(x)})) {
+    catf("  Parameter Values: %s", convertToShortString(par.vals, clip.len = 32))
+  }
+  if (!is.null({learner.name = getParConfigLearnerName(x)})) {
+    catf("  Associated Learner: %s", coalesce(getParConfigLearnerClass(x), learner.name))
+  }
+  catf("  Parameter Set:")
+  print(getParConfigParSet(x))
+}
+
+## Getter ####
 
 #' @title Get the ParamSet of the configuration
 #' @description Get the \code{ParamSet} of the configuration. If a task is supplied the expressions will be evaluated.
@@ -98,7 +135,16 @@ getParConfigLearnerType = function(par.config) par.config$associated.learner.typ
 #' @family ParConfig
 getParConfigLearnerName = function(par.config) par.config$associated.learner.name
 
-## Setter
+#' @title Get the note
+#' @description
+#'  Get the note attached to a Parameter Configuration.
+#' @template arg_parconfig
+#' @return [\code{ParConfig}].
+#' @export
+#' @family ParConfig
+setParConfigNote = function(par.config) {par.config$note}
+
+## Setter ####
 
 #' @title Set the type of the associated learner
 #' @description
@@ -175,5 +221,20 @@ setParConfigParSet = function(par.config, par.set) {
 setParConfigParVals = function(par.config, par.vals) {
   assert_list(par.vals, names = "named", any.missing = FALSE)
   par.config$par.vals = par.vals
+  par.config
+}
+
+#' @title Set a note
+#' @description
+#'  Attach note to the Parameter Configuration
+#' @template arg_parconfig
+#' @param note [\code{character(1)}]
+#'  The note.
+#' @return [\code{ParConfig}].
+#' @export
+#' @family ParConfig
+setParConfigNote = function(par.config, note) {
+  assert_string(note)
+  par.config$note = note
   par.config
 }
