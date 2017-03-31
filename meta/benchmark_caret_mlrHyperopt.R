@@ -11,7 +11,7 @@ library(data.table)
 # define what learners to benchmark
 lrns = data.frame(
   mlr =   c("ksvm",      "randomForest", "glmnet", "rpart", "gbm", "nnet", "xgboost", "blackboost", "extraTrees"),
-  caret = c("svmRadial", "randomForest", "glmnet", "rpart", "gbm", "nnet", "xgbTree", "blackboost", "extraTrees")
+  caret = c("svmRadial", "rf",           "glmnet", "rpart", "gbm", "nnet", "xgbTree", "blackboost", "extraTrees")
   )
 
 # define the datasets
