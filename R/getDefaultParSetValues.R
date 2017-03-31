@@ -52,7 +52,7 @@ getDefaultParSetValues = function() {
       makeNumericParam("nu", lower = 0, upper = 1, default = 0.1)
     ),
     # gbm
-    .gbm = makeParamset(
+    .gbm = makeParamSet(
       makeNumericParam(id = "n.trees", lower = log2(10/10), upper = log2(1000/10), trafo = function(x) round(2^x * 10), default = log2(500/10)),
       makeIntegerParam(id = "interaction.depth", default = 1L, lower = 1L, upper = 10L),
       makeNumericParam(id = "shrinkage", default = 0.001, lower = 0.001, upper = 0.6),
@@ -65,7 +65,7 @@ getDefaultParSetValues = function() {
     # nnet
     .nnet = makeParamSet(
       makeIntegerParam(id = "size", default = 3L, lower = 1L, upper = 20L),
-      makeNumericParam(id = "decay", default = log(-5,10), lower = -5, upper = 1, function(x) 10^x)
+      makeNumericParam(id = "decay", default = 10^(-5), lower = -5, upper = 1, trafo = function(x) 10^x)
     ),
     # glmnet - caret dies an inital fit here (only for the grid search)
     .glmet = makeParamSet(
@@ -77,7 +77,7 @@ getDefaultParSetValues = function() {
       makeIntegerParam(id = "nrounds", default = 1L, lower = 1L, upper = 1000L),
       makeIntegerParam(id = "max_depth", default = 6L, lower = 1L, upper = 10L),
       makeNumericParam(id = "eta", default = 0.3, lower = 0.001, upper = 0.6),
-      makeNumericParam(id = "gamma", default = 0, lower = 0, max = 10),
+      makeNumericParam(id = "gamma", default = 0, lower = 0, upper = 10),
       makeNumericParam(id = "colsample_bytree", default = 0.5, lower = 0.3, upper = 0.7),
       makeNumericParam(id = "min_child_weight", default = 1, lower = 0, upper = 20),
       makeNumericParam(id = "subsample", default = 1, lower = 0.25, upper = 1)

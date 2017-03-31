@@ -74,6 +74,7 @@ getForbiddenParamFields = function() {
 checkParamSetAndParVals = function(par.set, par.vals = list(), req.defaults = TRUE, dictionary = NULL) {
 
   if (is.null(dictionary)) {
+    data("iris.task", package = "mlr")
     dictionary = getTaskDictionary(task = iris.task)
   }
 
