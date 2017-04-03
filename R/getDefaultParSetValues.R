@@ -51,11 +51,11 @@ getDefaultParSetValues = function() {
       makeNumericParam(id = "mstop", default = log2(100/10), lower = log2(1/10), upper = log2(1000/10), trafo = function(x) floor(2^x * 10)),
       makeNumericParam("nu", lower = 0, upper = 1, default = 0.1)
     ),
-    # gbm
+    # gbm - shrinkage in caret : 0.6 (high numbres produce NAs for small data.sets)
     .gbm = makeParamSet(
       makeNumericParam(id = "n.trees", lower = log2(10/10), upper = log2(1000/10), trafo = function(x) round(2^x * 10), default = log2(500/10)),
       makeIntegerParam(id = "interaction.depth", default = 1L, lower = 1L, upper = 10L),
-      makeNumericParam(id = "shrinkage", default = 0.001, lower = 0.001, upper = 0.6),
+      makeNumericParam(id = "shrinkage", default = 0.001, lower = 0.001, upper = 0.3),
       makeIntegerParam(id = "n.minobsinnode", default = 10L, lower = 5L, upper = 25L)
     ),
     # rpart - caret does an initial fit here
