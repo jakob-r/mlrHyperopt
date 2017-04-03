@@ -68,7 +68,7 @@ getDefaultParSetValues = function() {
       makeNumericParam(id = "decay", default = 10^(-5), lower = -5, upper = 1, trafo = function(x) 10^x)
     ),
     # glmnet - caret dies an inital fit here (only for the grid search)
-    .glmet = makeParamSet(
+    .glmnet = makeParamSet(
       makeNumericParam(id = "alpha", default = 1, lower = 0, upper = 1),
       makeNumericParam(id = "lambda", default = log2(1), lower = -10, upper = 3, trafo = function(x) 2^x)
     ),
