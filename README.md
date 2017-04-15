@@ -8,7 +8,7 @@ Easy Hyper Parameter Optimization with [mlr](https://github.com/mlr-org/mlr/#-ma
 
 -   [Issues and Bugs](https://github.com/jakob-r/mlrHyperopt/issues)
 -   [Tutorial and Documentation](https://jakob-r.github.io/mlrHyperopt)
--   [Webservice](http://mlrhyperopt.jakob-r.de) (Work in Progress)
+-   [Webservice](http://mlrhyperopt.jakob-r.de) (Currently moving and unreachable.)
     -   [Status](http://mlrhyperopt.jakob-r.de/status.php)
 
 Installation
