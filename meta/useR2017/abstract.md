@@ -14,13 +14,13 @@ nocite: |
 
 **Keywords**: machine learning, hyperparameter optimization, tuning, classification, networked science
 
-**Webpages**: http://github.com/jakob-r/mlrHyperopt
+**Webpages**: https://jakob-r.github.io/mlrHyperopt/
 
 Most machine learning tasks demand hyperparameter tuning to achieve a good performance. 
 For example, Support Vector Machines with radial basis functions are very sensitive to the choice of both kernel width and soft margin penalty C. 
 However, for a wide range of machine learning algorithms these “search spaces” are less known. 
 Even worse, experts for the particular methods might have conflicting views.
-The popular package **caret** approaches this problem by providing two simple optimizers _grid search_ and _random search_ and individual search spaces for all implemented methods.
+The popular package **caret** [@caret] approaches this problem by providing two simple optimizers _grid search_ and _random search_ and individual search spaces for all implemented methods.
 To prevent training on misconfigured methods a _grid search_ is performed by default.
 Unfortunately it is only documented which parameters will be tuned but the exact bounds have to be obtained from the source code.
 As a counterpart **mlr** [@bischl_mlr:_2016] offers more flexible parameter tuning methods such as an interface to **mlrMBO** [@bischl_mlrmbo:_2017] for conducting Bayesian optimization.
