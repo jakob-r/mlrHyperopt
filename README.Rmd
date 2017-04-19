@@ -14,8 +14,8 @@ Easy Hyper Parameter Optimization with [mlr](https://github.com/mlr-org/mlr/#-ma
 
 * [Issues and Bugs](https://github.com/jakob-r/mlrHyperopt/issues)
 * [Tutorial and Documentation](https://jakob-r.github.io/mlrHyperopt)
-* [Webservice](http://mlrhyperopt.jakob-r.de) (Work in Progress)
-    * [Status](http://mlrhyperopt.jakob-r.de/status.php)
+* [Webservice](http://mlrhyperopt.jakob-r.de/status.php) (Work in progress!) 
+    * [Status](http://mlrhyperopt.jakob-r.de/status.php) (Experimental)
 
 ## Installation
 ```{r, eval=FALSE}
