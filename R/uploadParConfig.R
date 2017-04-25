@@ -26,13 +26,10 @@
 #' print(id)
 #' @import httr
 #' @export
-
-
-
 uploadParConfig = function(par.config, user.email = NULL) {
   assert_class(par.config, "ParConfig")
   user.email = coalesce(user.email, "<anonymous>")
-  assert_string(user.email, null.ok = TRUE)
+  assert_string(user.email)
 
   learner.class = coalesce(getParConfigLearnerClass(par.config), "")
   learner.type = coalesce(getParConfigLearnerType(par.config), "")
@@ -44,12 +41,13 @@ uploadParConfig = function(par.config, user.email = NULL) {
     json_parvals = parValsToJSON(getParConfigParVals(par.config)),
     learner_class = learner.class,
     learner_type = learner.type,
-    learner_name = learner.name
+    learner_name = learner.name,
+    note = getParConfigNote(par.config)
     )
 
-  req = httr::POST("http://mlrhyperopt.jakob-r.de/upload.php", body = post, encode = "json", httr::accept_json())
-  if (httr::status_code(req) != 200) {
-    stopf("The server returned an unexpected result: %s", content(req, "text"))
+  req = httr::POST(getURL(), body = post, encode = "json", httr::accept_json())
+  if (httr::status_code(req) %nin% c(200, 201, 202, 203, 204, 205, 206, 207, 208, 228)) {
+    stopf("The server returned an unexpected result: %s", httr::content(req, "text"))
   }
   as.character(httr::content(req)$id)
 }

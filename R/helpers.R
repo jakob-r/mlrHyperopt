@@ -99,3 +99,7 @@ checkParamSetAndParVals = function(par.set, par.vals = list(), req.defaults = TR
 
   invisible(TRUE)
 }
+
+getURL = function() {
+  "http://localhost:3000/parconfigs"
+}

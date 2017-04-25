@@ -1,36 +1,41 @@
 #' @title Downloads multiple Parameter Configurations from the mlrHyperopt servers
 #'
 #' @description Retrieve the Paramater Configurations for the given ids from the mlrHyperopt servers.
-#' @param ids [\code{character}]
+#' @param ids [\code{character}] \cr
 #'  One ore more unique identifiers of the Parameter Set
+#' @param learner.class [\code{character(1)}] \cr
+#'  The \code{learner.class} you want to download the Parameter Configrations for.
+#' @param learner.name [\code{character(1)}] \cr
+#'  The \code{learner.name} you want to download the Parameter Configrations for.
+#' @param custom.query [\code{list(2)}] \cr
+#'  List of the form \code{list(key = "key", value = "value")} for custom queries.
 #' @return [List of \code{ParConfig}s]
 #' @examples
 #' par.configs = downloadParConfigs(c("8","29"))
 #' print(par.configs)
 #' @export
 
-downloadParConfigs = function(ids) {
-
-  assert_character(ids)
-
-  req = httr::POST("http://mlrhyperopt.jakob-r.de/download.php", body = list(ids = as.numeric(ids)), encode = "json", httr::accept_json())
-  if (status_code(req) != 200) {
+downloadParConfigs = function(ids = NULL, learner.class = NULL, learner.name = NULL, custom.query = NULL) {
+  if (!is.null(ids)) {
+    assert_character(ids)
+    return(lapply(ids, downloadParConfig))
+  } else if (!is.null(learner.class)) {
+    assertString(learner.class)
+    query = list(key = "learner_class", value = learner.class)
+  } else if (!is.null(learner.name)) {
+    assertString(learner.name)
+    query = list(key = "learner_name", value = learner.name)
+  } else if (!is.null(custom.query)) {
+    assertList(custom.query, any.missing = FALSE, len = 2, names = "named")
+    assertSetEqual(names(custom.query), c("key", "value"))
+    query = custom.query
+  }
+  httr.res = httr::GET(sprintf("%s.json", getURL(), id), query = query)
+  if (httr::status_code(httr.res) != 200) {
     stopf("The server returned an unexpected result: %s", content(req, "text"))
   }
-
-  db.res = httr::content(req)
-  db.res = unique(db.res)
-  db.res = db.res[!sapply(extractSubList(db.res, "json_parconfig"), is.null)]
-
-  # loop through ids
-  par.configs = lapply(db.res, function(x) {
-    x = x[nzchar(x)]
-    par.set = JSONtoParSet(x$json_parconfig)
-    par.vals = JSONtoParVals(x$json_parvals)
-    makeParConfig(par.set = par.set, par.vals = par.vals, learner = x$learner_class, learner.name = x$learner_name)
-  })
-
-  par.configs
+  res = httr::content(httr.res)
+  lapply(res, downloadToParConfig)
 }
 
 #' @title Downloads a single ParConfig.
@@ -45,6 +50,20 @@ downloadParConfigs = function(ids) {
 #' print(par.config)
 #' @export
 downloadParConfig = function(id) {
+  as.character(id)
   assert_string(id)
-  downloadParConfigs(id)[[1]]
+  httr.res = httr::GET(sprintf("%s/%s.json", getURL(), id))
+  if (httr::status_code(httr.res) != 200) {
+    stopf("The server returned an unexpected result: %s", content(req, "text"))
+  }
+  res = httr::content(httr.res)
+  downloadToParConfig(res)
 }
+
+downloadToParConfig = function(res) {
+  par.set = JSONtoParSet(res$json_parconfig)
+  par.vals = JSONtoParVals(res$json_parvals)
+  res$note = coalesce(res$note, "")
+  makeParConfig(par.set = par.set, par.vals = par.vals, learner = res$learner_class, learner.name = res$learner_name, note = res$note)
+}
+
