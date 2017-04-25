@@ -113,10 +113,11 @@ stop("Finished!")
 ##
 # Finding Resuls ####
 ##
-reg = loadRegistry("~/sfbrdata/nobackup/mlrHyperCaret2/", update.paths = FALSE)
+reg = loadRegistry("~/sfbrdata/nobackup/mlrHyperCaret3/", update.paths = FALSE)
 res = reduceResultsDataTable(fun = function(job, res) data.table(measure = res$measure, time = res$time))
 res.backup = res
 res = res[getJobPars(res)]
+saveRDS(res, "meta/res.rds")
 
 # matching learner names
 lrns2 = as.data.table(lrns)
