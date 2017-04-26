@@ -89,13 +89,23 @@
     <p>Retrieve the Paramater Configurations for the given ids from the mlrHyperopt servers.</p>
     
 
-    <pre><span class='fu'>downloadParConfigs</span>(<span class='no'>ids</span>)</pre>
+    <pre><span class='fu'>downloadParConfigs</span>(<span class='kw'>ids</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>learner.class</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>learner.name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>custom.query</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <dl class="dl-horizontal">
       <dt>ids</dt>
-      <dd>[<code>character</code>]
+      <dd>[<code>character</code>] 
 One ore more unique identifiers of the Parameter Set</dd>
+      <dt>learner.class</dt>
+      <dd>[<code>character(1)</code>] 
+The <code>learner.class</code> you want to download the Parameter Configrations for.</dd>
+      <dt>learner.name</dt>
+      <dd>[<code>character(1)</code>] 
+The <code>learner.name</code> you want to download the Parameter Configrations for.</dd>
+      <dt>custom.query</dt>
+      <dd>[<code>list(2)</code>] 
+List of the form <code>list(key = &quot;key&quot;, value = &quot;value&quot;)</code> for custom queries.</dd>
     </dl>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -104,55 +114,17 @@ One ore more unique identifiers of the Parameter Set</dd>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>par.configs</span> <span class='kw'>=</span> <span class='fu'>downloadParConfigs</span>(<span class='fu'>c</span>(<span class='st'>"8"</span>,<span class='st'>"29"</span>))
+    <pre class="examples"><div class='input'><span class='no'>par.configs</span> <span class='kw'>=</span> <span class='fu'>downloadParConfigs</span>(<span class='kw'>learner.name</span> <span class='kw'>=</span> <span class='st'>"svm"</span>)
 <span class='fu'>print</span>(<span class='no'>par.configs</span>)</div><div class='output co'>#&gt; [[1]]
-#&gt; $par.set
+#&gt; Parameter Configuration
+#&gt;   Parameter Values: cachesize=100, tolerance=0.01
+#&gt;   Associated Learner: classif.svm
+#&gt;   Parameter Set:
 #&gt;            Type len Def            Constr Req Tunable Trafo
 #&gt; cost    numeric   -   -           0 to 15   -    TRUE     -
-#&gt; kernel discrete   -   - polynomial,radial   -    TRUE     -
 #&gt; degree  integer   -   3          1 to Inf   Y    TRUE     -
 #&gt; gamma   numeric   -   -           -5 to 5   -    TRUE     Y
-#&gt; 
-#&gt; $par.vals
-#&gt; $par.vals$cachesize
-#&gt; [1] 100
-#&gt; 
-#&gt; $par.vals$tolerance
-#&gt; [1] 0.01
-#&gt; 
-#&gt; 
-#&gt; $associated.learner.class
-#&gt; [1] &quot;classif.svm&quot;
-#&gt; 
-#&gt; $associated.learner.type
-#&gt; [1] &quot;classif&quot;
-#&gt; 
-#&gt; $associated.learner.name
-#&gt; [1] &quot;svm&quot;
-#&gt; 
-#&gt; attr(,&quot;class&quot;)
-#&gt; [1] &quot;ParConfig&quot;
-#&gt; 
-#&gt; [[2]]
-#&gt; $par.set
-#&gt;          Type len Def    Constr Req Tunable Trafo
-#&gt; cost  numeric   -   - -15 to 15   -    TRUE     Y
-#&gt; gamma numeric   -   - -15 to 15   -    TRUE     Y
-#&gt; 
-#&gt; $par.vals
-#&gt; list()
-#&gt; 
-#&gt; $associated.learner.class
-#&gt; [1] &quot;classif.svm&quot;
-#&gt; 
-#&gt; $associated.learner.type
-#&gt; [1] &quot;classif&quot;
-#&gt; 
-#&gt; $associated.learner.name
-#&gt; [1] &quot;svm&quot;
-#&gt; 
-#&gt; attr(,&quot;class&quot;)
-#&gt; [1] &quot;ParConfig&quot;
+#&gt; kernel discrete   -   - polynomial,radial   -    TRUE     -
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

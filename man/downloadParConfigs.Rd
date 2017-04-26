@@ -27,6 +27,6 @@ List of the form \code{list(key = "key", value = "value")} for custom queries.}
 Retrieve the Paramater Configurations for the given ids from the mlrHyperopt servers.
 }
 \examples{
-par.configs = downloadParConfigs(c("8","29"))
+par.configs = downloadParConfigs(learner.name = "svm")
 print(par.configs)
 }

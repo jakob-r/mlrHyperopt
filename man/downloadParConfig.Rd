@@ -18,6 +18,6 @@ This will be downloaded from the mlrHyperopt servers.}
 Retrieve a Paramater Configuration for the given id from the mlrHyperopt servers.
 }
 \examples{
-par.config = downloadParConfig("8")
+par.config = downloadParConfig("1")
 print(par.config)
 }

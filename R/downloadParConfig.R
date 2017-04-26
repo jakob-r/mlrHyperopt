@@ -11,7 +11,7 @@
 #'  List of the form \code{list(key = "key", value = "value")} for custom queries.
 #' @return [List of \code{ParConfig}s]
 #' @examples
-#' par.configs = downloadParConfigs(c("8","29"))
+#' par.configs = downloadParConfigs(learner.name = "svm")
 #' print(par.configs)
 #' @export
 
@@ -32,7 +32,7 @@ downloadParConfigs = function(ids = NULL, learner.class = NULL, learner.name = N
   }
   httr.res = httr::GET(sprintf("%s.json", getURL()), query = query)
   if (httr::status_code(httr.res) != 200) {
-    stopf("The server returned an unexpected result: %s", content(req, "text"))
+    stopf("The server returned an unexpected result: %s", content(httr.res, "text"))
   }
   res = httr::content(httr.res)
   lapply(res, downloadToParConfig)
@@ -46,7 +46,7 @@ downloadParConfigs = function(ids = NULL, learner.class = NULL, learner.name = N
 #'  This will be downloaded from the mlrHyperopt servers.
 #' @return [\code{ParConfig}]
 #' @examples
-#' par.config = downloadParConfig("8")
+#' par.config = downloadParConfig("1")
 #' print(par.config)
 #' @export
 downloadParConfig = function(id) {
@@ -54,7 +54,7 @@ downloadParConfig = function(id) {
   assert_string(id)
   httr.res = httr::GET(sprintf("%s/%s.json", getURL(), id))
   if (httr::status_code(httr.res) != 200) {
-    stopf("The server returned an unexpected result: %s", content(req, "text"))
+    stopf("The server returned an unexpected result: %s", content(httr.res, "text"))
   }
   res = httr::content(httr.res)
   downloadToParConfig(res)

@@ -92,7 +92,7 @@ You might want to pass a Learner to associate the <code>ParConfig</code> to a sp
     
 
     <pre><span class='fu'>makeParConfig</span>(<span class='no'>par.set</span>, <span class='kw'>learner</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>par.vals</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>learner.name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+  <span class='kw'>learner.name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>note</span> <span class='kw'>=</span> <span class='fu'>character</span>(<span class='fl'>1L</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <dl class="dl-horizontal">
@@ -104,11 +104,15 @@ The Parameter Set.</dd>
 mlr Learner or string that identifies the Learner.</dd>
       <dt>par.vals</dt>
       <dd>[<code>list</code>]
-Specific constant parameter settings.</dd>
+Specific constant parameter settings.
+If the learner also has defined hyperparameters they will be combined using <code>link[BBmisc]{insert}</code> and a warning will be issued.</dd>
       <dt>learner.name</dt>
       <dd>[<code>character(1)</code>]
 Will be overwritten if <code>learner</code> is passed.
 Can be used to associate the Parameter Configuration to a Learner without specifying if it belongs to e.g. classification or regression.</dd>
+      <dt>note</dt>
+      <dd>[<code>character(1)</code>]
+The note you want to attach to the Parameter Configuration.</dd>
     </dl>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -120,10 +124,12 @@ Can be used to associate the Parameter Configuration to a Learner without specif
     <p>Other ParConfig: <code><a href='getParConfigLearnerClass.html'>getParConfigLearnerClass</a></code>,
   <code><a href='getParConfigLearnerName.html'>getParConfigLearnerName</a></code>,
   <code><a href='getParConfigLearnerType.html'>getParConfigLearnerType</a></code>,
+  <code><a href='getParConfigNote.html'>getParConfigNote</a></code>,
   <code><a href='getParConfigParSet.html'>getParConfigParSet</a></code>,
   <code><a href='getParConfigParVals.html'>getParConfigParVals</a></code>,
   <code><a href='setParConfigLearnerType.html'>setParConfigLearnerType</a></code>,
   <code><a href='setParConfigLearner.html'>setParConfigLearner</a></code>,
+  <code><a href='setParConfigNote.html'>setParConfigNote</a></code>,
   <code><a href='setParConfigParSet.html'>setParConfigParSet</a></code>,
   <code><a href='setParConfigParVals.html'>setParConfigParVals</a></code></p>
     

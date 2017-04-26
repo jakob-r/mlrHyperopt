@@ -89,7 +89,7 @@
     <p>Tries to automatically create a suitable hyperparameter tuning control.</p>
     
 
-    <pre><span class='fu'>generateHyperControl</span>(<span class='no'>task</span>, <span class='kw'>learner</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>par.config</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+    <pre><span class='fu'>generateHyperControl</span>(<span class='no'>task</span>, <span class='kw'>par.config</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>learner</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>budget.evals</span> <span class='kw'>=</span> <span class='fl'>25</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
@@ -97,12 +97,12 @@
       <dt>task</dt>
       <dd>[<code>Task</code>]
 The Task</dd>
-      <dt>learner</dt>
-      <dd>[<code>Learner</code>]
-Learner</dd>
       <dt>par.config</dt>
       <dd>[<code><a href='makeParConfig.html'>ParConfig</a></code>]
 The Parameter Configuration</dd>
+      <dt>learner</dt>
+      <dd>[<code>Learner</code>]
+Learner</dd>
       <dt>budget.evals</dt>
       <dd>[<code>integer</code>]
 How many function evaluations do you want to allow? Default is 25.</dd>
@@ -115,7 +115,7 @@ How many function evaluations do you want to allow? Default is 25.</dd>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>par.config</span> <span class='kw'>=</span> <span class='fu'><a href='getDefaultParConfig.html'>getDefaultParConfig</a></span>(<span class='st'>"regr.randomForest"</span>)
-<span class='no'>hyper.control</span> <span class='kw'>=</span> <span class='fu'>generateHyperControl</span>(<span class='no'>bh.task</span>, <span class='st'>"regr.randomForest"</span>, <span class='no'>par.config</span>)
+<span class='no'>hyper.control</span> <span class='kw'>=</span> <span class='fu'>generateHyperControl</span>(<span class='no'>bh.task</span>, <span class='no'>par.config</span>)
 <span class='co'># get what is inside</span>
 <span class='fu'><a href='getHyperControlMeasures.html'>getHyperControlMeasures</a></span>(<span class='no'>hyper.control</span>)</div><div class='output co'>#&gt; [[1]]
 #&gt; Name: Mean of squared errors
@@ -157,12 +157,12 @@ How many function evaluations do you want to allow? Default is 25.</dd>
   <span class='no'>hyper.control</span>,
   <span class='kw'>mlr.control</span> <span class='kw'>=</span> <span class='fu'>makeTuneControlRandom</span>(<span class='kw'>maxit</span> <span class='kw'>=</span> <span class='fl'>10</span>))
 <span class='no'>hyper.control</span> <span class='kw'>=</span> <span class='fu'><a href='setHyperControlResampling.html'>setHyperControlResampling</a></span>(<span class='no'>hyper.control</span>, <span class='kw'>resampling</span> <span class='kw'>=</span> <span class='no'>cv3</span>)
-<span class='fu'><a href='hyperopt.html'>hyperopt</a></span>(<span class='kw'>task</span> <span class='kw'>=</span> <span class='no'>bh.task</span>, <span class='kw'>par.config</span> <span class='kw'>=</span> <span class='no'>par.config</span>, <span class='kw'>hyper.control</span> <span class='kw'>=</span> <span class='no'>hyper.control</span>)</div><div class='output co'>#&gt; <span class='message'>[Tune] Started tuning learner regr.randomForest for parameter set:</span></div><div class='output co'>#&gt; <span class='message'>            Type len  Def  Constr Req Tunable Trafo</span>
-#&gt; <span class='message'>ntree    numeric   - 5.64  0 to 7   -    TRUE     Y</span>
-#&gt; <span class='message'>nodesize integer   -    1 1 to 10   -    TRUE     -</span>
-#&gt; <span class='message'>mtry     integer   -    4 1 to 13   -    TRUE     -</span></div><div class='output co'>#&gt; <span class='message'>With control class: TuneControlRandom</span></div><div class='output co'>#&gt; <span class='message'>Imputation value: Inf</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 1: ntree=94; nodesize=10; mtry=1</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 1: medse.test.mean=5.03; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 2: ntree=54; nodesize=6; mtry=7</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 2: medse.test.mean=2.83; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 3: ntree=220; nodesize=4; mtry=13</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 3: medse.test.mean= 2.8; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 4: ntree=100; nodesize=8; mtry=11</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 4: medse.test.mean=2.86; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 5: ntree=710; nodesize=10; mtry=6</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 5: medse.test.mean=3.09; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 6: ntree=41; nodesize=4; mtry=12</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 6: medse.test.mean=2.93; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 7: ntree=937; nodesize=7; mtry=5</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 7: medse.test.mean=3.19; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 8: ntree=157; nodesize=5; mtry=8</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 8: medse.test.mean=2.88; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 9: ntree=40; nodesize=8; mtry=3</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 9: medse.test.mean= 3.3; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 10: ntree=79; nodesize=5; mtry=10</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 10: medse.test.mean=3.01; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune] Result: ntree=220; nodesize=4; mtry=13 : medse.test.mean= 2.8</span></div><div class='output co'>#&gt; Tune result:
-#&gt; Op. pars: ntree=220; nodesize=4; mtry=13
-#&gt; medse.test.mean= 2.8</div></pre>
+<span class='fu'><a href='hyperopt.html'>hyperopt</a></span>(<span class='kw'>task</span> <span class='kw'>=</span> <span class='no'>bh.task</span>, <span class='kw'>par.config</span> <span class='kw'>=</span> <span class='no'>par.config</span>, <span class='kw'>hyper.control</span> <span class='kw'>=</span> <span class='no'>hyper.control</span>)</div><div class='output co'>#&gt; <span class='message'>[Tune] Started tuning learner regr.randomForest for parameter set:</span></div><div class='output co'>#&gt; <span class='message'>            Type len  Def    Constr Req Tunable Trafo</span>
+#&gt; <span class='message'>ntree    numeric   - 5.64 0 to 6.64   -    TRUE     Y</span>
+#&gt; <span class='message'>nodesize integer   -    1   1 to 10   -    TRUE     -</span>
+#&gt; <span class='message'>mtry     integer   -    4   1 to 13   -    TRUE     -</span></div><div class='output co'>#&gt; <span class='message'>With control class: TuneControlRandom</span></div><div class='output co'>#&gt; <span class='message'>Imputation value: Inf</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 1: ntree=84; nodesize=10; mtry=1</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 1: medse.test.mean=5.55; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 2: ntree=50; nodesize=6; mtry=7</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 2: medse.test.mean=2.82; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 3: ntree=188; nodesize=4; mtry=13</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 3: medse.test.mean=3.04; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 4: ntree=89; nodesize=8; mtry=11</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 4: medse.test.mean=3.04; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 5: ntree=571; nodesize=10; mtry=6</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 5: medse.test.mean=3.05; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 6: ntree=38; nodesize=4; mtry=12</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 6: medse.test.mean= 3.2; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 7: ntree=744; nodesize=7; mtry=5</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 7: medse.test.mean=3.09; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 8: ntree=136; nodesize=5; mtry=8</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 8: medse.test.mean=2.87; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 9: ntree=37; nodesize=8; mtry=3</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 9: medse.test.mean=3.23; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 10: ntree=71; nodesize=5; mtry=10</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 10: medse.test.mean=2.86; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune] Result: ntree=50; nodesize=6; mtry=7 : medse.test.mean=2.82</span></div><div class='output co'>#&gt; Tune result:
+#&gt; Op. pars: ntree=50; nodesize=6; mtry=7
+#&gt; medse.test.mean=2.82</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
