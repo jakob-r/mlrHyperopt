@@ -30,7 +30,7 @@ downloadParConfigs = function(ids = NULL, learner.class = NULL, learner.name = N
     assertSetEqual(names(custom.query), c("key", "value"))
     query = custom.query
   }
-  httr.res = httr::GET(sprintf("%s.json", getURL(), id), query = query)
+  httr.res = httr::GET(sprintf("%s.json", getURL()), query = query)
   if (httr::status_code(httr.res) != 200) {
     stopf("The server returned an unexpected result: %s", content(req, "text"))
   }

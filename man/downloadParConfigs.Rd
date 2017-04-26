@@ -4,11 +4,21 @@
 \alias{downloadParConfigs}
 \title{Downloads multiple Parameter Configurations from the mlrHyperopt servers}
 \usage{
-downloadParConfigs(ids)
+downloadParConfigs(ids = NULL, learner.class = NULL, learner.name = NULL,
+  custom.query = NULL)
 }
 \arguments{
-\item{ids}{[\code{character}]
+\item{ids}{[\code{character}] \cr
 One ore more unique identifiers of the Parameter Set}
+
+\item{learner.class}{[\code{character(1)}] \cr
+The \code{learner.class} you want to download the Parameter Configrations for.}
+
+\item{learner.name}{[\code{character(1)}] \cr
+The \code{learner.name} you want to download the Parameter Configrations for.}
+
+\item{custom.query}{[\code{list(2)}] \cr
+List of the form \code{list(key = "key", value = "value")} for custom queries.}
 }
 \value{
 [List of \code{ParConfig}s]

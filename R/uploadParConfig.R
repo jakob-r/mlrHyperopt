@@ -46,8 +46,10 @@ uploadParConfig = function(par.config, user.email = NULL) {
     )
 
   req = httr::POST(getURL(), body = post, encode = "json", httr::accept_json())
-  if (httr::status_code(req) %nin% c(200, 201, 202, 203, 204, 205, 206, 207, 208, 228)) {
+  if (httr::status_code(req) %nin% c(200, 201, 202, 203, 204, 205, 206, 207, 208, 228, 422)) {
     stopf("The server returned an unexpected result: %s", httr::content(req, "text"))
+  } else if (httr::status_code(req) == 422 && httr::content(req)$json_parconfig[[1]] == "has already been taken") {
+    stopf("This exact par.config was already uploaded.")
   }
   as.character(httr::content(req)$id)
 }

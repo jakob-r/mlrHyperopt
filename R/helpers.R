@@ -101,5 +101,5 @@ checkParamSetAndParVals = function(par.set, par.vals = list(), req.defaults = TR
 }
 
 getURL = function() {
-  "http://localhost:3000/parconfigs"
+  "http://vps.jakob-r.de:3000/parconfigs"
 }

@@ -8,12 +8,16 @@ test_that("uploading a ParConfig and downloading it works", {
     makeDiscreteParam(id = "kernel", values = c("polynomial", "radial")))
   par.vals = list(cachesize = 100L, tolerance = 0.01)
 
-  lrn.wrong = makeLearner("classif.randomForest")
   lrn.good = makeLearner("classif.svm")
 
   par.config = makeParConfig(par.set, lrn.good, par.vals)
 
-  new.id = uploadParConfig(par.config)
-  par.config.downloaded = downloadParConfig(new.id)
+  error = try({new.id = uploadParConfig(par.config)})
+  if (is.error(error)) {
+    expect_character(error, pattern = "This exact par\\.config was already uploaded")
+    par.config.downloaded = downloadParConfigs(learner.class = getLearnerClass(lrn.good))[[1]]
+  } else {
+    par.config.downloaded = downloadParConfig(new.id)
+  }
   expect_equal(par.config, par.config.downloaded)
 })
