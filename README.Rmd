@@ -14,8 +14,8 @@ Easy Hyper Parameter Optimization with [mlr](https://github.com/mlr-org/mlr/#-ma
 
 * [Issues and Bugs](https://github.com/jakob-r/mlrHyperopt/issues)
 * [Tutorial and Documentation](https://jakob-r.github.io/mlrHyperopt)
-* [Webservice](http://mlrhyperopt.jakob-r.de/status.php) (Work in progress!) 
-    * [Status](http://mlrhyperopt.jakob-r.de/status.php) (Experimental)
+* [Webservice](http://mlrhyperopt.jakob-r.de/parconfigs) (Work in progress!) 
+    * [Status](http://mlrhyperopt.jakob-r.de/parconfigs) (Experimental)
 
 ## Installation
 ```{r, eval=FALSE}
@@ -45,8 +45,13 @@ As the developer can not be an expert on all machine learning methods available 
 
 *Under heavy construction*.
 _ParConfigs_ are up- and downloaded via JSON and stored on the server in a database.
-The very basic version is coded in PHP and available under <https://github.com/jakob-r/mlrHyperoptServer>.
-I plan to implement everything with Ruby on Rails, including a basic user management with API-Keys.
+It's a very basic Ruby on Rails CRUD App generated via scaffolding with tiny modifications <https://github.com/jakob-r/mlrHyperoptServer>.
+ToDo:
+ * Voting System
+ * Upload-/Download Count
+ * Improve API
+  * Return existing ID when a duplicate is uploaded (instead of error).
+  * Allow a combined search (intead of one key value pair).
 
 ### R package
 
