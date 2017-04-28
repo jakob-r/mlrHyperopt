@@ -19,7 +19,7 @@ test_that("uploading a ParConfig and downloading it works", {
   } else {
     par.config.downloaded = downloadParConfig(new.id)
   }
-  expect_equal(par.config, par.config.downloaded)
+  expect_equal(par.config, setAttribute(par.config.downloaded, "on.server", NULL))
 })
 
 test_that("Download with different methods work", {
