@@ -118,6 +118,7 @@ If you looking for parameter configurations for your learner you can simply run:
 my.learner = makeLearner("classif.svm")
 # only classif svm
 svm.configs = downloadParConfigs(learner.class = getLearnerClass(my.learner))
+svm.configs
 # all svm
 svm.configs = downloadParConfigs(learner.name = getLearnerName(my.learner))
 ```

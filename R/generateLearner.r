@@ -8,7 +8,7 @@
 #' @template arg_parconfig
 #' @return [\code{Learner}]
 #' @examples
-#' par.config = downloadParConfig("8")
+#' par.config = downloadParConfig("1")
 #' learner = generateLearner(iris.task, par.config)
 #' print(learner)
 #' @export

@@ -24,8 +24,8 @@
 #'   )
 #' \dontrun{
 #' id = uploadParConfig(par.config, "jon.doe@example.com")
-#' }
 #' print(id)
+#' }
 #' @import httr
 #' @export
 uploadParConfig = function(par.config, user.email = NULL) {

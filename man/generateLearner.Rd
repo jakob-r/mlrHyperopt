@@ -20,7 +20,7 @@ The Parameter Configuration}
 Generates a Learner for a given task and ParConfig
 }
 \examples{
-par.config = downloadParConfig("8")
+par.config = downloadParConfig("1")
 learner = generateLearner(iris.task, par.config)
 print(learner)
 }

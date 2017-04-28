@@ -31,16 +31,6 @@ checkLearner = function(learner) {
   return(learner)
 }
 
-getLearnerClass = function(learner) {
-  class(learner)[[1]]
-}
-
-getLearnerName = function(learner) {
-  learner.class = getLearnerClass(learner)
-  learner.type = getLearnerType(learner)
-  stri_replace_first_fixed(learner.class, paste0(learner.type,"."), "")
-}
-
 # All allowed Parameter Types
 getSupportedParamTypes = function() {
   c("numeric", "numericvector", "integer", "integervector", "logical", "logicalvector", "discrete", "discretevector", "character", "charactervector")
@@ -74,8 +64,8 @@ getForbiddenParamFields = function() {
 checkParamSetAndParVals = function(par.set, par.vals = list(), req.defaults = TRUE, dictionary = NULL) {
 
   if (is.null(dictionary)) {
-    data("iris.task", package = "mlr")
-    dictionary = getTaskDictionary(task = iris.task)
+    dummy.task = makeClassifTask(id = "dummy", data = data.frame(a = 1:2, y = factor(1:2)), target = "y")
+    dictionary = getTaskDictionary(task = dummy.task)
   }
 
   # all params with box constraints?
