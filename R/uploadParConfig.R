@@ -22,7 +22,9 @@
 #'   par.vals = list(ntree = 200),
 #'   learner.name = "randomForest"
 #'   )
+#' \dontrun{
 #' id = uploadParConfig(par.config, "jon.doe@example.com")
+#' }
 #' print(id)
 #' @import httr
 #' @export

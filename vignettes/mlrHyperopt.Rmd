@@ -87,7 +87,7 @@ At the same time you can benefit from the [online data base](http://mlrhyperopt.
 To upload a Parameter Configuration that consists of a _ParamSet_, an associated _learner_ (either given by the general `learner.name` or the concrete `learner`.) and optionally some specific parameter settings (`par.vals`).
 Using just the `learner.name` indicates that you might want to use this _ParConfig_ for the regression as well as the classification version of this learner.
 
-```{r upload}
+```{r upload, eval=FALSE}
 par.set = makeParamSet(
   makeIntegerParam(
     id = "mtry",
@@ -100,8 +100,7 @@ par.config = makeParConfig(
   par.vals = list(ntree = 200),
   learner.name = "randomForest"
 )
-id = uploadParConfig(par.config, "jon.doe@example.com")
-print(id)
+uploadParConfig(par.config, "jon.doe@example.com")
 ```
 
 With this id you can later download this specific _ParConfig_.
@@ -111,25 +110,21 @@ With this id you can later download this specific _ParConfig_.
 You can download a specific parameter configuration using the id:
 
 ```{r downloadParConfig}
-downloadParConfig(id)
-```
-
-At the moment it is not possible to survey the server for all available parameter configurations.
-At the moment you can simply call:
-
-```{r surveyServer}
-all.configs = downloadParConfigs(ids = as.character(1:1000))
+downloadParConfig("1")
 ```
 
 If you looking for parameter configurations for your learner you can simply run:
-
-```{r filterListByLearner}
+```{r surveyServer}
 my.learner = makeLearner("classif.svm")
 # only classif svm
-svm.configs = Filter(function(x) getParConfigLearnerClass(x) == getLearnerClass(my.learner), all.configs)
+svm.configs = downloadParConfigs(learner.class = getLearnerClass(my.learner))
 # all svm
-svm.configs = Filter(function(x) getParConfigLearnerName(x) == getLearnerName(my.learner), all.configs)
-# just show the ParSets
-lapply(svm.configs, getParConfigParSet)
+svm.configs = downloadParConfigs(learner.name = getLearnerName(my.learner))
 ```
+
+You can also query for custom key value pair:
+```{r surveyServerCustom}
+user.configs = downloadParConfigs(custom.query = list(key = "user_email", value = "jon.doe@example.com"))
+```
+
 

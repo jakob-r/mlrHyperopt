@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Uploads a Parameter Set to the mlrHyperopt servers — uploadParConfig • mlrHyperopt</title>
+<title>Set a note — setParConfigNote • mlrHyperopt</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -82,50 +82,44 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Uploads a Parameter Set to the mlrHyperopt servers</h1>
+    <h1>Set a note</h1>
     </div>
 
     
-    <p>Uploads a ParConfig and returns the ID.</p>
+    <p>Attach note to the Parameter Configuration</p>
     
 
-    <pre><span class='fu'>uploadParConfig</span>(<span class='no'>par.config</span>, <span class='kw'>user.email</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre><span class='fu'>setParConfigNote</span>(<span class='no'>par.config</span>, <span class='no'>note</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <dl class="dl-horizontal">
       <dt>par.config</dt>
       <dd>[<code><a href='makeParConfig.html'>ParConfig</a></code>]
 The Parameter Configuration</dd>
-      <dt>user.email</dt>
+      <dt>note</dt>
       <dd>[<code>character(1)</code>]
-Your email to identify yourself to the server.
-Does not have to be a valid one, but this identifier makes it easier to find your own submissions or submissions by colleagues.
-In the future we might switch to an authentication system.
-It could be advantageous to supply a working email if you want to migrate your submissions then.</dd>
+The note.</dd>
     </dl>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>[<code>character</code>]</p>
+    <p>[<code>ParConfig</code>].</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p>Other ParConfig: <code><a href='getParConfigLearnerClass.html'>getParConfigLearnerClass</a></code>,
+  <code><a href='getParConfigLearnerName.html'>getParConfigLearnerName</a></code>,
+  <code><a href='getParConfigLearnerType.html'>getParConfigLearnerType</a></code>,
+  <code><a href='getParConfigNote.html'>getParConfigNote</a></code>,
+  <code><a href='getParConfigParSet.html'>getParConfigParSet</a></code>,
+  <code><a href='getParConfigParVals.html'>getParConfigParVals</a></code>,
+  <code><a href='makeParConfig.html'>makeParConfig</a></code>,
+  <code><a href='setParConfigLearnerType.html'>setParConfigLearnerType</a></code>,
+  <code><a href='setParConfigLearner.html'>setParConfigLearner</a></code>,
+  <code><a href='setParConfigParSet.html'>setParConfigParSet</a></code>,
+  <code><a href='setParConfigParVals.html'>setParConfigParVals</a></code></p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>par.set</span> <span class='kw'>=</span> <span class='fu'>makeParamSet</span>(
-  <span class='fu'>makeIntegerParam</span>(
-    <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"mtry"</span>,
-    <span class='kw'>lower</span> <span class='kw'>=</span> <span class='fu'>expression</span>(<span class='fu'>floor</span>(<span class='no'>p</span>^<span class='fl'>0.25</span>)),
-    <span class='kw'>upper</span> <span class='kw'>=</span> <span class='fu'>expression</span>(<span class='fu'>ceiling</span>(<span class='no'>p</span>^<span class='fl'>0.75</span>)),
-    <span class='kw'>default</span> <span class='kw'>=</span> <span class='fu'>expression</span>(<span class='fu'>round</span>(<span class='no'>p</span>^<span class='fl'>0.5</span>))),
-  <span class='kw'>keys</span> <span class='kw'>=</span> <span class='st'>"p"</span>)
-<span class='no'>par.config</span> <span class='kw'>=</span> <span class='fu'><a href='makeParConfig.html'>makeParConfig</a></span>(
-  <span class='kw'>par.set</span> <span class='kw'>=</span> <span class='no'>par.set</span>,
-  <span class='kw'>par.vals</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>200</span>),
-  <span class='kw'>learner.name</span> <span class='kw'>=</span> <span class='st'>"randomForest"</span>
-  )
-<span class='co'>## Not run: ------------------------------------</span>
-<span class='co'># id = uploadParConfig(par.config, "jon.doe@example.com")</span>
-<span class='co'>## ---------------------------------------------</span>
-<span class='fu'>print</span>(<span class='no'>id</span>)</div><div class='output co'>#&gt; <span class='error'>Error in print(id): object &#39;id&#39; not found</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -133,9 +127,9 @@ It could be advantageous to supply a working email if you want to migrate your s
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+
+      <li><a href="#see-also">See also</a></li>
+          </ul>
 
   </div>
 </div>

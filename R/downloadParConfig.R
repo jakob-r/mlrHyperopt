@@ -63,6 +63,7 @@ downloadParConfig = function(id) {
 downloadToParConfig = function(res) {
   par.set = JSONtoParSet(res$json_parconfig)
   par.vals = JSONtoParVals(res$json_parvals)
+  res = res[nzchar(res)]
   res$note = coalesce(res$note, "")
   makeParConfig(par.set = par.set, par.vals = par.vals, learner = res$learner_class, learner.name = res$learner_name, note = res$note)
 }
