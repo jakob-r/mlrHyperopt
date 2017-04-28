@@ -27,7 +27,7 @@ test_that("Download with different methods work", {
   expect_equal(empty.result, list())
 
   names.res = downloadParConfigs(learner.name = "randomForest")
-  ids = sapply(name.res, function(x) attr(x, "on.server")$id)
+  ids = sapply(names.res, function(x) attr(x, "on.server")$id)
   ids.res = downloadParConfigs(as.character(ids))
   expect_equal(names.res, ids.res)
 })
