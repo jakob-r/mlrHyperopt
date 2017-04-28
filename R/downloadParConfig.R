@@ -30,9 +30,9 @@ downloadParConfigs = function(ids = NULL, learner.class = NULL, learner.name = N
     assertSetEqual(names(custom.query), c("key", "value"))
     query = custom.query
   }
-  httr.res = httr::GET(sprintf("%s.json", getURL()), query = query)
+  httr.res = httr::GET(sprintf("%s.json", getURL()), query = query, httr::accept_json())
   if (httr::status_code(httr.res) != 200) {
-    stopf("The server returned an unexpected result: %s", content(httr.res, "text"))
+    stopf("The server returned an unexpected result: %s", httr::content(httr.res, "text"))
   }
   res = httr::content(httr.res)
   lapply(res, downloadToParConfig)
@@ -52,12 +52,12 @@ downloadParConfigs = function(ids = NULL, learner.class = NULL, learner.name = N
 downloadParConfig = function(id) {
   as.character(id)
   assert_string(id)
-  httr.res = httr::GET(sprintf("%s/%s.json", getURL(), id))
+  httr.res = httr::GET(sprintf("%s/%s.json", getURL(), id), httr::accept_json())
   if (httr::status_code(httr.res) != 200) {
-    stopf("The server returned an unexpected result: %s", content(httr.res, "text"))
+    stopf("The server returned an unexpected result: %s", httr::content(httr.res, "text"))
   }
   res = httr::content(httr.res)
-  downloadToParConfig(res)
+  res = downloadToParConfig(res)
 }
 
 downloadToParConfig = function(res) {
@@ -65,6 +65,8 @@ downloadToParConfig = function(res) {
   par.vals = JSONtoParVals(res$json_parvals)
   res = res[nzchar(res)]
   res$note = coalesce(res$note, "")
-  makeParConfig(par.set = par.set, par.vals = par.vals, learner = res$learner_class, learner.name = res$learner_name, note = res$note)
+  setAttribute(
+    makeParConfig(par.set = par.set, par.vals = par.vals, learner = res$learner_class, learner.name = res$learner_name, note = res$note),
+    "on.server", res)
 }
 
