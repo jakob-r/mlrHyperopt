@@ -31,11 +31,6 @@ checkLearner = function(learner) {
   return(learner)
 }
 
-# All allowed Parameter Types
-getSupportedParamTypes = function() {
-  c("numeric", "numericvector", "integer", "integervector", "logical", "logicalvector", "discrete", "discretevector", "character", "charactervector")
-}
-
 # All supported Values for discrete Parameters
 getSupportedDiscreteValues = function() {
   c("character", "integer", "numeric", "data.frame", "matrix", "Date", "POSIXt", "factor", "complex", "raw")
