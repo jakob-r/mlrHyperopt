@@ -10,8 +10,8 @@ library(data.table)
 
 # define what learners to benchmark
 lrns = data.frame(
-  mlr =   c("ksvm",      "randomForest", "glmnet", "rpart", "gbm", "nnet", "xgboost", "blackboost", "extraTrees"),
-  caret = c("svmRadial", "rf",           "glmnet", "rpart", "gbm", "nnet", "xgbTree", "blackboost", "extraTrees")
+  mlr =   c("ksvm",      "randomForest", "glmnet", "rpart", "gbm", "nnet", "xgboost", "extraTrees"),
+  caret = c("svmRadial", "rf",           "glmnet", "rpart", "gbm", "nnet", "xgbTree", "extraTrees")
   )
 
 # define the datasets
@@ -113,21 +113,34 @@ stop("Finished!")
 ##
 # Finding Resuls ####
 ##
-reg = loadRegistry("~/sfbrdata/nobackup/mlrHyperCaret3/", update.paths = FALSE)
-res = reduceResultsDataTable(fun = function(job, res) data.table(measure = res$measure, time = res$time))
+reg = loadRegistry("~/sfbrdata/nobackup/mlrHyperCaret3/", update.paths = TRUE, make.default = TRUE)
+res = reduceResultsList(fun = function(job, res) list(job.id = job$id, measure = res$measure, time = res$time))
+res = rbindlist(res)
 res.backup = res
-res = res[getJobPars(res)]
 saveRDS(res, "meta/res.rds")
+# res = readRDS("meta/res.rds")
+res = merge(res, getJobTable(), by = "job.id", all = TRUE)
+
 
 # matching learner names
 lrns2 = as.data.table(lrns)
 lrns2 = plyr::rename(lrns2, c(caret = "learner"))
 res = merge(res, lrns2, all.x = TRUE, by = "learner")
 res[!is.na(mlr), learner := mlr, ]
+
+# set measure from expired jobs to worst value
+res[findExpired(), measure := 0, on = "job.id"]
+
+# remove faulty results
+res = res[learner != "blackboost"] # has realy bad resuls caret and mlrHyper
+res = res[learner != "blackboost"] #
+
+# find incomplete sets ####
+
 # Visualizing Results
 library(ggplot2)
 res$time = as.numeric(res$time, units = "secs")
-g = ggplot(data = res, aes(x = paste(algorithm, search, budget), y = measure, fill = paste(algorithm,search)))
+g = ggplot(data = res, aes(x = as.factor(budget), y = measure, fill = paste(algorithm,search)))
 g + geom_boxplot() + facet_grid(problem~learner, scales = "free")
 g = ggplot(data = res, aes(x = measure, y = time, color = algorithm, size = as.factor(budget)))
 g + geom_point(alpha = 0.1) + facet_grid(learner~problem, scales = "free") + scale_y_log10()
@@ -163,3 +176,9 @@ good.caret = res.list[[10]]
 good.mlrHyper = res.list[[20]]
 good.caret$model$results
 as.data.frame(trafoOptPath(good.mlrHyper$model$hyperopt.res$opt.path))
+
+## find incomplete runs ####
+jdt = getJobTable()
+err.rate = jdt[!is.na(started), list(err.rate = mean(is.na(error))) , by = .(problem, learner, budget)]
+err.rate[err.rate %nin% c(0,1)]
+jdt[findExpired()]
