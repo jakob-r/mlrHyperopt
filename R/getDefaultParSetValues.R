@@ -58,9 +58,12 @@ getDefaultParSetValues = function() {
       makeNumericParam(id = "shrinkage", default = 0.001, lower = 0.001, upper = 0.3),
       makeIntegerParam(id = "n.minobsinnode", default = 10L, lower = 5L, upper = 25L)
     ),
-    # rpart - caret does an initial fit here
+    # rpart - caret does an initial fit here, we diverge completely
     .rpart = makeParamSet(
-      makeNumericParam(id = "cp", default = 0.01, lower = 0, upper = 1)
+      makeNumericParam(id = "cp", default = log2(0.01), lower = -10, upper = 0, trafo = function(x) 2^x),
+      makeIntegerParam(id = "maxdepth", default = 30L, lower = 3L, upper = 30L),
+      makeIntegerParam(id = "minbucket", default = 7L, lower = 5L, upper = 50L),
+      makeIntegerParam(id = "minsplit", default = 20L, lower = 5L, upper = 50L)
     ),
     # nnet
     .nnet = makeParamSet(
@@ -74,7 +77,7 @@ getDefaultParSetValues = function() {
     ),
     # xgbTree (in mlr booster = gbtree) default
     .xgboost = makeParamSet(
-      makeIntegerParam(id = "nrounds", default = 1L, lower = 1L, upper = 1000L),
+      makeIntegerParam(id = "nrounds", lower = log2(10/10), upper = log2(4000/10), trafo = function(x) round(2^x * 10), default = log2(10/10)),
       makeIntegerParam(id = "max_depth", default = 6L, lower = 1L, upper = 10L),
       makeNumericParam(id = "eta", default = 0.3, lower = 0.001, upper = 0.6),
       makeNumericParam(id = "gamma", default = 0, lower = 0, upper = 10),
