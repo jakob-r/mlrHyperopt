@@ -7,6 +7,7 @@ library(OpenML)
 library(BBmisc)
 library(stringi)
 library(data.table)
+set.seed(1)
 
 # define what learners to benchmark
 lrns = data.frame(
@@ -18,12 +19,14 @@ lrns = data.frame(
 task_infos = listOMLTasks(tag = "study_14")
 task_infos = as.data.table(task_infos)
 task_infos = task_infos[number.of.missing.values == 0 & number.of.numeric.features == number.of.features - 1]
-oml.tasks = lapply(task_infos$task.id[1:10], getOMLTask)
+# random.task.ids = sample(task_infos$task.id, size = 10)
+random.task.ids = c(3481L, 3899L, 9954L, 14964L, 43L, 10093L, 34536L, 9956L, 125921L, 14L)
+oml.tasks = lapply(random.task.ids, getOMLTask)
 mlr.taskslist = lapply(oml.tasks, convertOMLTaskToMlr)
 
 # batchtools stuff ####
 #unlink("~/nobackup/mlrHyperCaret", recursive = TRUE)
-reg = makeExperimentRegistry(file.dir = "~/nobackup/mlrHyperCaret3", seed = 1, packages = c("methods","utils", "mlr", "mlrHyperopt", "BBmisc", "stringi"))
+reg = makeExperimentRegistry(file.dir = "~/nobackup/mlrHyperCaret4", seed = 1, packages = c("methods","utils", "mlr", "mlrHyperopt", "BBmisc", "stringi"))
 if (reg$cluster.functions$name == "Interactive") {
   reg$cluster.functions = makeClusterFunctionsMulticore(ncpus = 3)
 }
@@ -121,6 +124,12 @@ saveRDS(res, "meta/res.rds")
 # res = readRDS("meta/res.rds")
 res = merge(res, getJobTable(), by = "job.id", all = TRUE)
 
+# heler functions ####
+myrank = function(x, ties.method) {
+  ranks = rank(x, na.last = TRUE, ties.method = ties.method)
+  ranks[is.na(x)] = max(ranks)
+  ranks
+}
 
 # matching learner names
 lrns2 = as.data.table(lrns)
@@ -133,6 +142,7 @@ res[findExpired(), measure := 0, on = "job.id"]
 
 # remove faulty results ####
 res = res[learner != "blackboost"] # has realy bad resuls for caret and mlrHyperopt
+res = res[problem != "segment"] # not finished calculation yet
 
 # find incomplete sets ####
 runs.on.set = res[!is.na(measure), list(expected.folds = length(unique(fold))), by = .(learner, problem)]
@@ -142,7 +152,6 @@ res[fold < expected.folds & problem != "segment", if(expected.folds[1] != length
 # Visualizing Results ####
 library(ggplot2)
 res$time = as.numeric(res$time, units = "secs")
-tmp = res
 g = ggplot(data = res, aes(x = as.factor(budget), y = measure, color = paste(algorithm,search)))
 g + geom_boxplot() + facet_grid(problem~learner, scales = "free")
 g = ggplot(data = res, aes(x = measure, y = time, color = algorithm, size = as.factor(budget)))
@@ -155,6 +164,16 @@ mean.top.res = mean.res[, {ordr = order(mean.measure, decreasing = TRUE); ordr.l
 mean.top.res = mean.top.res[, rank := rank(-mean.measure), by = .(problem, budget)]
 g = ggplot(mapping = aes(x = learner, y = mean.measure, color = paste(algorithm, search)))
 g + geom_point(data = mean.top.res[mean.measure > 0.5]) + geom_text(data = mean.top.res[rank < 4,], mapping = aes(label = rank), color = "black") + facet_grid(budget~problem) + coord_flip()
+
+# Rank and average results for each learner
+rank.res = res[fold <= expected.folds, list(measure = measure, rank = rank(-measure), method = paste(algorithm, search)) , by = .(problem, learner, fold, budget)]
+rank.res = rank.res[, list(mean.rank = mean(rank), mean.measure = mean(measure)), by = .(problem, learner, budget, method)]
+g = ggplot(rank.res, aes(x = learner, y = mean.rank, color = method))
+g + geom_boxplot() + facet_grid(~budget)
+
+# Rank and average results for each budget
+g = ggplot(rank.res, aes(x = as.factor(budget), y = mean.rank, color = method))
+g + geom_boxplot()
 
 # Detailed Analysis
 res.list = reduceResultsList(ids = res[algorithm == "mlrHyperopt", job.id[1:10]])
@@ -184,7 +203,7 @@ g + geom_violin() + geom_point(position = position_jitter(width = 0.2, height = 
 good.caret = res.list[[10]]
 good.mlrHyper = res.list[[20]]
 good.caret$model$results
-as.data.frame(trafoOptPath(good.mlrHyper$model$hyperopt.res$opt.path)))
+as.data.frame(trafoOptPath(good.mlrHyper$model$hyperopt.res$opt.path))
 
 ## find incomplete runs ####
 jdt = getJobTable()
