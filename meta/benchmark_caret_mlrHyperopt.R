@@ -7,7 +7,7 @@ library(OpenML)
 library(BBmisc)
 library(stringi)
 library(data.table)
-set.seed(1)
+set.seed(030)
 
 # define what learners to benchmark
 lrns = data.frame(
@@ -20,7 +20,8 @@ task_infos = listOMLTasks(tag = "study_14")
 task_infos = as.data.table(task_infos)
 task_infos = task_infos[number.of.missing.values == 0 & number.of.numeric.features == number.of.features - 1]
 # random.task.ids = sample(task_infos$task.id, size = 10)
-random.task.ids = c(3481L, 3899L, 9954L, 14964L, 43L, 10093L, 34536L, 9956L, 125921L, 14L)
+# dput(random.task.ids)
+random.task.ids = c(18L, 9914L, 3896L, 3903L, 3510L, 28L, 9986L, 43L, 10101L, 14970L)
 oml.tasks = lapply(random.task.ids, getOMLTask)
 mlr.taskslist = lapply(oml.tasks, convertOMLTaskToMlr)
 
