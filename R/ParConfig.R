@@ -18,6 +18,7 @@
 #'  Can be used to associate the Parameter Configuration to a Learner without specifying if it belongs to e.g. classification or regression.
 #' @param note [\code{character(1)}]
 #'  The note you want to attach to the Parameter Configuration.
+#'
 #' @return [\code{ParConfig}]
 #' @family ParConfig
 #' @aliases ParConfig
@@ -49,7 +50,7 @@ makeParConfig = function(par.set, learner = NULL, par.vals = NULL, learner.name 
     assert_list(par.vals, unique = TRUE, names = "named")
     conflict.ids = intersect(names(par.vals), getParamIds(par.set))
     if (length(conflict.ids) > 0) {
-      stopf("Following par.vals conflict with the par.set: %s", collapsef(conflict.ids))
+      stopf("Following par.vals are set to a specific value and conflict with the tuning par.set: %s", listToShortString(par.vals[conflict.ids]))
     }
   }
 

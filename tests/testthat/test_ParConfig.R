@@ -39,7 +39,7 @@ test_that("ParConfig spots mistakes", {
   expect_equal(getParConfigLearnerClass(par.config), lrn.good)
 
   expect_error(makeParConfig(par.set, lrn.bad, par.vals = par.vals), "Params that are not supported by the Learner: cost")
-  expect_error(makeParConfig(par.set, lrn.good, par.vals = par.vals.conflict), "Following par.vals conflict with the par.set: cost")
+  expect_error(makeParConfig(par.set, lrn.good, par.vals = par.vals.conflict), "Following par.vals are set to a specific value and conflict with the tuning par.set: cost=2")
   expect_warning({par.config = makeParConfig(par.set, lrn.specified, par.vals = par.vals.good)}, "par.vals of the learner were possibly overwritten by the users par.vals")
   #TODO
   # expect_error(makeParConfig(par.set, lrn.good, par.vals = par.vals.bad), "Params that are not supported by the Learner: foo")

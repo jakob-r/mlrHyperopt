@@ -4,11 +4,15 @@
 \alias{getDefaultParConfig}
 \title{Gives a default ParConfig for a Learner}
 \usage{
-getDefaultParConfig(learner)
+getDefaultParConfig(learner, drop.par.vals = TRUE)
 }
 \arguments{
 \item{learner}{[\code{Learner}]
 An mlr Learner.}
+
+\item{drop.par.vals}{[\code{logical(1)}]
+Should par.vals set in the learner be dropped if they are part of the tuning par.set?
+Default is \code{TRUE}.}
 }
 \value{
 [\code{ParConfig}]

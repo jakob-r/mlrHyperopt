@@ -131,21 +131,30 @@ res[!is.na(mlr), learner := mlr, ]
 # set measure from expired jobs to worst value
 res[findExpired(), measure := 0, on = "job.id"]
 
-# remove faulty results
-res = res[learner != "blackboost"] # has realy bad resuls caret and mlrHyper
-res = res[learner != "blackboost"] #
+# remove faulty results ####
+res = res[learner != "blackboost"] # has realy bad resuls for caret and mlrHyperopt
 
 # find incomplete sets ####
+runs.on.set = res[!is.na(measure), list(expected.folds = length(unique(fold))), by = .(learner, problem)]
+res = merge(res, runs.on.set, all.x = TRUE)
+res[fold < expected.folds & problem != "segment", if(expected.folds[1] != length(unique(fold))) .SD[is.na(measure),] else NULL , by = .(learner, problem, budget, algorithm, search)]
 
-# Visualizing Results
+# Visualizing Results ####
 library(ggplot2)
 res$time = as.numeric(res$time, units = "secs")
-g = ggplot(data = res, aes(x = as.factor(budget), y = measure, fill = paste(algorithm,search)))
+tmp = res
+g = ggplot(data = res, aes(x = as.factor(budget), y = measure, color = paste(algorithm,search)))
 g + geom_boxplot() + facet_grid(problem~learner, scales = "free")
 g = ggplot(data = res, aes(x = measure, y = time, color = algorithm, size = as.factor(budget)))
 g + geom_point(alpha = 0.1) + facet_grid(learner~problem, scales = "free") + scale_y_log10()
 # extract the good parameter settings
 
+# Best Top Learner on each Dataset
+mean.res = res[, list(mean.measure = mean(measure[fold <= expected.folds])), by = .(learner, problem, algorithm, budget, search)]
+mean.top.res = mean.res[, {ordr = order(mean.measure, decreasing = TRUE); ordr.learner = learner[ordr]; dupl = duplicated(ordr.learner); .SD[ordr[!dupl]]} ,by = .(problem, budget, algorithm, search)]
+mean.top.res = mean.top.res[, rank := rank(-mean.measure), by = .(problem, budget)]
+g = ggplot(mapping = aes(x = learner, y = mean.measure, color = paste(algorithm, search)))
+g + geom_point(data = mean.top.res[mean.measure > 0.5]) + geom_text(data = mean.top.res[rank < 4,], mapping = aes(label = rank), color = "black") + facet_grid(budget~problem) + coord_flip()
 
 # Detailed Analysis
 res.list = reduceResultsList(ids = res[algorithm == "mlrHyperopt", job.id[1:10]])
@@ -175,7 +184,7 @@ g + geom_violin() + geom_point(position = position_jitter(width = 0.2, height = 
 good.caret = res.list[[10]]
 good.mlrHyper = res.list[[20]]
 good.caret$model$results
-as.data.frame(trafoOptPath(good.mlrHyper$model$hyperopt.res$opt.path))
+as.data.frame(trafoOptPath(good.mlrHyper$model$hyperopt.res$opt.path)))
 
 ## find incomplete runs ####
 jdt = getJobTable()
