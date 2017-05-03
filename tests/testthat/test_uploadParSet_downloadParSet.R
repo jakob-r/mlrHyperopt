@@ -12,7 +12,7 @@ test_that("uploading a ParConfig and downloading it works", {
 
   par.config = makeParConfig(par.set, lrn.good, par.vals)
 
-  error = try({new.id = uploadParConfig(par.config)})
+  error = try({new.id = uploadParConfig(par.config)}, silent = TRUE)
   if (is.error(error)) {
     expect_character(error, pattern = "This exact par\\.config was already uploaded")
     par.config.downloaded = downloadParConfigs(learner.class = getLearnerClass(lrn.good))[[1]]
