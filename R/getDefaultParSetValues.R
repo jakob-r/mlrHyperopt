@@ -77,7 +77,7 @@ getDefaultParSetValues = function() {
     ),
     # xgbTree (in mlr booster = gbtree) default
     .xgboost = makeParamSet(
-      makeIntegerParam(id = "nrounds", lower = log2(10/10), upper = log2(4000/10), trafo = function(x) round(2^x * 10), default = log2(10/10)),
+      makeNumericParam(id = "nrounds", lower = log2(10/10), upper = log2(4000/10), trafo = function(x) round(2^x * 10), default = log2(10/10)),
       makeIntegerParam(id = "max_depth", default = 6L, lower = 1L, upper = 10L),
       makeNumericParam(id = "eta", default = 0.3, lower = 0.001, upper = 0.6),
       makeNumericParam(id = "gamma", default = 0, lower = 0, upper = 10),
