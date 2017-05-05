@@ -9,10 +9,10 @@ library(stringi)
 library(data.table)
 set.seed(030)
 
-# define what learners to benchmark
+# define what learners to benchmark (removing gbm becaus it crashes to often, blackboost because it does not give good results at all)
 lrns = data.frame(
-  mlr =   c("ksvm",      "randomForest", "glmnet", "rpart", "gbm", "nnet", "xgboost", "extraTrees"),
-  caret = c("svmRadial", "rf",           "glmnet", "rpart", "gbm", "nnet", "xgbTree", "extraTrees")
+  mlr =   c("ksvm",      "randomForest", "glmnet", "rpart", "nnet", "xgboost", "extraTrees"),
+  caret = c("svmRadial", "rf",           "glmnet", "rpart", "nnet", "xgbTree", "extraTrees")
   )
 
 # define the datasets
@@ -142,7 +142,6 @@ res[!is.na(mlr), learner := mlr, ]
 res[findExpired(), measure := 0, on = "job.id"]
 
 # remove faulty results ####
-res = res[learner != "blackboost"] # has realy bad resuls for caret and mlrHyperopt
 res = res[problem != "segment"] # not finished calculation yet
 
 # find incomplete sets ####
