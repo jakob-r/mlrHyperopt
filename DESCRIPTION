@@ -29,6 +29,7 @@ Suggests:
     randomForest,
     DiceKriging,
     rgenoud,
-    knitr
+    knitr,
+    gbm
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1

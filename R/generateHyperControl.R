@@ -60,7 +60,8 @@ generateHyperControl = function(task, par.config = NULL, learner = NULL, budget.
   } else if (
     all(getParamTypes(par.set) %in% c("numeric", "integer", "numericvector", "integervector")) &&
     getParamNr(par.set) * 4 < budget.evals * 0.75) {
-    mbo.control = mlrMBO::makeMBOControl(final.method = "best.predicted")
+    imputeWorst = function(x, y, opt.path, c = 2) c * max(getOptPathY(opt.path), na.rm = TRUE)
+    mbo.control = mlrMBO::makeMBOControl(final.method = "best.predicted", impute.y.fun = imputeWorst)
     mbo.control = mlrMBO::setMBOControlInfill(mbo.control, crit = mlrMBO::crit.eqi)
     mbo.control = mlrMBO::setMBOControlTermination(mbo.control, max.evals = budget.evals)
     mlr.control = makeTuneControlMBO(mbo.control = mbo.control, mbo.keep.result = TRUE)

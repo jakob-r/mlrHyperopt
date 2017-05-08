@@ -40,3 +40,15 @@ test_that("hyperopt works", {
   expect_class(res3, "TuneResult")
   expect_class(res3$control, "TuneControlGrid")
 })
+
+test_that("hyperopt works with failing learners", {
+  mlr::configureMlr(show.info = FALSE, show.learner.output = FALSE)
+  # should trigger MBO
+  lrn = makeLearner("classif.gbm")
+  task = iris.task
+  res = hyperopt(task = iris.task, learner = lrn)
+  expect_class(res, "TuneResult")
+  expect_class(res$control, "TuneControlMBO")
+  expect_number(res$y, lower = 0, upper = 0.1)
+  expect_true(any(is.na(getOptPathY(res$opt.path))))
+})

@@ -53,6 +53,8 @@ hyperopt = function(task, learner = NULL, par.config = NULL, hyper.control = NUL
   if ("req.prob" %in% measures[[1]]$properties) {
     learner = setPredictType(learner, "prob")
   }
+  learner$config = insert(learner$config, list(on.learner.error = "warn"))
+
 
   tune.res = tuneParams(
     learner = learner,
