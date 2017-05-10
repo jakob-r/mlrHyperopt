@@ -24,6 +24,7 @@ task_infos = task_infos[number.of.missing.values == 0 & number.of.numeric.featur
 random.task.ids = c(18L, 9914L, 3896L, 3903L, 3510L, 28L, 9986L, 43L, 10101L, 14970L)
 oml.tasks = lapply(random.task.ids, getOMLTask)
 mlr.taskslist = lapply(oml.tasks, convertOMLTaskToMlr)
+names(mlr.taskslist) = extractSubList(mlr.taskslist, c("mlr.task", "task.desc", "id"))
 
 # batchtools stuff ####
 #unlink("~/nobackup/mlrHyperCaret", recursive = TRUE)
@@ -50,6 +51,9 @@ algo.caret = function(job, data, instance, learner, budget = NULL, search = "gri
   train.data = getTaskData(data$mlr.task, target.extra = TRUE, subset = train.inds)
   test.data = getTaskData(data$mlr.task, target.extra = TRUE, subset = test.inds)
   train.args = list(x = train.data$data, y = train.data$target, method = learner, trControl = fitControl)
+  if (learner == "nnet") {
+    train.args = c(train.args, MaxNWts=5000) # avoids error "too many (...) weights"
+  }
   if (!is.null(budget)) {
     train.args = c(train.args, tuneLength = budget)
   }
@@ -77,7 +81,11 @@ algo.mlrHyperopt = function(job, data, instance, learner, budget = NULL, search 
   learner.type = stri_trans_tolower(stri_replace_all_fixed(class(train.task)[1], "Task", ""))
 
   time.start = Sys.time()
-  lrn = makeLearner(sprintf("%s.%s", learner.type, learner))
+  if (learner == "nnet") {
+    lrn = makeLearner(sprintf("%s.%s", learner.type, learner), MaxNWts=5000) # avoids error "too many (...) weights"
+  } else {
+    lrn = makeLearner(sprintf("%s.%s", learner.type, learner))
+  }
   par.config = generateParConfig(learner = lrn, task = train.task)
   hc = generateHyperControl(task = train.task, par.config = par.config, budget.evals = budget)
   hc$measures = data$mlr.measures
@@ -117,7 +125,7 @@ stop("Finished!")
 ##
 # Finding Resuls ####
 ##
-reg = loadRegistry("~/sfbrdata/nobackup/mlrHyperCaret3/", update.paths = TRUE, make.default = TRUE)
+reg = loadRegistry("~/sfbrdata/nobackup/mlrHyperCaret4/", update.paths = TRUE, make.default = TRUE)
 res = reduceResultsList(fun = function(job, res) list(job.id = job$id, measure = res$measure, time = res$time))
 res = rbindlist(res)
 res.backup = res
@@ -141,9 +149,6 @@ res[!is.na(mlr), learner := mlr, ]
 # set measure from expired jobs to worst value
 res[findExpired(), measure := 0, on = "job.id"]
 
-# remove faulty results ####
-res = res[problem != "segment"] # not finished calculation yet
-
 # find incomplete sets ####
 runs.on.set = res[!is.na(measure), list(expected.folds = length(unique(fold))), by = .(learner, problem)]
 res = merge(res, runs.on.set, all.x = TRUE)
@@ -152,10 +157,16 @@ res[fold < expected.folds & problem != "segment", if(expected.folds[1] != length
 # Visualizing Results ####
 library(ggplot2)
 res$time = as.numeric(res$time, units = "secs")
-g = ggplot(data = res, aes(x = as.factor(budget), y = measure, color = paste(algorithm,search)))
+g = ggplot(data = res[expected.folds == 5], aes(x = as.factor(budget), y = measure, color = paste(algorithm,search)))
 g + geom_boxplot() + facet_grid(problem~learner, scales = "free")
-g = ggplot(data = res, aes(x = measure, y = time, color = algorithm, size = as.factor(budget)))
-g + geom_point(alpha = 0.1) + facet_grid(learner~problem, scales = "free") + scale_y_log10()
+
+g2 = g + geom_boxplot() + facet_wrap(c("problem", "learner"), scales = "free", ncol = length(unique(res$learner)))
+ggsave("plot.pdf", g2, width = 20, height = 20)
+
+
+# Time needed vs. budget
+g = ggplot(data = res, aes(x = budget, y = time))
+g + geom_line(aes(color = paste(algorithm,search), group = paste(algorithm,search,fold)), alpha = 0.7) + geom_point(aes(fill = measure), shape = 21) + facet_grid(learner~problem, scales = "free") + scale_y_log10()
 # extract the good parameter settings
 
 # Best Top Learner on each Dataset

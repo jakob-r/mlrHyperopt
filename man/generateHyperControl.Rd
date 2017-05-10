@@ -5,7 +5,7 @@
 \title{Generates a hyperparameter tuning control object}
 \usage{
 generateHyperControl(task, par.config = NULL, learner = NULL,
-  budget.evals = 25)
+  budget.evals = 250)
 }
 \arguments{
 \item{task}{[\code{Task}]
@@ -18,7 +18,7 @@ The Parameter Configuration}
 Learner}
 
 \item{budget.evals}{[\code{integer}]
-How many function evaluations do you want to allow? Default is 25.}
+How many train-test iterations do you want to allow?}
 }
 \value{
 [\code{HyperControl}]
