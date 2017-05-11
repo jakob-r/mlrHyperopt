@@ -73,30 +73,30 @@ generateHyperControl = function(task, par.config = NULL, learner = NULL, budget.
 
   # determine a suitable tuning method
   if (getParamNr(par.set) == 1) {
-    chose.resampling = which.min((iter.budget - 25)^2)
-    mlr.control = makeTuneControlGrid(resolution = floor(iter.budget[chose.resampling]))
+    det.resampling = determineResampling(desired.evals = 25, iter.budget, resamplings)
+    mlr.control = makeTuneControlGrid(resolution = det.resampling$iters)
   } else if (
     all(getParamTypes(par.set) %in% c("numeric", "integer", "numericvector", "integervector")) &&
-    getParamNr(par.set) * 4 < budget.evals * 0.75) {
-    desired.init.des = getParamNr(par.set) * 4
-    desired.evals = getParamNr(par.set) * 10
-    chose.resampling = which.min((iter.budget - desired.evals)^2)
+    {
+      det.resampling = determineResampling(desired.evals = getParamNr(par.set) * 10, iter.budget, resamplings, preferability = 0.4)
+      desired.init.des = getParamNr(par.set) * 4
+      det.resampling$iters > 2 * desired.init.des
+    }
+    ) {
     imputeWorst = function(x, y, opt.path, c = 2) c * max(getOptPathY(opt.path), na.rm = TRUE)
     mbo.control = mlrMBO::makeMBOControl(final.method = "best.predicted", impute.y.fun = imputeWorst)
     mbo.control = mlrMBO::setMBOControlInfill(mbo.control, crit = mlrMBO::crit.eqi)
-    mbo.control = mlrMBO::setMBOControlTermination(mbo.control, max.evals = iter.budget[chose.resampling])
+    mbo.control = mlrMBO::setMBOControlTermination(mbo.control, max.evals = det.resampling$iters)
     mbo.design = generateDesign(n = desired.init.des, par.set = par.set, fun = lhs::maximinLHS)
     mlr.control = makeTuneControlMBO(mbo.control = mbo.control, mbo.keep.result = TRUE, mbo.design = mbo.design)
   } else if (getParamNr(par.set) == 2) {
-    desired.evals = prod(factors)
-    chose.resampling = which.min((iter.budget - desired.evals)^2)
-    mlr.control = makeTuneControlGrid(resolution = floor(sqrt(iter.budget[chose.resampling])))
+    det.resampling = determineResampling(desired.evals = prod(factors), iter.budget, resamplings, round.fun = identity)
+    mlr.control = makeTuneControlGrid(resolution = floor(sqrt(det.resampling$iters)))
   } else {
-    desired.evals = prod(factors)
-    chose.resampling = which.min((iter.budget - desired.evals)^2)
-    mlr.control = makeTuneControlRandom(maxit = iter.budget[chose.resampling])
+    det.resampling = determineResampling(desired.evals = prod(factors), iter.budget, resamplings)
+    mlr.control = makeTuneControlRandom(maxit = det.resampling$iters)
   }
-  resampling = resamplings[[chose.resampling]]
+  resampling = det.resampling$resampling
 
   # determine a suitable measure
   measures = list(getDefaultMeasure(task), timetrain, timepredict)
@@ -106,4 +106,18 @@ generateHyperControl = function(task, par.config = NULL, learner = NULL, budget.
     resampling = resampling,
     measures = measures,
     par.config = par.config)
+}
+
+# smaller values then preferability = 0.55 lead to higher likeliness of resamplings that need a lower budget for themselfes
+# accordingly more iterations will be available for tuning.
+# choose a low value for preferability if you prefere more noisy resampling results in favour for more tuning iterations.
+determineResampling = function(desired.evals, iter.budget, resamplings, preferability = 0.5, round.fun = floor) {
+  assert_true(all(names(iter.budget) == names(resamplings)))
+  assert_number(desired.evals)
+  assert_number(preferability)
+  likeliness = function(x) {
+    log(x) - preferability * x^2
+  }
+  chose.resampling = which.max(likeliness(iter.budget / desired.evals))
+  list(iters = round.fun(iter.budget[chose.resampling]), resampling = resamplings[[chose.resampling]])
 }

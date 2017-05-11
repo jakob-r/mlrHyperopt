@@ -29,4 +29,6 @@ for(jh in job.hash.running) {
 }
 ```
 
-## On mlr
+## On mlrHyperopt
+
+* 10.05.2017: Until experiment number 4 we probably often chose a bad resampling strategy and because of too much nois chose a bad/overfitted hyperparam config.

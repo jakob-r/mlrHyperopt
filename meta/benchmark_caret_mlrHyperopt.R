@@ -28,7 +28,7 @@ names(mlr.taskslist) = extractSubList(mlr.taskslist, c("mlr.task", "task.desc", 
 
 # batchtools stuff ####
 #unlink("~/nobackup/mlrHyperCaret", recursive = TRUE)
-reg = makeExperimentRegistry(file.dir = "~/nobackup/mlrHyperCaret4", seed = 1, packages = c("methods","utils", "mlr", "mlrHyperopt", "BBmisc", "stringi"))
+reg = makeExperimentRegistry(file.dir = "~/nobackup/mlrHyperCaret5", seed = 1, packages = c("methods","utils", "mlr", "mlrHyperopt", "BBmisc", "stringi"))
 if (reg$cluster.functions$name == "Interactive") {
   reg$cluster.functions = makeClusterFunctionsMulticore(ncpus = 3)
 }
@@ -87,7 +87,7 @@ algo.mlrHyperopt = function(job, data, instance, learner, budget = NULL, search 
     lrn = makeLearner(sprintf("%s.%s", learner.type, learner))
   }
   par.config = generateParConfig(learner = lrn, task = train.task)
-  hc = generateHyperControl(task = train.task, par.config = par.config, budget.evals = budget)
+  hc = generateHyperControl(task = train.task, par.config = par.config, budget.evals = budget * 10)
   hc$measures = data$mlr.measures
   r = hyperopt(task = train.task, hyper.control = hc, learner = lrn, par.config = par.config)
   m = train(learner = r$learner, task = train.task)
@@ -117,7 +117,7 @@ addExperiments(pdes, ades)
 ### subset to a small test set
 #run.ids = findExperiments(prob.name = "sonar", prob.pars = (fold %in% 1:3), algo.pars = (learner %in% c("svmRadial", "ksvm")))
 run.ids = findExperiments(prob.pars = (fold %in% 1:5))
-submitJobs(run.ids, sleep = 5)
+submitJobs(run.ids, sleep = 2, resources = list(memory = 16000, walltime = 24 * 60 * 60))
 #testJob(548)
 waitForJobs()
 
