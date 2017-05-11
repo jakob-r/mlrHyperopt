@@ -114,7 +114,7 @@ generateHyperControl = function(task, par.config = NULL, learner = NULL, budget.
 # accordingly more iterations will be available for tuning.
 # choose a low value for preferability if you prefere more noisy resampling results in favour for more tuning iterations.
 determineResampling = function(desired.evals, iter.budget, resamplings, preferability = 0.5, round.fun = floor) {
-  assert_true(all(names(iter.budget) == names(resamplings)))
+  stopifnot(all(names(iter.budget) == names(resamplings)))
   assert_number(desired.evals)
   assert_number(preferability)
   likeliness = function(x) {
