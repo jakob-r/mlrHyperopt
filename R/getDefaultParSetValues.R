@@ -55,7 +55,7 @@ getDefaultParSetValues = function() {
     .gbm = makeParamSet(
       makeNumericParam(id = "n.trees", lower = log2(10/10), upper = log2(1000/10), trafo = function(x) round(2^x * 10), default = log2(500/10)),
       makeIntegerParam(id = "interaction.depth", default = 1L, lower = 1L, upper = 10L),
-      makeNumericParam(id = "shrinkage", default = 0.001, lower = 0.001, upper = 0.3),
+      makeNumericParam(id = "shrinkage", default = 0.001, lower = 0.001, upper = 0.6),
       makeIntegerParam(id = "n.minobsinnode", default = 10L, lower = 5L, upper = 25L)
     ),
     # rpart - caret does an initial fit here, we diverge completely
