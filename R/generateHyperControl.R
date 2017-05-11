@@ -24,6 +24,7 @@
 #'   mlr.control = makeTuneControlRandom(maxit = 10))
 #' hyper.control = setHyperControlResampling(hyper.control, resampling = cv3)
 #' hyperopt(task = bh.task, par.config = par.config, hyper.control = hyper.control)
+#' @import lhs
 #' @export
 
 generateHyperControl = function(task, par.config = NULL, learner = NULL, budget.evals = 250) {
@@ -65,6 +66,7 @@ generateHyperControl = function(task, par.config = NULL, learner = NULL, budget.
   )
 
   par.set = getParConfigParSet(par.config)
+  par.set = evaluateParamExpressions(par.set, dict = getTaskDictionary(task = task))
 
   # determine number of discrete levels
   factors = vnapply(par.set$pars, function(par) {

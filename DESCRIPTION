@@ -20,7 +20,8 @@ Imports:
     httr,
     BBmisc,
     hashids,
-    stringi
+    stringi,
+    lhs
 Suggests:
     mlrMBO,
     testthat,
