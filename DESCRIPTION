@@ -31,6 +31,7 @@ Suggests:
     DiceKriging,
     rgenoud,
     knitr,
+    rmarkdown,
     gbm
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1

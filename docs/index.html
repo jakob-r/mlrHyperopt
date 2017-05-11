@@ -95,8 +95,8 @@
 res =<span class="st"> </span><span class="kw"><a href="reference/hyperopt.html">hyperopt</a></span>(iris.task, <span class="dt">learner =</span> <span class="st">"classif.svm"</span>)
 res</code></pre></div>
 <pre><code>## Tune result:
-## Op. pars: cost=10.5; gamma=0.0259
-## mmce.test.mean=0.0267</code></pre>
+## Op. pars: cost=5.08; gamma=0.055
+## mmce.test.mean=0.02</code></pre>
 <p>Mainly it uses the <a href="http://mlr-org.github.io/mlr-tutorial/devel/html/integrated_learners/index.html">learner implemented in <em>mlr</em></a> and uses the <a href="http://mlr-org.github.io/mlr-tutorial/devel/html/tune/index.html">tuning methods also available in <em>mlr</em></a>. Unfortunately <em>mlr</em> lacks of well defined <em>search spaces</em> for each learner to make hyperparameter tuning easy.</p>
 <p><em>mlrHyperopt</em> includes default <em>search spaces</em> for the most common machine learning methods like <em>random forest</em>, <em>svm</em> and <em>boosting</em>.</p>
 <p>As the developer can not be an expert on all machine learning methods available for <em>R</em> and <em>mlr</em>, <em>mlrHyperopt</em> also offers a web service to share, upload and download improved <em>search spaces</em>.</p>

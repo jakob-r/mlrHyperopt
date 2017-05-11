@@ -37,10 +37,10 @@ if (reg$cluster.functions$name == "Interactive") {
 pdes = lapply(mlr.taskslist, function(data) {
   addProblem(name = getTaskId(data$mlr.task), data = data, fun = function(...) list(...), seed = reg$seed)
   res = list(data.frame(fold = seq_along(data$mlr.rin$train.inds)))
-  names(res) =  getTaskId(data$mlr.task)
   res
 })
 pdes = unlist(pdes, recursive = FALSE)
+names(pdes) = names(mlr.taskslist)
 
 ## Define Algorithm Functions
 algo.caret = function(job, data, instance, learner, budget = NULL, search = "grid") {

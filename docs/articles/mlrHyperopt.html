@@ -104,8 +104,8 @@
 res =<span class="st"> </span><span class="kw"><a href="../reference/hyperopt.html">hyperopt</a></span>(iris.task, <span class="dt">learner =</span> <span class="st">"classif.randomForest"</span>)
 res</code></pre></div>
 <pre><code>## Tune result:
-## Op. pars: ntree=80; nodesize=6; mtry=3
-## mmce.test.mean=0.0467</code></pre>
+## Op. pars: ntree=35; nodesize=9; mtry=1
+## mmce.test.mean=0.0533</code></pre>
 <p>To obtain full control of what is happening you can define every argument yourself or just depend partially on the automatic processes.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pc =<span class="st"> </span><span class="kw"><a href="../reference/generateParConfig.html">generateParConfig</a></span>(<span class="dt">learner =</span> <span class="st">"classif.randomForest"</span>)
 <span class="co"># The tuning parameter set:</span>
@@ -129,8 +129,8 @@ hc =<span class="st"> </span><span class="kw"><a href="../reference/setHyperCont
 res =<span class="st"> </span><span class="kw"><a href="../reference/hyperopt.html">hyperopt</a></span>(iris.task, <span class="dt">par.config =</span> pc, <span class="dt">hyper.control =</span> hc, <span class="dt">show.info =</span> <span class="ot">FALSE</span>)
 res</code></pre></div>
 <pre><code>## Tune result:
-## Op. pars: ntree=1e+03; nodesize=5; mtry=4
-## mmce.test.mean=0.0367</code></pre>
+## Op. pars: ntree=758; nodesize=2; mtry=3
+## mmce.test.mean=0.0479</code></pre>
 </div>
 <div id="sharing-search-spaces" class="section level2">
 <h2 class="hasAnchor">
@@ -161,19 +161,10 @@ par.config =<span class="st"> </span><span class="kw"><a href="../reference/make
 <html><body><a href="#downloading-parameter-configurations" class="anchor"> </a></body></html>Downloading Parameter Configurations</h3>
 <p>You can download a specific parameter configuration using the id:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/downloadParConfig.html">downloadParConfig</a></span>(<span class="st">"1"</span>)</code></pre></div>
-<pre><code>## Parameter Configuration
-##   Parameter Values: cachesize=100, tolerance=0.01
-##   Associated Learner: classif.svm
-##   Parameter Set:
-##            Type len Def            Constr Req Tunable Trafo
-## cost    numeric   -   -           0 to 15   -    TRUE     -
-## degree  integer   -   3          1 to Inf   Y    TRUE     -
-## gamma   numeric   -   -           -5 to 5   -    TRUE     Y
-## kernel discrete   -   - polynomial,radial   -    TRUE     -</code></pre>
 <p>If you looking for parameter configurations for your learner you can simply run:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my.learner =<span class="st"> </span><span class="kw">makeLearner</span>(<span class="st">"classif.svm"</span>)
 <span class="co"># only classif svm</span>
-svm.configs =<span class="st"> </span><span class="kw"><a href="../reference/downloadParConfigs.html">downloadParConfigs</a></span>(<span class="dt">learner.class =</span> <span class="kw">getLearnerClass</span>(my.learner))
+svm.configs =<span class="st"> </span><span class="kw"><a href="../reference/downloadParConfigs.html">downloadParConfigs</a></span>(<span class="dt">learner.class =</span> <span class="kw"><a href="../reference/getLearnerClass.html">getLearnerClass</a></span>(my.learner))
 svm.configs</code></pre></div>
 <pre><code>## [[1]]
 ## Parameter Configuration
@@ -186,7 +177,7 @@ svm.configs</code></pre></div>
 ## gamma   numeric   -   -           -5 to 5   -    TRUE     Y
 ## kernel discrete   -   - polynomial,radial   -    TRUE     -</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># all svm</span>
-svm.configs =<span class="st"> </span><span class="kw"><a href="../reference/downloadParConfigs.html">downloadParConfigs</a></span>(<span class="dt">learner.name =</span> <span class="kw">getLearnerName</span>(my.learner))</code></pre></div>
+svm.configs =<span class="st"> </span><span class="kw"><a href="../reference/downloadParConfigs.html">downloadParConfigs</a></span>(<span class="dt">learner.name =</span> <span class="kw"><a href="../reference/getLearnerName.html">getLearnerName</a></span>(my.learner))</code></pre></div>
 <p>You can also query for custom key value pair:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">user.configs =<span class="st"> </span><span class="kw"><a href="../reference/downloadParConfigs.html">downloadParConfigs</a></span>(<span class="dt">custom.query =</span> <span class="kw">list</span>(<span class="dt">key =</span> <span class="st">"user_email"</span>, <span class="dt">value =</span> <span class="st">"jon.doe@example.com"</span>))</code></pre></div>
 </div>

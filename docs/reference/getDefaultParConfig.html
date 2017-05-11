@@ -89,13 +89,17 @@
     <p>For a given Learner this method will return a useful default Parameter Set for Tuning.</p>
     
 
-    <pre><span class='fu'>getDefaultParConfig</span>(<span class='no'>learner</span>)</pre>
+    <pre><span class='fu'>getDefaultParConfig</span>(<span class='no'>learner</span>, <span class='kw'>drop.par.vals</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <dl class="dl-horizontal">
       <dt>learner</dt>
       <dd>[<code>Learner</code>]
 An mlr Learner.</dd>
+      <dt>drop.par.vals</dt>
+      <dd>[<code>logical(1)</code>]
+Should par.vals set in the learner be dropped if they are part of the tuning par.set?
+Default is <code>TRUE</code>.</dd>
     </dl>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
