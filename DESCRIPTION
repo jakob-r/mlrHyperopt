@@ -11,7 +11,7 @@ BugReports: https://github.com/jakob-r/mlrHyperopt/issues
 License: BSD_3_clause + file LICENSE
 Encoding: UTF-8
 Depends:
-    ParamHelpers,
+    ParamHelpers (>= 1.11),
     mlr
 Imports:
     methods,
