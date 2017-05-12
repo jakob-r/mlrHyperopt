@@ -96,7 +96,7 @@ algo.mlrHyperopt = function(job, data, instance, learner, budget = NULL, search 
 
   r2 = performance(pred = p, measures = data$mlr.measures, task = test.task, model = m)
   return(list(
-    model = list(hyperopt.res = r, trained.model = m, all.measures = r2),
+    model = list(hyperopt.res = r, trained.model = m, all.measures = r2, hyperopt.control = hc),
     prediction = p,
     measure = r2[1],
     time = difftime(time.end, time.start, units = "secs")))
@@ -125,15 +125,33 @@ stop("Finished!")
 ##
 # Finding Resuls ####
 ##
-reg = loadRegistry("~/sfbrdata/nobackup/mlrHyperCaret4/", update.paths = TRUE, make.default = TRUE)
-res = reduceResultsList(fun = function(job, res) list(job.id = job$id, measure = res$measure, time = res$time))
-res = rbindlist(res)
-res.backup = res
-saveRDS(res, "meta/res.rds")
-# res = readRDS("meta/res.rds")
-res = merge(res, getJobTable(), by = "job.id", all = TRUE)
+reg4 = loadRegistry("~/sfbrdata/nobackup/mlrHyperCaret4/", update.paths = TRUE, make.default = TRUE)
+res4 = reduceResultsList(fun = function(job, res) list(job.id = job$id, measure = res$measure, time = res$time))
+res4 = rbindlist(res4)
+res4.backup = res4
+saveRDS(res4, "meta/res4.rds")
+# res4 = readRDS("meta/res4.rds")
+res4 = merge(res4, getJobTable(), by = "job.id", all = TRUE)
 
-# heler functions ####
+# New Results
+reg5 = loadRegistry("~/sfbrdata/nobackup/mlrHyperCaret5/", update.paths = TRUE, make.default = TRUE)
+res5 = reduceResultsList(fun = function(job, res) list(job.id = job$id, measure = res$measure, time = res$time))
+res5 = rbindlist(res5)
+res5.backup = res5
+saveRDS(res5, "meta/res5.rds")
+# res5 = readRDS("meta/res5.rds")
+res5 = merge(res5, getJobTable(), by = "job.id", all = TRUE)
+
+# Merge Results
+res4[algorithm == "mlrHyperopt", algorithm := "mlrHyperopt.old"]
+res4[algorithm == "mlrHyperopt", job.id := -job.id]
+# check if caret still delivered same results, then merge
+res5to4diff = res5$measure - res4$measure
+res5[!is.na(res5to4diff) & res5to4diff != 0 & algorithm == "caret", ] # looks like only java based extraTrees delivers differences
+mean(res5to4diff[!is.na(res5to4diff) & res5to4diff != 0 & res5$algorithm == "mlrHyperopt"]) # looks like we are getting a tiny bit better
+# where did we get worse?
+res5[!is.na(res5to4diff) & res5to4diff < 0 & res5$algorithm == "mlrHyperopt"]
+# helper functions ####
 myrank = function(x, ties.method) {
   ranks = rank(x, na.last = TRUE, ties.method = ties.method)
   ranks[is.na(x)] = max(ranks)

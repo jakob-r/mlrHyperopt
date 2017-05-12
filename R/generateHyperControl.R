@@ -47,9 +47,9 @@ generateHyperControl = function(task, par.config = NULL, learner = NULL, budget.
     Rep100CV = budget.evals / (100*10),
     Rep10CV =  budget.evals / (10*10),
     Bootstrap30 = budget.evals / 30,
-    CV = budget.evals / 10,
-    Bootstrap5 = budget.evals / 5,
-    Bootstrap3 = budget.evals / 3,
+    CV10 = budget.evals / 10,
+    CV5 = budget.evals / 5,
+    CV3 = budget.evals / 3,
     Bootstrap2 = budget.evals / 2,
     holdout = budget.evals
   )
@@ -58,9 +58,9 @@ generateHyperControl = function(task, par.config = NULL, learner = NULL, budget.
     Rep100CV = makeResampleDesc("RepCV", folds = 10, reps = 100),
     Rep10CV =  makeResampleDesc("RepCV", folds = 10, reps = 10),
     Bootstrap30 = makeResampleDesc("Bootstrap", iters = 30),
-    CV = makeResampleDesc("CV", iters = 10),
-    Bootstrap5 = makeResampleDesc("Bootstrap", iters = 5),
-    Bootstrap3 = makeResampleDesc("Bootstrap", iters = 3),
+    CV10 = makeResampleDesc("CV", iters = 10),
+    CV10 = makeResampleDesc("CV", iters = 5),
+    CV10 = makeResampleDesc("CV", iters = 3),
     Bootstrap2 = makeResampleDesc("Bootstrap", iters = 2),
     holdout = makeResampleDesc("Holdout")
   )
@@ -80,7 +80,7 @@ generateHyperControl = function(task, par.config = NULL, learner = NULL, budget.
   } else if (
     all(getParamTypes(par.set) %in% c("numeric", "integer", "numericvector", "integervector")) &&
     {
-      det.resampling = determineResampling(desired.evals = getParamNr(par.set) * 10, iter.budget, resamplings, preferability = 0.4)
+      det.resampling = determineResampling(desired.evals = 20 + (getParamNr(par.set, devectorize = TRUE)-1) * 5, iter.budget, resamplings, preferability = 0.4)
       desired.init.des = getParamNr(par.set) * 4
       det.resampling$iters > 2 * desired.init.des
     }
