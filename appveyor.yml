@@ -11,6 +11,8 @@ cache:
   - C:\RLibrary
 
 environment:
+  global:
+    USE_RTOOLS: true
   matrix:
     - R_VERSION: devel
     - R_VERSION: release
