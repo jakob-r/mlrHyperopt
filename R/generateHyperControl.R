@@ -59,8 +59,8 @@ generateHyperControl = function(task, par.config = NULL, learner = NULL, budget.
     Rep10CV =  makeResampleDesc("RepCV", folds = 10, reps = 10),
     Bootstrap30 = makeResampleDesc("Bootstrap", iters = 30),
     CV10 = makeResampleDesc("CV", iters = 10),
-    CV10 = makeResampleDesc("CV", iters = 5),
-    CV10 = makeResampleDesc("CV", iters = 3),
+    CV5 = makeResampleDesc("CV", iters = 5),
+    CV3 = makeResampleDesc("CV", iters = 3),
     Bootstrap2 = makeResampleDesc("Bootstrap", iters = 2),
     holdout = makeResampleDesc("Holdout")
   )
