@@ -88,26 +88,22 @@ getDefaultParSetValues = function() {
     ## not compared to caret
     # random forest (only mtry in caret)
     classif.randomForest = makeParamSet(
-      makeNumericParam("ntree", lower = log2(10/10), upper = log2(1000/10), trafo = function(x) round(2^x * 10), default = log2(500/10)),
       makeIntegerParam("nodesize", lower = 1, upper = 10, default = 1),
       makeIntegerParam("mtry", lower = 1L, upper = expression(p), default = expression(floor(sqrt(p)))),
       keys = "p"
     ),
     regr.randomForest = makeParamSet(
-      makeNumericParam("ntree", lower = log2(10/10), upper = log2(1000/10), trafo = function(x) round(2^x * 10), default = log2(500/10)),
       makeIntegerParam("nodesize", lower = 1, upper = 10, default = 1),
       makeIntegerParam(id = "mtry", lower = 1L, upper = expression(p), default = expression(max(floor(p/3), 1))),
       keys = "p"
     ),
     classif.ranger = makeParamSet(
       makeIntegerParam("mtry", lower = 1L, upper = expression(p), default = expression(floor(sqrt(p)))),
-      makeNumericParam("num.trees", lower = 0, upper = 7, trafo = function(x) round(2^x * 10), default = log2(500/10)),
       makeIntegerParam("min.node.size", lower = 1, upper = 10, default = 1),
       keys = "p"
     ),
     regr.ranger = makeParamSet(
       makeIntegerParam("mtry", lower = 1L, upper = expression(p), default = expression(max(floor(p/3), 1))),
-      makeNumericParam("num.trees", lower = 0, upper = 7, trafo = function(x) round(2^x * 10), default = log2(500/10)),
       makeIntegerParam("min.node.size", lower = 1, upper = 10, default = 5),
       keys = "p"
     ),
