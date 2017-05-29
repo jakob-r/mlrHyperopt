@@ -21,7 +21,7 @@ task_infos = as.data.table(task_infos)
 task_infos = task_infos[number.of.missing.values == 0 & number.of.numeric.features == number.of.features - 1]
 # random.task.ids = sample(task_infos$task.id, size = 10)
 # dput(random.task.ids)
-random.task.ids = c(18L, 9914L, 3896L, 3903L, 3510L, 28L, 9986L, 43L, 10101L, 14970L)
+random.task.ids = c(18L, 9914L, 3896L, 3903L, 3510L) #, 28L, 9986L, 43L, 10101L, 14970L)
 oml.tasks = lapply(random.task.ids, getOMLTask)
 mlr.taskslist = lapply(oml.tasks, convertOMLTaskToMlr)
 names(mlr.taskslist) = extractSubList(mlr.taskslist, c("mlr.task", "task.desc", "id"))
@@ -102,12 +102,37 @@ algo.mlrHyperopt = function(job, data, instance, learner, budget = NULL, search 
     time = difftime(time.end, time.start, units = "secs")))
 }
 
+algo.mlrDefault = function(job, data, instance, learner, budget = NULL, search = NULL) {
+  train.inds = data$mlr.rin$train.inds[[instance$fold]]
+  test.inds = data$mlr.rin$test.inds[[instance$fold]]
+  train.task = subsetTask(data$mlr.task, subset = train.inds)
+  test.task = subsetTask(data$mlr.task, subset = test.inds)
+  learner.type = stri_trans_tolower(stri_replace_all_fixed(class(train.task)[1], "Task", ""))
+
+  time.start = Sys.time()
+  if (learner == "nnet") {
+    lrn = makeLearner(sprintf("%s.%s", learner.type, learner), MaxNWts=5000) # avoids error "too many (...) weights"
+  } else {
+    lrn = makeLearner(sprintf("%s.%s", learner.type, learner))
+  }
+  m = train(learner = lrn, task = train.task)
+  p = predict(m, task = test.task)
+  time.end = Sys.time()
+  r2 = performance(pred = p, measures = data$mlr.measures, task = test.task, model = m)
+  return(list(
+    model = list(trained.model = m, all.measures = r2),
+    prediction = p,
+    measure = r2[1],
+    time = difftime(time.end, time.start, units = "secs")))
+}
+
 ## Add Algorithms
 addAlgorithm(name = "caret", fun = algo.caret)
 addAlgorithm(name = "mlrHyperopt", fun = algo.mlrHyperopt)
+addAlgorithm(name = "mlrDefault", fun = algo.mlrDefault)
 ades = list(
-  caret = expand.grid(learner = lrns$caret, budget = c(10,25,50), search = c("grid", "random")),
-  mlrHyperopt = expand.grid(learner = lrns$mlr, budget = c(10,25,50))
+  caret = expand.grid(learner = lrns$caret, budget = c(10,50), search = c("grid", "random")),
+  mlrHyperopt = expand.grid(learner = lrns$mlr, budget = c(10,50))
 )
 
 
