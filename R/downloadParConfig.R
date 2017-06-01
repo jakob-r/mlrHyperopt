@@ -21,15 +21,16 @@ downloadParConfigs = function(ids = NULL, learner.class = NULL, learner.name = N
     return(lapply(ids, downloadParConfig))
   } else if (!is.null(learner.class)) {
     assertString(learner.class)
-    query = list(key = "learner_class", value = learner.class)
+    query = list("learner_class" = learner.class)
   } else if (!is.null(learner.name)) {
     assertString(learner.name)
-    query = list(key = "learner_name", value = learner.name)
-  } else if (!is.null(custom.query)) {
-    assertList(custom.query, any.missing = FALSE, len = 2, names = "named")
-    assertSetEqual(names(custom.query), c("key", "value"))
-    query = custom.query
+    query = list("learner_name" = learner.name)
   }
+  if (!is.null(custom.query)) {
+    assertList(custom.query, any.missing = FALSE, len = 1, names = "named")
+    query = insert(query, custom.query)
+  }
+  query = lapply(query, function(x) if (is.logical(x)) as.numeric(x) else x)
   httr.res = httr::GET(sprintf("%s.json", getURL()), query = query, httr::accept_json())
   if (httr::status_code(httr.res) != 200) {
     stopf("The server returned an unexpected result: %s", httr::content(httr.res, "text"))

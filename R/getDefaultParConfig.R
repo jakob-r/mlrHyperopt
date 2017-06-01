@@ -29,6 +29,13 @@ getDefaultParConfig = function(learner, drop.par.vals = TRUE) {
     res = default.par.set.vals[[learner.class.typeless]]
   }
   if (is.null(res)) {
+    down.res = downloadParConfigs(learner.class = learner.class, custom.query = list(default = TRUE))
+    if (length(down.res)==0) {
+      down.res = downloadParConfigs(learner.name = getLearnerName(learner), custom.query = list(default = TRUE))
+    }
+    res = down.res[[1]]
+  }
+  if (is.null(res)) {
     stopf("For the learner %s no default is available.", getLearnerClass(learner))
   }
   if (drop.par.vals) {

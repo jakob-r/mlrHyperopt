@@ -104,7 +104,7 @@ JSONListToParam = function(par.list) {
                          charactervector = makeCharacterVectorParam)
   supported.args = formalArgs(paramFunction)
   param = do.call(paramFunction, par.list[names(par.list) %in% supported.args], quote = TRUE)
-  list(param = param, keys = keys)
+  list(param = param, keys = unique(keys))
 }
 
 # converts json to a List of parameter values
