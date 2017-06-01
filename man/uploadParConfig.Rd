@@ -4,7 +4,7 @@
 \alias{uploadParConfig}
 \title{Uploads a Parameter Set to the mlrHyperopt servers}
 \usage{
-uploadParConfig(par.config, user.email = NULL)
+uploadParConfig(par.config, user.email = NULL, as.default = FALSE)
 }
 \arguments{
 \item{par.config}{[\code{\link{ParConfig}}]
@@ -15,6 +15,10 @@ Your email to identify yourself to the server.
 Does not have to be a valid one, but this identifier makes it easier to find your own submissions or submissions by colleagues.
 In the future we might switch to an authentication system.
 It could be advantageous to supply a working email if you want to migrate your submissions then.}
+
+\item{as.default}{[\code{logical(1)}]
+Do you want to suggest this ParConfig to be the default for the given learner in the online database.
+This feature is not completly implemented.}
 }
 \value{
 [\code{character}]

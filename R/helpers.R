@@ -33,7 +33,7 @@ checkLearner = function(learner) {
 
 # All supported Values for discrete Parameters
 getSupportedDiscreteValues = function() {
-  c("character", "integer", "numeric", "data.frame", "matrix", "Date", "POSIXt", "factor", "complex", "raw")
+  c("character", "integer", "numeric", "data.frame", "matrix", "Date", "POSIXt", "factor", "complex", "raw", "logical")
 }
 
 # All arguments that can be stored as JSON, extended,
@@ -86,5 +86,6 @@ checkParamSetAndParVals = function(par.set, par.vals = list(), req.defaults = TR
 }
 
 getURL = function() {
-  "http://mlrhyperopt.jakob-r.de/parconfigs"
+  #"http://mlrhyperopt.jakob-r.de/parconfigs"
+  "http://62.113.241.202:3000/parconfigs"
 }
