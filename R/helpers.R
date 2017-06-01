@@ -86,6 +86,6 @@ checkParamSetAndParVals = function(par.set, par.vals = list(), req.defaults = TR
 }
 
 getURL = function() {
-  #"http://mlrhyperopt.jakob-r.de/parconfigs"
-  "http://62.113.241.202:3000/parconfigs"
+  #"http://62.113.241.202:3000/parconfigs" #this is the dev server
+  "http://mlrhyperopt.jakob-r.de/parconfigs"
 }
