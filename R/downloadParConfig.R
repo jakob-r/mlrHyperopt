@@ -27,7 +27,7 @@ downloadParConfigs = function(ids = NULL, learner.class = NULL, learner.name = N
     query = list("learner_name" = learner.name)
   }
   if (!is.null(custom.query)) {
-    assertList(custom.query, any.missing = FALSE, len = 1, names = "named")
+    assertList(custom.query, any.missing = FALSE, min.len = 1, names = "named")
     query = insert(query, custom.query)
   }
   query = lapply(query, function(x) if (is.logical(x)) as.numeric(x) else x)
