@@ -125,7 +125,7 @@ svm.configs = downloadParConfigs(learner.name = getLearnerName(my.learner))
 
 You can also query for custom key value pair:
 ```{r surveyServerCustom}
-user.configs = downloadParConfigs(custom.query = list(key = "user_email", value = "jon.doe@example.com"))
+user.configs = downloadParConfigs(custom.query = list("user_email"="jon.doe@example.com"))
 ```
 
 

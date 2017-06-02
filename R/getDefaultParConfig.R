@@ -33,7 +33,9 @@ getDefaultParConfig = function(learner, drop.par.vals = TRUE) {
     if (length(down.res)==0) {
       down.res = downloadParConfigs(learner.name = getLearnerName(learner), custom.query = list(default = TRUE))
     }
-    res = down.res[[1]]
+    if (length(down.res)!=0) {
+      res = down.res[[1]]
+    }
   }
   if (is.null(res)) {
     stopf("For the learner %s no default is available.", getLearnerClass(learner))

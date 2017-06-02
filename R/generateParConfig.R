@@ -17,7 +17,7 @@ generateParConfig = function(learner, task = NULL) {
   learner = checkLearner(learner)
   if (!is.null(task)) {
     assertClass(task, "Task")
-    assertSet_equal(getTaskType(task), getLearnerType(learner))
+    assertSetEqual(getTaskType(task), getLearnerType(learner))
   }
   # in the future we might generate a different par.config based on the task
   # for now we have expressions in the ParamSet, which should cover data based

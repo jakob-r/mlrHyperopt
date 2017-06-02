@@ -25,6 +25,8 @@ downloadParConfigs = function(ids = NULL, learner.class = NULL, learner.name = N
   } else if (!is.null(learner.name)) {
     assertString(learner.name)
     query = list("learner_name" = learner.name)
+  } else {
+    query = list()
   }
   if (!is.null(custom.query)) {
     assertList(custom.query, any.missing = FALSE, min.len = 1, names = "named")
