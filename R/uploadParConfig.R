@@ -32,10 +32,10 @@
 #' @import httr
 #' @export
 uploadParConfig = function(par.config, user.email = NULL, as.default = FALSE) {
-  assert_class(par.config, "ParConfig")
+  assertClass(par.config, "ParConfig")
   user.email = coalesce(user.email, "<anonymous>")
-  assert_string(user.email)
-  assert_flag(as.default)
+  assertString(user.email)
+  assertFlag(as.default)
 
   learner.class = coalesce(getParConfigLearnerClass(par.config), "")
   learner.type = coalesce(getParConfigLearnerType(par.config), "")

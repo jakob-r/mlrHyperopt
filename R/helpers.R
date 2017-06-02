@@ -27,7 +27,7 @@ checkLearner = function(learner) {
   if (is.character(learner))
     learner = makeLearner(learner)
   else
-    assert_class(learner, classes = "Learner")
+    assertClass(learner, classes = "Learner")
   return(learner)
 }
 

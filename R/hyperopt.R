@@ -33,16 +33,16 @@
 #' @export
 
 hyperopt = function(task, learner = NULL, par.config = NULL, hyper.control = NULL, show.info = getMlrOptions()$show.info) {
-  assert_class(task, classes = "Task")
+  assertClass(task, classes = "Task")
 
   par.config = coalesce(par.config, generateParConfig(learner = learner, task = task))
-  assert_class(par.config, "ParConfig")
+  assertClass(par.config, "ParConfig")
 
   learner = coalesce(learner, generateLearner(task = task, par.config = par.config) )
   learner = checkLearner(learner)
 
   hyper.control = coalesce(hyper.control, generateHyperControl(task = task, par.config = par.config))
-  assert_list(hyper.control)
+  assertList(hyper.control)
 
   if (!is.null(getParConfigParVals(par.config))) {
     learner = setHyperPars(learner, par.vals = getParConfigParVals(par.config))

@@ -17,7 +17,7 @@
 
 downloadParConfigs = function(ids = NULL, learner.class = NULL, learner.name = NULL, custom.query = NULL) {
   if (!is.null(ids)) {
-    assert_character(ids)
+    assertCharacter(ids)
     return(lapply(ids, downloadParConfig))
   } else if (!is.null(learner.class)) {
     assertString(learner.class)
@@ -52,7 +52,7 @@ downloadParConfigs = function(ids = NULL, learner.class = NULL, learner.name = N
 #' @export
 downloadParConfig = function(id) {
   as.character(id)
-  assert_string(id)
+  assertString(id)
   httr.res = httr::GET(sprintf("%s/%s.json", getURL(), id), httr::accept_json())
   if (httr::status_code(httr.res) != 200) {
     stopf("The server returned an unexpected result: %s", httr::content(httr.res, "text"))

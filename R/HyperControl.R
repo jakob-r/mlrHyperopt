@@ -26,15 +26,15 @@
 
 makeHyperControl = function(mlr.control = NULL, resampling = NULL, measures = NULL, par.config = NULL) {
 
-  assert_class(mlr.control, classes = "TuneControl")
+  assertClass(mlr.control, classes = "TuneControl")
 
   if (!inherits(resampling, "ResampleDesc") &&  !inherits(resampling, "ResampleInstance"))
     stop("Argument resampling must be of class ResampleDesc or ResampleInstance!")
 
   measures = ensureVector(measures, n = 1L, cl = "Measure")
-  assert_list(measures, min.len = 1, types = "Measure")
+  assertList(measures, min.len = 1, types = "Measure")
 
-  if (!is.null(par.config)) assert_class(par.config, classes = "ParConfig")
+  if (!is.null(par.config)) assertClass(par.config, classes = "ParConfig")
 
   makeS3Obj(
     classes = "HyperControl",
@@ -101,7 +101,7 @@ setHyperControlResampling = function(hyper.control, resampling) {
 #' @family HyperControl
 setHyperControlMeasures = function(hyper.control, measures) {
   measures = ensureVector(measures, n = 1L, cl = "Measure")
-  assert_list(measures, min.len = 1, types = "Measure")
+  assertList(measures, min.len = 1, types = "Measure")
   hyper.control$measures = measures
   hyper.control
 }
@@ -114,7 +114,7 @@ setHyperControlMeasures = function(hyper.control, measures) {
 #' @export
 #' @family HyperControl
 setHyperControlMlrControl = function(hyper.control, mlr.control) {
-  assert_class(mlr.control, classes = "TuneControl")
+  assertClass(mlr.control, classes = "TuneControl")
   hyper.control$mlr.control = mlr.control
   hyper.control
 }

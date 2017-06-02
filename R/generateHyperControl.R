@@ -28,7 +28,7 @@
 #' @export
 
 generateHyperControl = function(task, par.config = NULL, learner = NULL, budget.evals = 250) {
-  assert_class(task, "Task")
+  assertClass(task, "Task")
 
   if (!is.null(par.config) && !is.null(learner)) {
     stopf("If you have a ParConfig it is not necessary to pass a learner.")
@@ -38,7 +38,7 @@ generateHyperControl = function(task, par.config = NULL, learner = NULL, budget.
     par.config = generateParConfig(learner = learner, task = task)
   }
 
-  assert_class(par.config, "ParConfig")
+  assertClass(par.config, "ParConfig")
 
   # very superficial way to determine resampling based on task size
   task.n = getTaskSize(task)
@@ -115,8 +115,8 @@ generateHyperControl = function(task, par.config = NULL, learner = NULL, budget.
 # choose a low value for preferability if you prefere more noisy resampling results in favour for more tuning iterations.
 determineResampling = function(desired.evals, iter.budget, resamplings, preferability = 0.5, round.fun = floor) {
   stopifnot(all(names(iter.budget) == names(resamplings)))
-  assert_number(desired.evals)
-  assert_number(preferability)
+  assertNumber(desired.evals)
+  assertNumber(preferability)
   likeliness = function(x) {
     log(x) - preferability * x^2
   }

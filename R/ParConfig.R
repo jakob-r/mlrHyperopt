@@ -25,8 +25,8 @@
 #' @export
 
 makeParConfig = function(par.set, learner = NULL, par.vals = NULL, learner.name = NULL, note = character(1L)) {
-  assert_class(par.set, "ParamSet")
-  assert_string(note)
+  assertClass(par.set, "ParamSet")
+  assertString(note)
 
   if (!is.null(learner)) {
     learner = checkLearner(learner)
@@ -47,7 +47,7 @@ makeParConfig = function(par.set, learner = NULL, par.vals = NULL, learner.name 
 
   # check that par.vals do not conflict with par.set
   if (!is.null(par.vals)) {
-    assert_list(par.vals, unique = TRUE, names = "named")
+    assertList(par.vals, unique = TRUE, names = "named")
     conflict.ids = intersect(names(par.vals), getParamIds(par.set))
     if (length(conflict.ids) > 0) {
       stopf("Following par.vals are set to a specific value and conflict with the tuning par.set: %s", listToShortString(par.vals[conflict.ids]))
@@ -156,7 +156,7 @@ getParConfigNote = function(par.config) {par.config$note}
 #' @export
 #' @family ParConfig
 setParConfigLearnerType = function(par.config, type) {
-  assert_string(type)
+  assertString(type)
   # just change the type if it is different
   old.type = getParConfigLearnerType(par.config)
   if (is.null(old.type) || old.type != type) {
@@ -199,7 +199,7 @@ setParConfigLearner = function(par.config, learner) {
 #' @export
 #' @family ParConfig
 setParConfigParSet = function(par.config, par.set) {
-  assert_class(par.set, "ParamSet")
+  assertClass(par.set, "ParamSet")
   learner.class = getParConfigLearnerClass(par.config)
   if (!is.null(learner.class)) {
     checkLearnerParSet(
@@ -220,7 +220,7 @@ setParConfigParSet = function(par.config, par.set) {
 #' @export
 #' @family ParConfig
 setParConfigParVals = function(par.config, par.vals) {
-  assert_list(par.vals, names = "named", any.missing = FALSE)
+  assertList(par.vals, names = "named", any.missing = FALSE)
   par.config$par.vals = par.vals
   par.config
 }
@@ -235,7 +235,7 @@ setParConfigParVals = function(par.config, par.vals) {
 #' @export
 #' @family ParConfig
 setParConfigNote = function(par.config, note) {
-  assert_string(note)
+  assertString(note)
   par.config$note = note
   par.config
 }
