@@ -132,7 +132,8 @@ addAlgorithm(name = "mlrHyperopt", fun = algo.mlrHyperopt)
 addAlgorithm(name = "mlrDefault", fun = algo.mlrDefault)
 ades = list(
   caret = expand.grid(learner = lrns$caret, budget = c(10,50), search = c("grid", "random")),
-  mlrHyperopt = expand.grid(learner = lrns$mlr, budget = c(10,50))
+  mlrHyperopt = expand.grid(learner = lrns$mlr, budget = c(10,50)),
+  mlrDefault = expand.grid(learner = lrns$mlr)
 )
 
 
@@ -150,15 +151,6 @@ stop("Finished!")
 ##
 # Finding Resuls ####
 ##
-reg4 = loadRegistry("~/sfbrdata/nobackup/mlrHyperCaret4/", update.paths = TRUE, make.default = TRUE)
-res4 = reduceResultsList(fun = function(job, res) list(job.id = job$id, measure = res$measure, time = res$time))
-res4 = rbindlist(res4)
-res4.backup = res4
-saveRDS(res4, "meta/res4.rds")
-# res4 = readRDS("meta/res4.rds")
-res4 = merge(res4, getJobTable(), by = "job.id", all = TRUE)
-
-# New Results
 reg5 = loadRegistry("~/sfbrdata/nobackup/mlrHyperCaret5/", update.paths = TRUE, make.default = TRUE)
 res5 = reduceResultsList(fun = function(job, res) list(job.id = job$id, measure = res$measure, time = res$time))
 res5 = rbindlist(res5)
@@ -166,16 +158,8 @@ res5.backup = res5
 saveRDS(res5, "meta/res5.rds")
 # res5 = readRDS("meta/res5.rds")
 res5 = merge(res5, getJobTable(), by = "job.id", all = TRUE)
+res = res5
 
-# Merge Results
-res4[algorithm == "mlrHyperopt", algorithm := "mlrHyperopt.old"]
-res4[algorithm == "mlrHyperopt", job.id := -job.id]
-# check if caret still delivered same results, then merge
-res5to4diff = res5$measure - res4$measure
-res5[!is.na(res5to4diff) & res5to4diff != 0 & algorithm == "caret", ] # looks like only java based extraTrees delivers differences
-mean(res5to4diff[!is.na(res5to4diff) & res5to4diff != 0 & res5$algorithm == "mlrHyperopt"]) # looks like we are getting a tiny bit better
-# where did we get worse?
-res5[!is.na(res5to4diff) & res5to4diff < 0 & res5$algorithm == "mlrHyperopt"]
 # helper functions ####
 myrank = function(x, ties.method) {
   ranks = rank(x, na.last = TRUE, ties.method = ties.method)
@@ -200,7 +184,7 @@ res[fold < expected.folds & problem != "segment", if(expected.folds[1] != length
 # Visualizing Results ####
 library(ggplot2)
 res$time = as.numeric(res$time, units = "secs")
-g = ggplot(data = res[expected.folds == 5], aes(x = as.factor(budget), y = measure, color = paste(algorithm,search)))
+g = ggplot(data = res[expected.folds == 10], aes(x = as.factor(budget), y = measure, color = paste(algorithm,search)))
 g + geom_boxplot() + facet_grid(problem~learner, scales = "free")
 
 g2 = g + geom_boxplot() + facet_wrap(c("problem", "learner"), scales = "free", ncol = length(unique(res$learner)))
