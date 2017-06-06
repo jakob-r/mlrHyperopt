@@ -43,7 +43,6 @@ reference:
       - starts_with("upload")
   - title: "Other"
     contents:
-      - error_handling
       - getGlobalOpt
       - getSupportedInfillOptFunctions
       - getSupportedMultipointInfillOptFunctions
