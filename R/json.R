@@ -85,10 +85,12 @@ JSONListToParam = function(par.list) {
   keys = NULL
   for (i in names(par.list)) {
     x = par.list[[i]]
-    if (is.character(x) && stri_startswith_fixed(x, "expression(")) {
-      par.list[[i]] = eval(parse(text = x))
-      #fixme: dirty way to match all variable names but not the expression
-      keys = c(keys, all.vars(par.list[[i]]))
+    if (is.character(x)) {
+      if (stri_startswith_fixed(x, "expression(") || stri_startswith_fixed(x, "structure(")) {
+        par.list[[i]] = eval(parse(text = collapse(x, sep = "")))
+        #fixme: dirty way to match all variable names but not the expression
+        keys = c(keys, all.vars(par.list[[i]]))
+      }
     }
   }
   paramFunction = switch(type,
