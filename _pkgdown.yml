@@ -10,6 +10,9 @@ navbar:
   - text: Reference
     icon: fa-book
     href: reference/index.html
+  - text: ParConfigs
+    icon: fa-cubes
+    href: http://mlrhyperopt.jakob-r.de/parconfigs
 
 reference:
   - title: "hyperopt"
