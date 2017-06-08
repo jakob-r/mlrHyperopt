@@ -4,6 +4,8 @@ output: github_document
 ```{r, setup, include=FALSE}
 set.seed(123)
 knitr::opts_chunk$set(cache = TRUE, collapse = FALSE, warning = FALSE, error = FALSE)
+library(mlrHyperopt)
+configureMlr(show.learner.output = FALSE)
 ```
 # mlrHyperopt
 

@@ -43,13 +43,5 @@ reference:
       - starts_with("upload")
   - title: "Other"
     contents:
-      - getGlobalOpt
-      - getSupportedInfillOptFunctions
-      - getSupportedMultipointInfillOptFunctions
-      - makeMBOLearner
-      - makeMBOTrafoFunction
-      - OptProblem
-      - OptResult
-      - OptState
-      - print.MBOControl
-      - trafos
+      - getLearnerClass
+      - getLearnerName

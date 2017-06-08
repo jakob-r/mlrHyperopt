@@ -30,4 +30,7 @@ test_that("Download with different methods work", {
   ids = sapply(names.res, function(x) attr(x, "on.server")$id)
   ids.res = downloadParConfigs(as.character(ids))
   expect_equal(names.res, ids.res)
+
+  custom.res = downloadParConfigs(custom.query = list(user_email = "code@jakob-r.de"))
+  expect_list(custom.res, min.len = 3)
 })
