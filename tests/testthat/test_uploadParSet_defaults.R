@@ -1,6 +1,9 @@
 context("uploadParConfig")
 
 test_that("All the defaults are in sync with the package defaults", {
+  skip_on_travis()
+  skip_on_appveyor()
+  skip_on_cran()
   def.par.sets = getDefaultParSetValues()
   names.split = stringi::stri_split_fixed(names(def.par.sets), pattern = ".")
   learner.type = extractSubList(names.split, 1)
