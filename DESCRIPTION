@@ -12,7 +12,7 @@ License: BSD_3_clause + file LICENSE
 Encoding: UTF-8
 Depends:
     ParamHelpers (>= 1.11),
-    mlr
+    mlr 
 Imports:
     methods,
     checkmate (>= 1.8.2),
@@ -23,7 +23,7 @@ Imports:
     stringi,
     lhs
 Suggests:
-    mlrMBO,
+    mlrMBO (>= 1.1.0),
     testthat,
     e1071,
     kernlab,
