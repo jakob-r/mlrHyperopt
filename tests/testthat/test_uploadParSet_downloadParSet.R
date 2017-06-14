@@ -31,6 +31,6 @@ test_that("Download with different methods work", {
   ids.res = downloadParConfigs(as.character(ids))
   expect_equal(names.res, ids.res)
 
-  custom.res = downloadParConfigs(custom.query = list(user_email = "code@jakob-r.de"))
-  expect_list(custom.res, min.len = 3)
+  custom.res = downloadParConfigs(custom.query = list(learner_name = "randomForest"))
+  expect_list(custom.res, min.len = 2)
 })
