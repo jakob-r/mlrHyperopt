@@ -155,9 +155,9 @@ reg5 = loadRegistry("~/sfbrdata/nobackup/mlrHyperCaret5/", update.paths = TRUE, 
 res5 = reduceResultsList(fun = function(job, res) list(job.id = job$id, measure = res$measure, time = res$time))
 res5 = rbindlist(res5)
 res5.backup = res5
+res5 = merge(res5, getJobTable(), by = "job.id", all = TRUE)
 saveRDS(res5, "meta/res5.rds")
 # res5 = readRDS("meta/res5.rds")
-res5 = merge(res5, getJobTable(), by = "job.id", all = TRUE)
 res = res5
 
 # helper functions ####
@@ -182,6 +182,7 @@ res = merge(res, runs.on.set, all.x = TRUE)
 res[fold < expected.folds & problem != "segment", if(expected.folds[1] != length(unique(fold))) .SD[is.na(measure),] else NULL , by = .(learner, problem, budget, algorithm, search)]
 
 # Visualizing Results ####
+res[algorithm == "mlrDefault", budget := 1]
 library(ggplot2)
 res$time = as.numeric(res$time, units = "secs")
 g = ggplot(data = res[expected.folds == 10], aes(x = as.factor(budget), y = measure, color = paste(algorithm,search)))

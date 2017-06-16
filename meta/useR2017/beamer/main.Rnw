@@ -1,0 +1,259 @@
+%!TEX program = xelatex
+\documentclass[10pt]{beamer}
+
+%\usepackage{handoutWithNotes}
+%\pgfpagesuselayout{4 on 1 with notes}[a4paper,border shrink=5mm]
+
+%own packages
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{xspace}
+\usepackage{xcolor}
+\usepackage{textcomp}
+\mathtoolsset{showonlyrefs}
+\usepackage{grffile}
+\usepackage{csquotes}
+\usepackage[english]{babel}
+\usepackage{caption}
+\usepackage{graphicx} %trim for includegraphics
+\usepackage{siunitx} % \SI for units
+\usepackage{booktabs}
+
+
+%TikZ stuff
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains, positioning, arrows}
+
+%beamer template
+%\usepackage{handoutWithNotes}
+%\pgfpagesuselayout{4 on 1 with notes}[a4paper,border shrink=5mm]
+
+%bib handling
+\usepackage[backend=biber,style=authoryear,bibencoding=utf8, maxcitenames=1]{biblatex}
+\addbibresource[datatype=bibtex]{literature.bib}
+\DeclareCiteCommand{\xfootcite}[\mkbibfootnote]
+  {\usebibmacro{prenote}}
+  {\usebibmacro{citeindex}%
+   \setunit{\addnbspace}
+   \printnames{labelname}%
+   \setunit{\labelnamepunct}
+  \printfield[citetitle]{title}%
+   \newunit
+   \printfield{year}
+}{\addsemicolon\space}{\usebibmacro{postnote}}
+
+%theme adjustements
+\usetheme[block = fill, progressbar = frametitle, ]{metropolis}
+\definecolor{TuGreen}{RGB}{132,184,24}
+\definecolor{TuGreen40}{RGB}{211,227,175}
+\setbeamercolor{title separator}{fg = TuGreen}
+\setbeamercolor{progress bar}{fg = TuGreen, bg = TuGreen40}
+\setbeamertemplate{frame footer}{Jakob Richter (TU Dortmund)}
+\setbeamersize{text margin left=1cm,text margin right=1cm}
+\setbeamerfont{title}{size=\large}%
+%\usefonttheme[onlymath]{serif}
+
+\newcommand{\rb}[1]{\texttt{rosenbrock}$(#1)$}
+\newcommand{\boha}[1]{\texttt{bohachevsky}$(#1)$}
+\newcommand{\ack}[1]{\texttt{ackley}$(#1)$}
+\newcommand{\ras}[1]{\texttt{rastrigin}$(#1)$}
+
+%set title
+\title[mlrHyperopt]{mlrHyperopt: Effortless and collaborative hyperparameter optimization experiments}
+\date{\today}
+\author[Jakob Richter]{Jakob~Richter}
+\institute{Faculty of Statistics, TU Dortmund University}
+
+\titlegraphic{\raisebox{0.5cm}{\includegraphics[height=0.5cm]{assets/tud_logo_pantone}}\hfill\includegraphics[height=1cm]{assets/3zeilig_links_en}}
+
+\begin{document}
+
+<<setup, include=FALSE>>=
+library(knitr)
+library(pander)
+library(xtable)
+library(reshape2)
+library(ggplot2)
+library(stringi)
+library(magrittr)
+library(data.table)
+library(BBmisc)
+library(mlrMBO)
+options(formatR.arrow=TRUE, width=30)
+opts_chunk$set(
+  fig.path='figure/',
+  fig.align='center',
+  fig.show='hold',
+  fig.lp='fig:',
+  fig.width = 8,
+  fig.height = 5.5,
+  size='scriptsize',
+  message=FALSE,
+  warning=FALSE,
+  cache=TRUE,
+  cache.path='cache/'
+  )
+
+if(getwd() %>% stri_endswith_fixed("mlrHyperopt")) {
+  setwd(file.path(getwd(), "meta", "useR2017", "beamer"))
+}
+
+
+trans_theme = theme(
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.background = element_rect(fill=NA),
+    plot.background = element_rect(fill=NA),
+    legend.background = element_rect(fill=NA)
+)
+@
+
+\maketitle
+
+\section{Hyperparameter Optimization}
+
+\begin{frame}{Motivation}
+
+\end{frame}
+
+\section{Model-based optimization}
+
+\section{API Examples}
+
+\section{\texttt{caret} vs. \texttt{mlrHyperopt}}
+<<readBenchmarkResults, include=FALSE>>=
+res = readRDS("../../res5.rds")
+
+# merge learner names
+lrns = data.frame(
+  mlr =   c("ksvm",      "randomForest", "glmnet", "rpart", "nnet", "xgboost", "extraTrees"),
+  caret = c("svmRadial", "rf",           "glmnet", "rpart", "nnet", "xgbTree", "extraTrees")
+)
+lrns2 = as.data.table(lrns)
+lrns2 = plyr::rename(lrns2, c(caret = "learner"))
+res = merge(res, lrns2, all.x = TRUE, by = "learner")
+res[!is.na(mlr), learner := mlr, ]
+
+# punish not terminated
+res[is.na(done), measure := 0]
+
+# naming and units
+res[, algorithm := plyr::revalue(algorithm, c(mlrDefault = "default"))]
+res[algorithm == "default", budget := 1]
+res[, Method := algorithm]
+res[algorithm == "caret", Method := paste(algorithm,search)]
+res$time = as.numeric(res$time, units = "secs")
+res[, case := paste0(problem, ": ", learner)]
+@
+
+\begin{frame}{User Experience}
+
+\end{frame}
+
+\begin{frame}{Feature Comparison}
+\begin{table}[]
+\centering
+\begin{tabular}{@{}lll@{}}
+\toprule
+                          & caret               & mlrHyperopt           \\ \midrule
+tunable Learners          &                     &                       \\
+adjustable Search Space   & pass own data.frame & all                   \\
+random search             &                     &                       \\
+grid search               & default             &                       \\
+model based search        &                     &                       \\
+further search algorithms &                     & supported through mlr \\
+documented search spaces  &                     &                       \\ \bottomrule
+\end{tabular}
+\end{table}
+\end{frame}
+
+\begin{frame}{Performance}
+\texttt{caret} exceeded walltime of \SI{24}{\hour} on Docker Cluster (Intel Xeon E5-2697v2).
+Resulting NAs are imputed with a measure of 0.
+<<caretErrors, echo=FALSE, fig.width=12, fig.height=8.5, results='asis'>>=
+res[is.na(done), .(learner, algorithm)] %>% table() %>% xtable() %>% print(booktabs = TRUE)
+@
+\end{frame}
+
+
+\begin{frame}{Performance: All results}
+<<results1, echo=FALSE, fig.width=12, fig.height=8.5>>=
+g = ggplot(data = res[budget %in% c(1,10)], aes(x = Method, y = measure, color = Method))
+g = g + geom_boxplot() + facet_wrap("case", scales = "free", ncol = length(unique(res$learner)))
+g = g + theme(axis.text.x=element_blank(), legend.position="bottom") + ylab("accuracy")
+g
+@
+\end{frame}
+
+\begin{frame}{Performance: Overhead}
+<<resultsRunTime, echo=FALSE, fig.width=12, fig.height=8.5>>=
+g = ggplot(data = res[budget %in% c(10,50)], aes(x = budget, y = time))
+g + geom_line(aes(color = Method, group = paste(algorithm,search,fold)), alpha = 0.7) + facet_grid(learner~problem, scales = "free")
+@
+\end{frame}
+
+\begin{frame}{Performance: Tuning Gain}
+Without timed out algorithms: \texttt{extraTrees}, \texttt{nnet} and \texttt{xgboost}
+<<resultsRelative, echo=FALSE>>=
+res[, measure.rel := measure - median(measure[algorithm == "default"]), by = .(case, fold)]
+g = ggplot(data = res[budget %in% c(10,50) & learner %nin% c("extraTrees", "nnet", "xgboost")], aes(x = as.factor(budget), y = measure.rel, color = Method))
+g = g + geom_boxplot() + facet_grid(problem~learner, scales = "free")
+g = g + geom_hline(yintercept = 0)
+g = g + theme(legend.position="bottom") + ylab("accuracy gain")
+g
+@
+\end{frame}
+
+\begin{frame}{Performance: Dominance Relative}
+<<resultsDominance, echo=FALSE, results='asis'>>=
+tmp.default = res[algorithm == "default"]
+tmp = res[algorithm != "default"]
+tmp.default$budget = NULL
+tmp.default = merge(tmp.default, data.table(budget = unique(tmp$budget), algorithm = "default"), by = "algorithm", all.y = TRUE, allow.cartesian = TRUE)
+tmp = rbind(tmp, tmp.default)
+combs = expand.grid(MethodA = unique(tmp$Method), MethodB = unique(tmp$Method), budget = unique(tmp$budget))
+beat.fun = function(x.budget, x.a, x.b) {
+  mean(tmp[budget == x.budget, measure[Method==x.a] >= measure[Method==x.b], by = .(case, fold)]$V1)
+}
+beat.mat = Map(beat.fun, x.budget = combs$budget, x.a = combs$MethodA, x.b = combs$MethodB)
+beat.mat = split(unlist(beat.mat), combs$budget)
+beat.mat = lapply(beat.mat, function(x) {
+  ms = unique(tmp$Method)
+  matrix(x, nrow = length(ms), dimnames = list(ms,ms))
+})
+xtable(beat.mat[[1]], align = "l|rrrr") %>% print.xtable(booktabs = TRUE)
+@
+The table gives the fractions of instances where $acc_A \geq acc_B$. $A$ column, $B$ rows.
+\end{frame}
+
+\begin{frame}{Performance: Dominance Tested}
+<<resultsDominanceTested, echo=FALSE, results='asis'>>=
+beat.test.fun = function(x.budget, x.a, x.b) {
+  tres = tmp[budget == x.budget, {
+    x = measure[Method==x.a]
+    y = measure[Method==x.b]
+    if (all(x == y)) 1 else t.test(x = x, y = y, paired = TRUE, alternative = "greater")$p.value
+  }, by = .(case)]$V1
+  mean(!is.na(tres) & tres <= 0.05)
+}
+beat.test.mat = Map(beat.test.fun, x.budget = combs$budget, x.a = combs$MethodA, x.b = combs$MethodB)
+beat.test.mat = split(unlist(beat.test.mat), combs$budget)
+beat.test.mat = lapply(beat.test.mat, function(x) {
+  ms = unique(tmp$Method)
+  matrix(x, nrow = length(ms), dimnames = list(ms,ms))
+})
+xtable(beat.test.mat[[1]], align = "l|rrrr") %>% print.xtable(booktabs = TRUE)
+@
+The table gives the fractions of instances where $H_0: acc_A \leq acc_B$ is rejected by the paired $t$-test. $A$ column, $B$ rows.
+\end{frame}
+
+
+\section{Conclusions}
+
+\begin{frame}[allowframebreaks]{References}
+  \printbibliography
+\end{frame}
+
+\end{document}
