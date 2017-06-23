@@ -100,6 +100,11 @@ if(getwd() %>% stri_endswith_fixed("mlrHyperopt")) {
   setwd(file.path(getwd(), "meta", "useR2017", "beamer"))
 }
 
+myrank = function(x, ties.method) {
+  ranks = rank(x, na.last = TRUE, ties.method = ties.method)
+  ranks[is.na(x)] = max(ranks)
+  ranks
+}
 
 trans_theme = theme(
     panel.grid.minor = element_blank(),
@@ -144,6 +149,8 @@ res[, algorithm := plyr::revalue(algorithm, c(mlrDefault = "default"))]
 res[algorithm == "default", budget := 1]
 res[, Method := algorithm]
 res[algorithm == "caret", Method := paste(algorithm,search)]
+res[, Combination := sprintf("%s tuned with %s", learner, Method)]
+res[, budget := as.factor(budget)]
 res$time = as.numeric(res$time, units = "secs")
 res[, case := paste0(problem, ": ", learner)]
 @
@@ -195,10 +202,11 @@ g + geom_line(aes(color = Method, group = paste(algorithm,search,fold)), alpha =
 \end{frame}
 
 \begin{frame}{Performance: Tuning Gain}
-Without timed out algorithms: \texttt{extraTrees}, \texttt{nnet} and \texttt{xgboost}
-<<resultsRelative, echo=FALSE>>=
+Without timed out algorithms: \texttt{extraTrees}, \texttt{nnet} and \texttt{xgboost}. \\
+Only datasets that are actually tunable: \texttt{mfeat−morphological}, \texttt{wilt}, \texttt{JapaneseVowels}
+<<resultsRelative, echo=FALSE, fig.height=4.5>>=
 res[, measure.rel := measure - median(measure[algorithm == "default"]), by = .(case, fold)]
-g = ggplot(data = res[budget %in% c(10,50) & learner %nin% c("extraTrees", "nnet", "xgboost")], aes(x = as.factor(budget), y = measure.rel, color = Method))
+g = ggplot(data = res[budget %in% c(10,50) & learner %nin% c("extraTrees", "nnet", "xgboost") & problem %in% c("mfeat-morphological", "wilt", "JapaneseVowels")], aes(x = budget, y = measure.rel, color = Method))
 g = g + geom_boxplot() + facet_grid(problem~learner, scales = "free")
 g = g + geom_hline(yintercept = 0)
 g = g + theme(legend.position="bottom") + ylab("accuracy gain")
@@ -207,20 +215,23 @@ g
 \end{frame}
 
 \begin{frame}{Performance: Dominance Relative}
-<<resultsDominance, echo=FALSE, results='asis'>>=
+<<makeDataWithDefaultInAllBudgets, include=FALSE>>=
 tmp.default = res[algorithm == "default"]
 tmp = res[algorithm != "default"]
 tmp.default$budget = NULL
 tmp.default = merge(tmp.default, data.table(budget = unique(tmp$budget), algorithm = "default"), by = "algorithm", all.y = TRUE, allow.cartesian = TRUE)
-tmp = rbind(tmp, tmp.default)
-combs = expand.grid(MethodA = unique(tmp$Method), MethodB = unique(tmp$Method), budget = unique(tmp$budget))
+res.def = rbind(tmp, tmp.default)
+res.def[, budget := factor(budget)]
+@
+<<resultsDominance, echo=FALSE, results='asis'>>=
+combs = expand.grid(MethodA = unique(res.def$Method), MethodB = unique(res.def$Method), budget = unique(res.def$budget))
 beat.fun = function(x.budget, x.a, x.b) {
-  mean(tmp[budget == x.budget, measure[Method==x.a] >= measure[Method==x.b], by = .(case, fold)]$V1)
+  mean(res.def[budget == x.budget, measure[Method==x.a] >= measure[Method==x.b], by = .(case, fold)]$V1)
 }
 beat.mat = Map(beat.fun, x.budget = combs$budget, x.a = combs$MethodA, x.b = combs$MethodB)
 beat.mat = split(unlist(beat.mat), combs$budget)
 beat.mat = lapply(beat.mat, function(x) {
-  ms = unique(tmp$Method)
+  ms = unique(res.def$Method)
   matrix(x, nrow = length(ms), dimnames = list(ms,ms))
 })
 xtable(beat.mat[[1]], align = "l|rrrr") %>% print.xtable(booktabs = TRUE)
@@ -231,7 +242,7 @@ The table gives the fractions of instances where $acc_A \geq acc_B$. $A$ column,
 \begin{frame}{Performance: Dominance Tested}
 <<resultsDominanceTested, echo=FALSE, results='asis'>>=
 beat.test.fun = function(x.budget, x.a, x.b) {
-  tres = tmp[budget == x.budget, {
+  tres = res.def[budget == x.budget, {
     x = measure[Method==x.a]
     y = measure[Method==x.b]
     if (all(x == y)) 1 else t.test(x = x, y = y, paired = TRUE, alternative = "greater")$p.value
@@ -241,10 +252,26 @@ beat.test.fun = function(x.budget, x.a, x.b) {
 beat.test.mat = Map(beat.test.fun, x.budget = combs$budget, x.a = combs$MethodA, x.b = combs$MethodB)
 beat.test.mat = split(unlist(beat.test.mat), combs$budget)
 beat.test.mat = lapply(beat.test.mat, function(x) {
-  ms = unique(tmp$Method)
+  ms = unique(res.def$Method)
   matrix(x, nrow = length(ms), dimnames = list(ms,ms))
 })
 xtable(beat.test.mat[[1]], align = "l|rrrr") %>% print.xtable(booktabs = TRUE)
+@
+The table gives the fractions of instances where $H_0: acc_A \leq acc_B$ is rejected by the paired $t$-test. $A$ column, $B$ rows.
+\end{frame}
+
+\begin{frame}{Which Learner Tuner Combination was the best?}
+<<rankingCombinations, echo=FALSE>>=
+tmp = copy(res.def)
+tmp = tmp[budget == 50 & Method %in% c("caret grid", "mlrHyperopt", "caret random")]
+tmp = tmp[learner %nin% c("extraTrees", "nnet", "xgboost")]
+tmp = tmp[,ranking := myrank(measure, ties.method = "first"), by = .(fold, problem, budget)]
+g = ggplot(tmp, aes(x = as.factor(ranking), fill = Method))
+g + geom_bar()
+
+g = ggplot(tmp, aes(x = as.factor(ranking), fill = Combination))
+g = g + geom_bar()
+plotly::ggplotly(g)
 @
 The table gives the fractions of instances where $H_0: acc_A \leq acc_B$ is rejected by the paired $t$-test. $A$ column, $B$ rows.
 \end{frame}
