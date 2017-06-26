@@ -150,22 +150,20 @@ m.c$results
 @
 \end{frame}
 
-\begin{frame}{caret}
+\begin{frame}[fragile]{caret}
 Can I find out in advance which parameters will be tuned? \\
 \vspace{0.5em}
 \begin{overprint}
-  \onslide<1-2>
-  \url{http://topepo.github.io/caret/available-models.html} only gives parameter names.
-  \onslide<3>
-  \url{http://github.com/topepo/caret/blob/master/models/files} reveals all information.
-\end{overprint}
-\begin{overprint}
   \onslide<1>
-  \shadowbox{\includegraphics[width=\linewidth]{assets/caret_screen_models_1.png}}
+  \texttt{modelLookup("rf")} gives some information.
+  <<caretModelLookup, size='scriptsize'>>=
+modelLookup("rf")
+@
   \onslide<2>
-  \shadowbox{\includegraphics[width=\linewidth]{assets/caret_screen_models_2.png}}
-  \onslide<3>
-  \shadowbox{\includegraphics[width=\linewidth]{assets/caret_screen_model_source.png}}
+  \begin{figure}
+    \shadowbox{\includegraphics[width=0.8\linewidth]{assets/caret_screen_model_source.png}}
+    \caption*{\url{http://github.com/topepo/caret/blob/master/models/files} reveals all details.}
+  \end{figure}
 \end{overprint}
 \end{frame}
 
@@ -197,17 +195,89 @@ tuneParams(lrn, iris.task, cv10, measures = acc,
 
 \begin{frame}[fragile]{caret}
 
+Deviate from the defaults in \texttt{caret}:
 
+<<caretDeviate, message=FALSE>>=
+grid = expand.grid(mtry = 2:4, nodesize = c(1,5,10))
+fitControl = trainControl(method = "cv",
+  number = 10, search = "grid")
+m = caret::train(iris[,1:4], iris[,5],
+  method = "rf", tuneGrid = grid)
+@
 
+It seems you have to write you own custom method\footnote{\url{https://stackoverflow.com/questions/38625493/tuning-two-parameters-for-random-forest-in-caret-package}}.
 \end{frame}
 
 \begin{frame}{mlr vs. caret}
+\begin{block}{In caret...}
+  \begin{itemize}
+    \item[$+$] tuning is the default.
+    \item[$+$] tuning with defaults is easy.
+    \item[$-$] deviating from defaults is a hassle and needs expert knowedlge.
+  \end{itemize}
+\end{block}
+
+\begin{block}{In mlr...}
+  \begin{itemize}
+    \item[$+$] train works like the default of the package.
+    \item[$-$] tuning needs expert knowledge.
+    \item[$+$] deviating from defaults is easy.
+  \end{itemize}
+\end{block}
+
+To solve this problem in \texttt{mlr} we want to share the expert knowledge with...
+\end{frame}
+
+\section{mlrHyperopt}
+
+\begin{frame}{mlrHyperopt}
+
+\texttt{mlrHyperopt} enables access to a web database of Parameter Configurations for many machine learning methods in R.
+
+\begin{block}{Why a online database?}
+  \begin{itemize}
+    \item Defaults in packages will always be controversial.
+    \item Knowledge changes over time but \texttt{R} packages have to maintain reprudicebility.
+    \item Defauls differ for different scenarios. (data set size \emph{etc.})
+  \end{itemize}
+\end{block}
+
+\end{frame}
+
+\begin{frame}{mlrHyperopt: ParamConfigs}
+
+\texttt{mlrHyperopt} stores tuning parameters in \texttt{ParConfigs}:
 
 \begin{itemize}
+  \item \emph{Parameter Set} of tunable parameters
+  \item fixed \emph{Parameter Values} to overwrite defaults
+  \item Associated learner and note
+\end{itemize}
+
+\begin{block}{Features of the Parameter Set\footnote{\url{https://github.com/berndbischl/ParamHelpers}}:}
+  \begin{itemize}
+    \item Parameter values can be: real-valued, integer, discrete, logical, \ldots
+    \item Parameters can have:
+    \begin{itemize}
+      \item transformations (to account non-uniform distribution of interesting regions)
+      \item requriements on other parameters (to represent hirachical structures)
+    \end{itemize}
+    \item Bounds and defaults can depend on the task size, number of features, \emph{etc.}
+  \end{itemize}
+\end{block}
 
 \end{frame}
 
 \section{API Examples}
+
+\begin{frame}{Online API}
+
+\begin{figure}[h]
+  \shadowbox{\includegraphics[width=\linewidth]{assets/mlrHyperopt_screen_parconfigs.png}}
+  \caption*{Overview of all \texttt{ParConfigs} uploaded to \url{http://mlrhyperopt.jakob-r.de/parconfigs}}
+\end{figure}
+
+\end{frame}
 
 \section{\texttt{caret} vs. \texttt{mlrHyperopt}}
 
