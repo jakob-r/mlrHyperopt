@@ -19,6 +19,7 @@
 \usepackage{graphicx} %trim for includegraphics
 \usepackage{siunitx} % \SI for units
 \usepackage{booktabs}
+\usepackage{fancybox}
 
 
 %TikZ stuff
@@ -60,6 +61,10 @@
 \newcommand{\ack}[1]{\texttt{ackley}$(#1)$}
 \newcommand{\ras}[1]{\texttt{rastrigin}$(#1)$}
 
+\setlength{\topsep}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\partopsep}{1pt}
+
 %set title
 \title[mlrHyperopt]{mlrHyperopt: Effortless and collaborative hyperparameter optimization experiments}
 \date{\today}
@@ -80,8 +85,7 @@ library(stringi)
 library(magrittr)
 library(data.table)
 library(BBmisc)
-library(mlrMBO)
-options(formatR.arrow=TRUE, width=30)
+options(formatR.arrow=TRUE, width=120)
 opts_chunk$set(
   fig.path='figure/',
   fig.align='center',
@@ -89,7 +93,7 @@ opts_chunk$set(
   fig.lp='fig:',
   fig.width = 8,
   fig.height = 5.5,
-  size='scriptsize',
+  size='small',
   message=FALSE,
   warning=FALSE,
   cache=TRUE,
@@ -117,17 +121,96 @@ trans_theme = theme(
 
 \maketitle
 
-\section{Hyperparameter Optimization}
+\begin{frame}{Contents}
+  \begin{enumerate}
+    \item Motivation for \texttt{caret}\footnote{\url{https://topepo.github.io/caret}} Users
+    \item Motivation for \texttt{mlr}\footnote{\url{https://mlr-org.github.io/mlr}} Users
+    \item Website and API
+    \item Parameter Tuning
+    \item Lessons learned
+  \end{enumerate}
+\end{frame}
 
-\begin{frame}{Motivation}
+\section{Motivation}
+
+\begin{frame}[fragile]{caret}
+
+\texttt{caret} automatically performs a grid search for all learners.
+
+<<caret1, message=FALSE>>=
+library(caret)
+system.time({m.c = train(iris[,1:4], iris[,5], method = "rf")})
+system.time({m.r = randomForest(iris[,1:4], iris$Species)})
+@
+
+How to find out what is going on?
+
+<<caret2>>=
+m.c$results
+@
+\end{frame}
+
+\begin{frame}{caret}
+Can I find out in advance which parameters will be tuned? \\
+\vspace{0.5em}
+\begin{overprint}
+  \onslide<1-2>
+  \url{http://topepo.github.io/caret/available-models.html} only gives parameter names.
+  \onslide<3>
+  \url{http://github.com/topepo/caret/blob/master/models/files} reveals all information.
+\end{overprint}
+\begin{overprint}
+  \onslide<1>
+  \shadowbox{\includegraphics[width=\linewidth]{assets/caret_screen_models_1.png}}
+  \onslide<2>
+  \shadowbox{\includegraphics[width=\linewidth]{assets/caret_screen_models_2.png}}
+  \onslide<3>
+  \shadowbox{\includegraphics[width=\linewidth]{assets/caret_screen_model_source.png}}
+\end{overprint}
+\end{frame}
+
+\begin{frame}[fragile]{mlr}
+
+\texttt{mlr} provides parameter definitions for all learners.
+<<mlrLearner, size='scriptsize'>>=
+library(mlr)
+lrn = makeLearner("classif.randomForest")
+filterParams(getParamSet(lrn), tunable = TRUE)
+@
+But \texttt{ParamSets} are unconstrained and include possibly unimportant parameters.
+\end{frame}
+
+\begin{frame}[fragile]{mlr}
+
+Necessarry to define own \texttt{ParamSets} for tuning
+
+<<paramSet1, message=FALSE>>=
+ps = makeParamSet(
+  makeIntegerParam("mtry", lower = 1, upper = 4),
+  makeIntegerParam("nodesize", lower = 1, upper = 10)
+)
+tuneParams(lrn, iris.task, cv10, measures = acc,
+  par.set = ps, makeTuneControlGrid(resolution = 3L))
+@
 
 \end{frame}
 
-\section{Model-based optimization}
+\begin{frame}[fragile]{caret}
+
+
+
+\end{frame}
+
+\begin{frame}{mlr vs. caret}
+
+\begin{itemize}
+
+\end{frame}
 
 \section{API Examples}
 
 \section{\texttt{caret} vs. \texttt{mlrHyperopt}}
+
 <<readBenchmarkResults, include=FALSE>>=
 res = readRDS("../../res5.rds")
 
