@@ -199,8 +199,6 @@ Deviate from the defaults in \texttt{caret}:
 
 <<caretDeviate, message=FALSE>>=
 grid = expand.grid(mtry = 2:4, nodesize = c(1,5,10))
-fitControl = trainControl(method = "cv",
-  number = 10, search = "grid")
 m = caret::train(iris[,1:4], iris[,5],
   method = "rf", tuneGrid = grid)
 @
@@ -234,7 +232,7 @@ To solve this problem in \texttt{mlr} we want to share the expert knowledge with
 
 \texttt{mlrHyperopt} enables access to a web database of Parameter Configurations for many machine learning methods in R.
 
-\begin{block}{Why a online database?}
+\begin{block}{Why an online database?}
   \begin{itemize}
     \item Defaults in packages will always be controversial.
     \item Knowledge changes over time but \texttt{R} packages have to maintain reprudicebility.
@@ -270,13 +268,51 @@ To solve this problem in \texttt{mlr} we want to share the expert knowledge with
 
 \section{API Examples}
 
-\begin{frame}{Online API}
+\begin{frame}{Web Interface}
 
 \begin{figure}[h]
   \shadowbox{\includegraphics[width=\linewidth]{assets/mlrHyperopt_screen_parconfigs.png}}
   \caption*{Overview of all \texttt{ParConfigs} uploaded to \url{http://mlrhyperopt.jakob-r.de/parconfigs}}
 \end{figure}
 
+\end{frame}
+
+\begin{frame}[fragile]{API: Download and Use ParConfigs}
+<<apiDownload, message=FALSE, size='scriptsize'>>=
+library(mlrHyperopt)
+lrn = makeLearner("classif.ranger")
+(pc = downloadParConfigs(learner.class = getLearnerClass(lrn)))
+ps = getParConfigParSet(pc[[1]])
+ps = evaluateParamExpressions(ps, dict = getTaskDictionary(iris.task))
+lrn = setHyperPars(lrn, par.vals = getParConfigParVals(pc[[1]]))
+tuneParams(lrn, iris.task, resampling = cv10, par.set = ps,
+  measures = acc, control = makeTuneControlRandom(maxit = 10))
+@
+\end{frame}
+
+\begin{frame}[fragile]{API: Upload ParConfigs}
+<<apiUpload, message=FALSE, size='scriptsize', eval=FALSE>>=
+ps = makeParamSet(
+  makeDiscreteParam("kernel", c("rbfdot", "polydot")),
+  makeNumericParam("C", -5, 5, trafo = function(x) 2^x),
+  makeNumericParam("sigma", lower = -10, upper = 10,
+    trafo = function(x) 2^x, requires = quote(kernel == "rbfdot")),
+  makeNumericParam("degree", lower = 1, upper = 5,
+    requires = quote(kernel == "polydot"))
+)
+pc = makeParConfig(ps, learner.name = "ksvm")
+uploadParConfig(pc)
+## [1] "23"
+@
+\end{frame}
+
+\begin{frame}[fragile]{Bonus: Use ParConfigs in caret}
+<<apiCaret, message=FALSE, size='scriptsize', warning=FALSE>>=
+pc = downloadParConfigs(learner.name = "nnet")
+grid = generateRandomDesign(n = 10L, par.set = pc[[1]]$par.set, trafo = TRUE)
+tr = caret::train(iris[,1:4], iris[,5], method = "nnet", tuneGrid = grid)
+tr$bestTune
+@
 \end{frame}
 
 \section{\texttt{caret} vs. \texttt{mlrHyperopt}}
