@@ -47,7 +47,7 @@ names(pdes) = names(mlr.taskslist)
 ## Define Algorithm Functions
 algo.caret = function(job, data, instance, learner, budget = NULL, search = "grid") {
   library(caret)
-  fitControl = trainControl(method = "cv", number = 10, search = search)
+  fitControl = trainControl(method = "cv", number = 10, search = search, allowParallel = FALSE)
   train.inds = data$mlr.rin$train.inds[[instance$fold]]
   test.inds = data$mlr.rin$test.inds[[instance$fold]]
   train.data = getTaskData(data$mlr.task, target.extra = TRUE, subset = train.inds)
