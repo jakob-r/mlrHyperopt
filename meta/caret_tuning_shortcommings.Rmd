@@ -25,11 +25,10 @@ gbmFit1 = train(Species ~ ., data = iris, method = "gbm", trControl = fitControl
 summary(gbmFit1$results)
 gbmFit1$bestTune
 gbmFit2 = train(Species ~ ., data = iris, method = "gbm", trControl = fitControl, verbose = FALSE, tuneLength = 10)
-summary(gbmFit2$results)
+gbmFit2$results
 gbmFit2$bestTune
 ```
-_Note:_ `tuneLength` did not specify the number of tuning evaluations because of `expand.grid`.
-If the original grid is unknown we don't know how many evaluations to expect.
+_Note:_ `tuneLength` Different settings for `n.trees` where calculated with the submodel trick.
 
 Tuning Space defined in _caret_ for _gbm_:
 ```{r, eval=FALSE}

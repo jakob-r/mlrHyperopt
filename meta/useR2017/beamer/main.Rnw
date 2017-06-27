@@ -180,7 +180,7 @@ But \texttt{ParamSets} are unconstrained and include possibly unimportant parame
 
 \begin{frame}[fragile]{mlr}
 
-Necessarry to define own \texttt{ParamSets} for tuning
+Necessarry to define own \texttt{ParamSets} for tuning:
 
 <<paramSet1, message=FALSE>>=
 ps = makeParamSet(
@@ -278,6 +278,7 @@ To solve this problem in \texttt{mlr} we want to share the expert knowledge with
 \end{frame}
 
 \begin{frame}[fragile]{API: Download and Use ParConfigs}
+Tune the parameters for the \texttt{ranger} Random Forest with \texttt{mlr}\footnote{\url{http://mlr-org.github.io/mlr-tutorial/devel/html/tune/}}.
 <<apiDownload, message=FALSE, size='scriptsize'>>=
 library(mlrHyperopt)
 lrn = makeLearner("classif.ranger")
@@ -307,15 +308,41 @@ uploadParConfig(pc)
 \end{frame}
 
 \begin{frame}[fragile]{Bonus: Use ParConfigs in caret}
+
+With the following \texttt{ParamHelpers} functions we can generate grids for \texttt{caret}
+\begin{itemize}
+  \item \texttt{generateGridDesign}
+  \item \texttt{generateRandomDesign}
+  \item \texttt{generateDesign} (Latin Hypercube Sample)
+  \item \texttt{generateDesignOfDefaults} (to be used in combination)
+\end{itemize}
 <<apiCaret, message=FALSE, size='scriptsize', warning=FALSE>>=
 pc = downloadParConfigs(learner.name = "nnet")
-grid = generateRandomDesign(n = 10L, par.set = pc[[1]]$par.set, trafo = TRUE)
-tr = caret::train(iris[,1:4], iris[,5], method = "nnet", tuneGrid = grid)
+grid = generateRandomDesign(n = 10L, par.set = pc[[1]]$par.set,
+  trafo = TRUE)
+tr = caret::train(iris[,1:4], iris[,5], method = "nnet",
+  tuneGrid = grid, trace = FALSE)
 tr$bestTune
 @
 \end{frame}
 
-\section{\texttt{caret} vs. \texttt{mlrHyperopt}}
+\section{Tuning wiht \texttt{mlrHyperopt}}
+
+\begin{frame}[fragile]{Tuning parameters with \texttt{mlrHyperopt}}
+A heuristic decides for tuing method:
+\begin{block}{Tuning Methods:}
+  \begin{itemize}
+    \item \textbf{grid search:} 1 parameter, 2 mixed parameters
+    \item \textbf{random search:} $>2$ mixed parameters
+    \item \textbf{bayesian optimization with \texttt{mlrMBO}\footnote{https://mlr-org.github.io/mlrMBO/}:} all parameters numeric
+  \end{itemize}
+\end{block}
+Default parameter sets from \texttt{mlrHyperopt} are used
+<<tuneMlrHyperopt, warning=FALSE, message=FALSE>>=
+(h.res = hyperopt(task = iris.task, learner = "classif.ksvm"))
+m = mlr::train(h.res$learner, iris.task)
+@
+\end{frame}
 
 <<readBenchmarkResults, include=FALSE>>=
 res = readRDS("../../res5.rds")
@@ -386,7 +413,7 @@ g
 \begin{frame}{Performance: Overhead}
 <<resultsRunTime, echo=FALSE, fig.width=12, fig.height=8.5>>=
 g = ggplot(data = res[budget %in% c(10,50)], aes(x = budget, y = time))
-g + geom_line(aes(color = Method, group = paste(algorithm,search,fold)), alpha = 0.7) + facet_grid(learner~problem, scales = "free")
+g + geom_line(aes(color = Method, group = paste(algorithm,search,fold)), alpha = 0.7) + facet_grid(learner~problem, scales = "free") + scale_y_log10()
 @
 \end{frame}
 
@@ -466,10 +493,21 @@ The table gives the fractions of instances where $H_0: acc_A \leq acc_B$ is reje
 \end{frame}
 
 
-\section{Conclusions}
+\section{Lessons Learned}
 
-\begin{frame}[allowframebreaks]{References}
-  \printbibliography
+\begin{frame}
+
+\begin{itemize}
+  \item Parameter Tuning is only frutile on some data and for some methods
+  \item \texttt{caret}s grid search has performance problems on big datasets (ksvm, nnet)
+  \item \texttt{caret}s grid search submodel trick is beneficial (glmnet)
+  \item \texttt{mlrHyperopt}s bayesian optimization causes considerable overhead for small datasets.
+  \item benchmark indicates that random search is better than the grid search
+  \item For \texttt{caret}s grid search the parameter space expands with increaseing \texttt{tuneLength}.
+
+\end{itemize}
+
 \end{frame}
+
 
 \end{document}
