@@ -24,7 +24,7 @@ task_infos = task_infos[number.of.missing.values == 0 & number.of.numeric.featur
 random.task.ids = c(18L, 9914L, 3896L, 3903L, 3510L) #, 28L, 9986L, 43L, 10101L, 14970L)
 tunable.task.ids = c(9914L, 3883L, 3493L, 34536L, 9970L)
 tunable.task.ids = setdiff(tunable.task.ids, random.task.ids)
-oml.tasks = lapply(random.task.ids, getOMLTask)
+oml.tasks = lapply(c(random.task.ids, tunable.task.ids), getOMLTask)
 mlr.taskslist = lapply(oml.tasks, convertOMLTaskToMlr)
 names(mlr.taskslist) = extractSubList(mlr.taskslist, c("mlr.task", "task.desc", "id"))
 

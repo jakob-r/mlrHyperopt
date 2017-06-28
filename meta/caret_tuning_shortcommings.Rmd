@@ -35,7 +35,7 @@ Tuning Space defined in _caret_ for _gbm_:
 grid = function(x, y, len = NULL, search = "grid") {
   if(search == "grid") {
     out <- expand.grid(
-      interaction.depth = seq(1, len), <-- Why so dependent from tuning budget?
+      interaction.depth = seq(1, len), # <-- Why so dependent from tuning budget?
       n.trees = floor((1:len) * 50),
       shrinkage = .1, # <-- Why set fixed here?
       n.minobsinnode = 10)

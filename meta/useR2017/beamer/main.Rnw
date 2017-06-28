@@ -167,6 +167,24 @@ modelLookup("rf")
 \end{overprint}
 \end{frame}
 
+\begin{frame}[fragile]{caret: gbm}
+Extract from \texttt{models/files/gbm.R}:
+<<caretGbmStrangeGrid, eval = FALSE, size='scriptsize'>>=
+out <- expand.grid(
+  interaction.depth = seq(1, len), #<- parameter range depends on tuning budget.
+  n.trees = floor((1:len) * 50), #<- ..
+  shrinkage = .1,
+  n.minobsinnode = 10)
+# ...
+out <- data.frame(
+  n.trees = floor(runif(len, min = 1, max = 5000)),
+  interaction.depth = sample(1:10, replace = TRUE, size = len),
+  shrinkage = runif(len, min = .001, max = .6),
+  n.minobsinnode = sample(5:25, replace = TRUE, size = len) )
+    out <- out[!duplicated(out),]
+@
+\end{frame}
+
 \begin{frame}[fragile]{mlr}
 
 \texttt{mlr} provides parameter definitions for all learners.
@@ -337,7 +355,7 @@ A heuristic decides for tuing method:
     \item \textbf{bayesian optimization with \texttt{mlrMBO}\footnote{https://mlr-org.github.io/mlrMBO/}:} all parameters numeric
   \end{itemize}
 \end{block}
-Default parameter sets from \texttt{mlrHyperopt} are used
+Default parameter sets from \texttt{mlrHyperopt} are used:
 <<tuneMlrHyperopt, warning=FALSE, message=FALSE>>=
 (h.res = hyperopt(task = iris.task, learner = "classif.ksvm"))
 m = mlr::train(h.res$learner, iris.task)
@@ -357,80 +375,103 @@ lrns2 = plyr::rename(lrns2, c(caret = "learner"))
 res = merge(res, lrns2, all.x = TRUE, by = "learner")
 res[!is.na(mlr), learner := mlr, ]
 
-# punish not terminated
-res[is.na(done), measure := 0]
+# remove not working combinations (including possible time outs)
+table(res[is.na(measure) & budget == 10,]$problem, res[is.na(measure) & budget == 10,]$learner)
+res = res[, exclude := (learner %in% c("nnet", "extraTrees", "randomForest", "xgboost") & problem == "Internet-Advertisements") |
+          (learner %in% c("extraTrees", "glmnet", "ksvm", "xgboost") & problem == "monks-problems-2") |
+          (learner %in% c("extraTrees", "xgboost") & problem == "JapaneseVowels") ]
+
+# punish not done
+res[is.na(measure), measure := 0]
 
 # naming and units
 res[, algorithm := plyr::revalue(algorithm, c(mlrDefault = "default"))]
 res[algorithm == "default", budget := 1]
 res[, Method := algorithm]
 res[algorithm == "caret", Method := paste(algorithm,search)]
+res[, Method := factor(Method)]
 res[, Combination := sprintf("%s tuned with %s", learner, Method)]
 res[, budget := as.factor(budget)]
 res$time = as.numeric(res$time, units = "secs")
 res[, case := paste0(problem, ": ", learner)]
 @
+<<DownloadOMLTasksForInfos, include=FALSE>>=
+# OpenML Datasets
+library(OpenML)
+random.task.ids = c(18L, 9914L, 3896L, 3903L, 3510L) #, 28L, 9986L, 43L, 10101L, 14970L)
+tunable.task.ids = c(9914L, 3883L, 3493L, 34536L, 9970L)
+tunable.task.ids = setdiff(tunable.task.ids, random.task.ids)
+oml.tasks = lapply(sort(c(random.task.ids, tunable.task.ids)), getOMLTask)
+@
 
-\begin{frame}{User Experience}
-
-\end{frame}
-
-\begin{frame}{Feature Comparison}
-\begin{table}[]
-\centering
-\begin{tabular}{@{}lll@{}}
-\toprule
-                          & caret               & mlrHyperopt           \\ \midrule
-tunable Learners          &                     &                       \\
-adjustable Search Space   & pass own data.frame & all                   \\
-random search             &                     &                       \\
-grid search               & default             &                       \\
-model based search        &                     &                       \\
-further search algorithms &                     & supported through mlr \\
-documented search spaces  &                     &                       \\ \bottomrule
-\end{tabular}
-\end{table}
+\begin{frame}{Benchmark}
+OpenML\footnote{\url{https://www.openml.org/}} Data Sets
+\vspace{0.5em}
+<<OpenMLOverview, echo=FALSE, results='asis'>>=
+tmp = data.frame(
+  OpenML_ID = extractSubList(oml.tasks, "task.id"),
+  Name = extractSubList(oml.tasks, c("input", "data.set", "desc", "name")),
+  p = viapply(oml.tasks, function(x) as.integer(length(x$input$data.set$colnames.new) - 1)),
+  n = viapply(oml.tasks, function(x) nrow(x$input$data.set$data))
+)
+tmp %>% xtable() %>% print(booktabs = TRUE, latex.environments=c("center", "footnotesize"), include.rownames = FALSE)
+@
+\vspace{1em}
+Algorithms: \texttt{caret} with \emph{grid} and \emph{random} search and \texttt{mlrHyperopt}. Each with a budget of $10$ and $50$ CV10-evaluations.
 \end{frame}
 
 \begin{frame}{Performance}
-\texttt{caret} exceeded walltime of \SI{24}{\hour} on Docker Cluster (Intel Xeon E5-2697v2).
-Resulting NAs are imputed with a measure of 0.
-<<caretErrors, echo=FALSE, fig.width=12, fig.height=8.5, results='asis'>>=
-res[is.na(done), .(learner, algorithm)] %>% table() %>% xtable() %>% print(booktabs = TRUE)
+Some jobs exceeded walltime of \SI{24}{\hour} on a Docker Cluster (Intel Xeon E5-2697v2).
+\vspace{1em}
+<<caretTimeOuts, echo=FALSE, fig.width=12, fig.height=8.5, results='asis'>>=
+res[is.na(done), .(learner, Method)] %>% table() %>% xtable() %>% print(booktabs = TRUE, latex.environments=c("center", "footnotesize"))
 @
 \end{frame}
 
+\begin{frame}{Reliability}
+Some data sets caused errors in combination with certain learners.
+\vspace{1em}
+<<Errors, echo=FALSE, fig.width=12, fig.height=8.5, results='asis'>>=
+tmp = res[!is.na(error), .(learner, Method, problem)]
+tmp$problem = stri_sub(tmp$problem, 1, 3)
+tmp = tmp[, {
+  x = table(problem)
+  x = x[x>0]
+  paste0(names(x), " (", x, ")", collapse = "\\")}, by = .(learner, Method)]
+reshape2::dcast(tmp, learner~Method) %>% xtable() %>% print(booktabs = TRUE, sanitize.text.function = identity, latex.environments=c("center", "footnotesize"), include.rownames = FALSE)
+@
+\vspace{0.5em}
+\emph{Int:} Internet-Advertisements -- \emph{mon:} monks-problems-2
+\end{frame}
 
-\begin{frame}{Performance: All results}
+\begin{frame}{Subset Results}
+Subset results to problems that ran sucsessfully. Remove the following combinations:
+\vspace{1em}
+<<RemoveProblems, results='asis', echo = FALSE>>=
+res[exclude == TRUE, .(learner, problem)] %>% reshape2::dcast(learner~problem) %>% xtable() %>% print(booktabs = TRUE, latex.environments=c("center", "footnotesize"), include.rownames = FALSE)
+@
+\vspace{1em}
+Remaining unfinished runs are set to $acc = 0$.
+\end{frame}
+
+\begin{frame}{All Results}
 <<results1, echo=FALSE, fig.width=12, fig.height=8.5>>=
-g = ggplot(data = res[budget %in% c(1,10)], aes(x = Method, y = measure, color = Method))
-g = g + geom_boxplot() + facet_wrap("case", scales = "free", ncol = length(unique(res$learner)))
+tmp = copy(res)
+tmp[exclude == TRUE, measure := 0]
+g = ggplot(data = tmp[budget %in% c(1,10)], aes(x = Method, y = measure, color = Method))
+g = g + geom_boxplot() + facet_wrap("case", scales = "free", ncol = length(unique(tmp$learner)))
 g = g + theme(axis.text.x=element_blank(), legend.position="bottom") + ylab("accuracy")
 g
 @
 \end{frame}
 
-\begin{frame}{Performance: Overhead}
+\begin{frame}{Runtime}
 <<resultsRunTime, echo=FALSE, fig.width=12, fig.height=8.5>>=
 g = ggplot(data = res[budget %in% c(10,50)], aes(x = budget, y = time))
 g + geom_line(aes(color = Method, group = paste(algorithm,search,fold)), alpha = 0.7) + facet_grid(learner~problem, scales = "free") + scale_y_log10()
 @
 \end{frame}
 
-\begin{frame}{Performance: Tuning Gain}
-Without timed out algorithms: \texttt{extraTrees}, \texttt{nnet} and \texttt{xgboost}. \\
-Only datasets that are actually tunable: \texttt{mfeat−morphological}, \texttt{wilt}, \texttt{JapaneseVowels}
-<<resultsRelative, echo=FALSE, fig.height=4.5>>=
-res[, measure.rel := measure - median(measure[algorithm == "default"]), by = .(case, fold)]
-g = ggplot(data = res[budget %in% c(10,50) & learner %nin% c("extraTrees", "nnet", "xgboost") & problem %in% c("mfeat-morphological", "wilt", "JapaneseVowels")], aes(x = budget, y = measure.rel, color = Method))
-g = g + geom_boxplot() + facet_grid(problem~learner, scales = "free")
-g = g + geom_hline(yintercept = 0)
-g = g + theme(legend.position="bottom") + ylab("accuracy gain")
-g
-@
-\end{frame}
-
-\begin{frame}{Performance: Dominance Relative}
 <<makeDataWithDefaultInAllBudgets, include=FALSE>>=
 tmp.default = res[algorithm == "default"]
 tmp = res[algorithm != "default"]
@@ -439,26 +480,13 @@ tmp.default = merge(tmp.default, data.table(budget = unique(tmp$budget), algorit
 res.def = rbind(tmp, tmp.default)
 res.def[, budget := factor(budget)]
 @
-<<resultsDominance, echo=FALSE, results='asis'>>=
-combs = expand.grid(MethodA = unique(res.def$Method), MethodB = unique(res.def$Method), budget = unique(res.def$budget))
-beat.fun = function(x.budget, x.a, x.b) {
-  mean(res.def[budget == x.budget, measure[Method==x.a] >= measure[Method==x.b], by = .(case, fold)]$V1)
-}
-beat.mat = Map(beat.fun, x.budget = combs$budget, x.a = combs$MethodA, x.b = combs$MethodB)
-beat.mat = split(unlist(beat.mat), combs$budget)
-beat.mat = lapply(beat.mat, function(x) {
-  ms = unique(res.def$Method)
-  matrix(x, nrow = length(ms), dimnames = list(ms,ms))
-})
-xtable(beat.mat[[1]], align = "l|rrrr") %>% print.xtable(booktabs = TRUE)
-@
-The table gives the fractions of instances where $acc_A \geq acc_B$. $A$ column, $B$ rows.
-\end{frame}
 
-\begin{frame}{Performance: Dominance Tested}
-<<resultsDominanceTested, echo=FALSE, results='asis'>>=
+
+\begin{frame}{Performance: Dominance}
+<<resultsDominanceTested, include=FALSE>>=
+combs = expand.grid(MethodA = unique(res.def$Method), MethodB = unique(res.def$Method), budget = unique(res.def$budget))
 beat.test.fun = function(x.budget, x.a, x.b) {
-  tres = res.def[budget == x.budget, {
+  tres = res.def[exclude == FALSE & budget == x.budget, {
     x = measure[Method==x.a]
     y = measure[Method==x.b]
     if (all(x == y)) 1 else t.test(x = x, y = y, paired = TRUE, alternative = "greater")$p.value
@@ -471,26 +499,64 @@ beat.test.mat = lapply(beat.test.mat, function(x) {
   ms = unique(res.def$Method)
   matrix(x, nrow = length(ms), dimnames = list(ms,ms))
 })
+@
+\begin{overprint}
+\onslide<1>
+Performance with a \alert{budget of 10} 10CV-Evaluations.
+<<resultsDominanceTested_budget10, echo = FALSE, results='asis'>>=
 xtable(beat.test.mat[[1]], align = "l|rrrr") %>% print.xtable(booktabs = TRUE)
 @
-The table gives the fractions of instances where $H_0: acc_A \leq acc_B$ is rejected by the paired $t$-test. $A$ column, $B$ rows.
+\onslide<2>
+Performance with a \alert{budget of 50} 10CV-Evaluations.
+<<resultsDominanceTested_budget50, echo = FALSE, results='asis'>>=
+xtable(beat.test.mat[[2]], align = "l|rrrr") %>% print.xtable(booktabs = TRUE)
+@
+\end{overprint}
+
+\vspace{1em}
+The table gives the fractions of instances where $H_0: acc_A \leq acc_B$ is rejected by the paired $t$-test to level $\alpha = 0.05$. $A$ column, $B$ rows.\\
+\vspace{0.5em}
+\emph{i.e.:} \texttt{mlrHyperopt} is significantly better thant the default settings in \only<1>{\Sexpr{sprintf("%.0f", beat.test.mat[[1]]["mlrHyperopt","default"] * 100)}}\only<2>{\Sexpr{sprintf("%.0f", beat.test.mat[[2]]["mlrHyperopt","default"] * 100)}}\% of the cases.
+\end{frame}
+
+\begin{frame}{Ranking of the Tuning Methods}
+<<rankingCombinations, echo=FALSE>>=
+tmp = copy(res.def)
+tmp = tmp[, {if (any(exclude == TRUE)) NULL else .SD}, by = .(problem)]
+tmp[, ranking := myrank(-measure, ties.method = "first"), by = .(learner, problem, fold, budget)]
+g = ggplot(tmp, aes(x = ranking, fill = Method))
+g + geom_bar() + facet_grid(~budget)
+@
+The distribution of the rankings indicate that \texttt{caret}s grid search is indeed the best. But probably in many cases not statisitcally significant.
 \end{frame}
 
 \begin{frame}{Which Learner Tuner Combination was the best?}
 <<rankingCombinations, echo=FALSE>>=
 tmp = copy(res.def)
-tmp = tmp[budget == 50 & Method %in% c("caret grid", "mlrHyperopt", "caret random")]
-tmp = tmp[learner %nin% c("extraTrees", "nnet", "xgboost")]
-tmp = tmp[,ranking := myrank(measure, ties.method = "first"), by = .(fold, problem, budget)]
-g = ggplot(tmp, aes(x = as.factor(ranking), fill = Method))
-g + geom_bar()
+tmp = tmp[, {if (any(exclude == TRUE)) NULL else .SD}, by = .(problem)]
+tmp = tmp[, {
+  # get averaged measures
+  mySD = copy(.SD)
+  averagedSD = mySD[, list(mean.measure = mean(measure)) , by = .(learner, Method)]
+  # get measures per fold for the learner Method combination with the top mean
+  topSD = merge(mySD, averagedSD[which.max(mean.measure), .(learner, Method)])
+  topmeasure = topSD$measure
+  # test that against all combinations (small p.value means the combination is significantly worse than the best performing one)
+  mySD[, list(p.value = t.test(x = measure, y = topmeasure, alternative = "less", paired = TRUE)$p.value, top.com = topSD$Combination[1], mean.measure = mean(measure)) , by = .(learner, Method)]
+} , by = .(problem, budget)]
+tmp = tmp["default" != algorithm]
+tmp[, ranking := myrank(-measure, ties.method = "first"), by = .(problem, fold, budget)]
+g = ggplot(tmp, aes(x = ranking, fill = Combination, color = algorithm))
+g = g + geom_bar() + facet_grid(budget~.)
+c7 = c('#7fc97f','#beaed4','#fdc086','#ffff99','#386cb0','#f0027f','#bf5b17')
+g + scale_fill_manual(values = rep(c7, each = 3))
+@
+The distribution of the rankings indicate that \texttt{caret}s grid search is indeed the best. But probably in many cases not statisitcally significant.
+\end{frame}
 
 g = ggplot(tmp, aes(x = as.factor(ranking), fill = Combination))
 g = g + geom_bar()
 plotly::ggplotly(g)
-@
-The table gives the fractions of instances where $H_0: acc_A \leq acc_B$ is rejected by the paired $t$-test. $A$ column, $B$ rows.
-\end{frame}
 
 
 \section{Lessons Learned}
