@@ -198,7 +198,7 @@ But \texttt{ParamSets} are unconstrained and include possibly unimportant parame
 
 \begin{frame}[fragile]{mlr}
 
-Necessarry to define own \texttt{ParamSets} for tuning:
+Necessary to define own \texttt{ParamSets} for tuning:
 
 <<paramSet1, message=FALSE>>=
 ps = makeParamSet(
@@ -229,7 +229,7 @@ It seems you have to write you own custom method\footnote{\url{https://stackover
   \begin{itemize}
     \item[$+$] tuning is the default.
     \item[$+$] tuning with defaults is easy.
-    \item[$-$] deviating from defaults is a hassle and needs expert knowedlge.
+    \item[$-$] deviating from defaults is a hassle and needs expert knowledge.
   \end{itemize}
 \end{block}
 
@@ -253,8 +253,8 @@ To solve this problem in \texttt{mlr} we want to share the expert knowledge with
 \begin{block}{Why an online database?}
   \begin{itemize}
     \item Defaults in packages will always be controversial.
-    \item Knowledge changes over time but \texttt{R} packages have to maintain reprudicebility.
-    \item Defauls differ for different scenarios. (data set size \emph{etc.})
+    \item Knowledge changes over time but \texttt{R} packages have to maintain reproducibility.
+    \item Defaults differ for different scenarios. (data set size \emph{etc.})
   \end{itemize}
 \end{block}
 
@@ -276,7 +276,7 @@ To solve this problem in \texttt{mlr} we want to share the expert knowledge with
     \item Parameters can have:
     \begin{itemize}
       \item transformations (to account non-uniform distribution of interesting regions)
-      \item requriements on other parameters (to represent hirachical structures)
+      \item requirements on other parameters (to represent hierarchical structures)
     \end{itemize}
     \item Bounds and defaults can depend on the task size, number of features, \emph{etc.}
   \end{itemize}
@@ -344,15 +344,15 @@ tr$bestTune
 @
 \end{frame}
 
-\section{Tuning wiht \texttt{mlrHyperopt}}
+\section{Tuning with \texttt{mlrHyperopt}}
 
 \begin{frame}[fragile]{Tuning parameters with \texttt{mlrHyperopt}}
-A heuristic decides for tuing method:
+A heuristic decides for tuning method:
 \begin{block}{Tuning Methods:}
   \begin{itemize}
     \item \textbf{grid search:} 1 parameter, 2 mixed parameters
     \item \textbf{random search:} $>2$ mixed parameters
-    \item \textbf{bayesian optimization with \texttt{mlrMBO}\footnote{https://mlr-org.github.io/mlrMBO/}:} all parameters numeric
+    \item \textbf{Bayesian optimization with \texttt{mlrMBO}\footnote{https://mlr-org.github.io/mlrMBO/}:} all parameters numeric
   \end{itemize}
 \end{block}
 Default parameter sets from \texttt{mlrHyperopt} are used:
@@ -421,7 +421,7 @@ Algorithms: \texttt{caret} with \emph{grid} and \emph{random} search and \texttt
 \end{frame}
 
 \begin{frame}{Performance}
-Some jobs exceeded walltime of \SI{24}{\hour} on a Docker Cluster (Intel Xeon E5-2697v2).
+Some jobs exceeded wall time of \SI{24}{\hour} on a Docker Cluster (Intel Xeon E5-2697v2).
 \vspace{1em}
 <<caretTimeOuts, echo=FALSE, fig.width=12, fig.height=8.5, results='asis'>>=
 res[is.na(done), .(learner, Method)] %>% table() %>% xtable() %>% print(booktabs = TRUE, latex.environments=c("center", "footnotesize"))
@@ -445,7 +445,7 @@ reshape2::dcast(tmp, learner~Method) %>% xtable() %>% print(booktabs = TRUE, san
 \end{frame}
 
 \begin{frame}{Subset Results}
-Subset results to problems that ran sucsessfully. Remove the following combinations:
+Subset results to problems that ran successfully. Remove the following combinations:
 \vspace{1em}
 <<RemoveProblems, results='asis', echo = FALSE>>=
 res[exclude == TRUE, .(learner, problem)] %>% reshape2::dcast(learner~problem) %>% xtable() %>% print(booktabs = TRUE, latex.environments=c("center", "footnotesize"), include.rownames = FALSE)
@@ -455,20 +455,13 @@ Remaining unfinished runs are set to $acc = 0$.
 \end{frame}
 
 \begin{frame}{All Results}
-<<results1, echo=FALSE, fig.width=12, fig.height=8.5>>=
+<<results1, echo=FALSE, fig.width=14, fig.height=10.5>>=
 tmp = copy(res)
 tmp[exclude == TRUE, measure := 0]
 g = ggplot(data = tmp[budget %in% c(1,10)], aes(x = Method, y = measure, color = Method))
 g = g + geom_boxplot() + facet_wrap("case", scales = "free", ncol = length(unique(tmp$learner)))
 g = g + theme(axis.text.x=element_blank(), legend.position="bottom") + ylab("accuracy")
 g
-@
-\end{frame}
-
-\begin{frame}{Runtime}
-<<resultsRunTime, echo=FALSE, fig.width=12, fig.height=8.5>>=
-g = ggplot(data = res[budget %in% c(10,50)], aes(x = budget, y = time))
-g + geom_line(aes(color = Method, group = paste(algorithm,search,fold)), alpha = 0.7) + facet_grid(learner~problem, scales = "free") + scale_y_log10()
 @
 \end{frame}
 
@@ -489,7 +482,7 @@ beat.test.fun = function(x.budget, x.a, x.b) {
   tres = res.def[exclude == FALSE & budget == x.budget, {
     x = measure[Method==x.a]
     y = measure[Method==x.b]
-    if (all(x == y)) 1 else t.test(x = x, y = y, paired = TRUE, alternative = "greater")$p.value
+    if (all(x == y)) 1 else wilcox.test(x = x, y = y, paired = TRUE, alternative = "greater")$p.value
   }, by = .(case)]$V1
   mean(!is.na(tres) & tres <= 0.05)
 }
@@ -514,66 +507,88 @@ xtable(beat.test.mat[[2]], align = "l|rrrr") %>% print.xtable(booktabs = TRUE)
 \end{overprint}
 
 \vspace{1em}
-The table gives the fractions of instances where $H_0: acc_A \leq acc_B$ is rejected by the paired $t$-test to level $\alpha = 0.05$. $A$ column, $B$ rows.\\
+The table gives the fractions of instances where $H_0: acc_A \leq acc_B$ is rejected by the paired \emph{Wilcoxon}-test to level $\alpha = 0.05$. $A$ column, $B$ rows.\\
 \vspace{0.5em}
-\emph{i.e.:} \texttt{mlrHyperopt} is significantly better thant the default settings in \only<1>{\Sexpr{sprintf("%.0f", beat.test.mat[[1]]["mlrHyperopt","default"] * 100)}}\only<2>{\Sexpr{sprintf("%.0f", beat.test.mat[[2]]["mlrHyperopt","default"] * 100)}}\% of the cases.
+\emph{i.e.:} \texttt{mlrHyperopt} is significantly better than the default settings in \only<1>{\Sexpr{sprintf("%.0f", beat.test.mat[[1]]["mlrHyperopt","default"] * 100)}}\only<2>{\Sexpr{sprintf("%.0f", beat.test.mat[[2]]["mlrHyperopt","default"] * 100)}}\% of the cases.
 \end{frame}
 
-\begin{frame}{Ranking of the Tuning Methods}
-<<rankingCombinations, echo=FALSE>>=
+\begin{frame}{Which Learner Tuner Combination is a Good Choice?}
+<<testEqualToLeader, echo=FALSE, fig.width=8.5, fig.height=5>>=
 tmp = copy(res.def)
-tmp = tmp[, {if (any(exclude == TRUE)) NULL else .SD}, by = .(problem)]
-tmp[, ranking := myrank(-measure, ties.method = "first"), by = .(learner, problem, fold, budget)]
-g = ggplot(tmp, aes(x = ranking, fill = Method))
-g + geom_bar() + facet_grid(~budget)
-@
-The distribution of the rankings indicate that \texttt{caret}s grid search is indeed the best. But probably in many cases not statisitcally significant.
-\end{frame}
-
-\begin{frame}{Which Learner Tuner Combination was the best?}
-<<rankingCombinations, echo=FALSE>>=
-tmp = copy(res.def)
-tmp = tmp[, {if (any(exclude == TRUE)) NULL else .SD}, by = .(problem)]
+tmp = tmp[exclude == FALSE,]
 tmp = tmp[, {
   # get averaged measures
   mySD = copy(.SD)
-  averagedSD = mySD[, list(mean.measure = mean(measure)) , by = .(learner, Method)]
+  averagedSD = mySD[, list(mean.measure = mean(measure)) , by = .(learner, Method, Combination)]
   # get measures per fold for the learner Method combination with the top mean
-  topSD = merge(mySD, averagedSD[which.max(mean.measure), .(learner, Method)])
+  topSD = merge(mySD, averagedSD[which.max(mean.measure), .(learner, Method, Combination)])
   topmeasure = topSD$measure
   # test that against all combinations (small p.value means the combination is significantly worse than the best performing one)
-  mySD[, list(p.value = t.test(x = measure, y = topmeasure, alternative = "less", paired = TRUE)$p.value, top.com = topSD$Combination[1], mean.measure = mean(measure)) , by = .(learner, Method)]
+  mySD[, list(p.value = wilcox.test(x = measure, y = topmeasure, alternative = "less", paired = TRUE)$p.value, top.com = topSD$Combination[1], mean.measure = mean(measure)) , by = .(learner, Method, Combination)]
 } , by = .(problem, budget)]
-tmp = tmp["default" != algorithm]
-tmp[, ranking := myrank(-measure, ties.method = "first"), by = .(problem, fold, budget)]
-g = ggplot(tmp, aes(x = ranking, fill = Combination, color = algorithm))
-g = g + geom_bar() + facet_grid(budget~.)
-c7 = c('#7fc97f','#beaed4','#fdc086','#ffff99','#386cb0','#f0027f','#bf5b17')
-g + scale_fill_manual(values = rep(c7, each = 3))
+tmp[is.nan(p.value), p.value := 1]
+# tmp[, equal.to.first := p.value <= 0.05]
+# tmp = tmp[, mean(equal.to.first), by = .(learner, Method, Combination)]
+# tmp = tmp[, Combination := forcats::fct_reorder(Combination, V1)]
+# g = ggplot(tmp, aes(y = V1, x = Combination, color = Method, ymax = V1))
+# g + geom_point(size = 3) + coord_flip() + geom_linerange(ymin = 0, size = 1.5, mapping = aes(ymax = V1, linetype = learner)) + theme(legend.position = "bottom") + ylab("Fraction")
+g = ggplot(tmp, aes(y = Combination, x = problem, fill = p.value))
+g + geom_tile() + scale_fill_gradient2(low = "red", mid = "white", high ="green", midpoint = 0.1)
 @
-The distribution of the rankings indicate that \texttt{caret}s grid search is indeed the best. But probably in many cases not statisitcally significant.
+Results for the paired \emph{Wilcoxon}-test $H_0: acc_A \leq acc_{\ast}$ with $acc_{\ast}$ denoting the accuracy of the best performing algorithm.
 \end{frame}
 
-g = ggplot(tmp, aes(x = as.factor(ranking), fill = Combination))
-g = g + geom_bar()
-plotly::ggplotly(g)
-
+\begin{frame}{Run time}
+<<resultsRunTime, echo=FALSE, fig.width=11, fig.height=8>>=
+g = ggplot(data = res[budget %in% c(10,50)], aes(x = budget, y = time))
+g + geom_line(aes(color = Method, group = paste(algorithm,search,fold)), alpha = 0.7) + facet_grid(learner~problem, scales = "free") + scale_y_log10()
+@
+\end{frame}
 
 \section{Lessons Learned}
 
-\begin{frame}
+\begin{frame}{Lessons Learned}
 
 \begin{itemize}
-  \item Parameter Tuning is only frutile on some data and for some methods
-  \item \texttt{caret}s grid search has performance problems on big datasets (ksvm, nnet)
-  \item \texttt{caret}s grid search submodel trick is beneficial (glmnet)
-  \item \texttt{mlrHyperopt}s bayesian optimization causes considerable overhead for small datasets.
-  \item benchmark indicates that random search is better than the grid search
-  \item For \texttt{caret}s grid search the parameter space expands with increaseing \texttt{tuneLength}.
-
+  \item Parameter Tuning is only beneficial on some data and for some methods.
+  \item \texttt{caret}s grid search has performance problems on big data sets (ksvm, nnet).
+  \item \texttt{caret}s grid search sub model trick is beneficial (glmnet).
+  \item For \texttt{caret}s grid search the parameter space expands with increasing \texttt{tuneLength}.
+  \item \texttt{mlrHyperopt}s Bayesian optimization causes considerable overhead for small data sets.
+  \item The benchmark indicates that \emph{random search} is better than the grid search.
 \end{itemize}
 
 \end{frame}
 
+\begin{frame}{\texttt{mlrHyperopt}}
 
+  \begin{block}{Benefits}
+    \begin{itemize}
+      \item Transparent and reproducible benchmarks in combination with \emph{OpenML}: \\
+      \emph{e.g.} Tune ml method A on parameter space with id 123 on Open ML Task 456.
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{Outlook}
+    \begin{itemize}
+      \item Implement voting system / advanced statistics
+    \end{itemize}
+  \end{block}
+
+\begin{minipage}[t]{0.75\linewidth}
+\vspace{-1em}
+  Find us on GitHub
+  \begin{itemize}
+    \item \url{github.com/jakob-r/mlrHyperopt}
+    \item \url{github.com/mlr-org/mlr}
+  \end{itemize}
+\end{minipage}
+\begin{minipage}[t]{0.14\linewidth}
+\vspace{0pt}
+  \includegraphics[width = \linewidth]{assets/mlrLogo_blue_566x256}
+  \vspace{0.1cm}
+  \includegraphics[width = 0.66\linewidth]{assets/GitHub-Mark}
+\end{minipage}
+
+\end{frame}
 \end{document}
