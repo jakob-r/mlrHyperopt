@@ -171,11 +171,12 @@ modelLookup("rf")
 Extract from \texttt{models/files/gbm.R}:
 <<caretGbmStrangeGrid, eval = FALSE, size='scriptsize'>>=
 out <- expand.grid(
-  interaction.depth = seq(1, len), #<- parameter range depends on tuning budget.
+  interaction.depth = seq(1, len), #<- parameter range depends on tuning budget
   n.trees = floor((1:len) * 50), #<- ..
   shrinkage = .1,
   n.minobsinnode = 10)
 # ...
+# Random Search
 out <- data.frame(
   n.trees = floor(runif(len, min = 1, max = 5000)),
   interaction.depth = sample(1:10, replace = TRUE, size = len),
@@ -260,14 +261,14 @@ To solve this problem in \texttt{mlr} we want to share the expert knowledge with
 
 \end{frame}
 
-\begin{frame}{mlrHyperopt: ParamConfigs}
+\begin{frame}{mlrHyperopt: ParConfigs}
 
 \texttt{mlrHyperopt} stores tuning parameters in \texttt{ParConfigs}:
 
 \begin{itemize}
   \item \emph{Parameter Set} of tunable parameters
   \item fixed \emph{Parameter Values} to overwrite defaults
-  \item Associated learner and note
+  \item associated learner and note
 \end{itemize}
 
 \begin{block}{Features of the Parameter Set\footnote{\url{https://github.com/berndbischl/ParamHelpers}}:}
@@ -310,6 +311,37 @@ tuneParams(lrn, iris.task, resampling = cv10, par.set = ps,
 \end{frame}
 
 \begin{frame}[fragile]{API: Upload ParConfigs}
+
+\begin{figure}
+  \center
+  \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=3cm,
+    circ/.style={circle,draw,font=\scriptsize},
+    rect/.style={rectangle,draw,font=\scriptsize}]
+    \node[draw=none,fill=none] (20) at (0, 0) {$\mathcal X$};
+    \node[circ]  (8) at (1, -1.1) {$C$};
+    \node[circ]  (9) at(1, 0.5) {\emph{kernel}};
+    \node[rect] (17) at (2.5, 0){rbfdot};
+    \node[rect] (10) at (2.5, 1.1){polydot};
+    \node[circ] (11) at(4, 0) {\emph{sigma}};
+    \node[circ] (degree) at(4, 1.1) {\emph{degree}};
+    \node[rect] (15) at (5.5, -1.1) {$[2^{-5}, 2^{5}]$};
+    \node[rect] (16) at (5.5, 0) {$[2^{-10}, 2^{10}]$};
+    \node[rect] (degree2) at (5.5, 1.1) {$[1, \ldots, 5]$};
+    \path[every node/.style={font=\sffamily\small}]
+    (20) edge node {}(8)
+    edge node {}(9)
+    (8) edge node {}(15)
+    (9) edge node {}(10)
+    edge node {}(17)
+    (17) edge node {}(11)
+    (11) edge node {}(16)
+    (10) edge node {}(degree)
+    (degree) edge node {}(degree2);
+  \end{tikzpicture}
+  \caption*{Dependent search space for the tuning of a support vector machine.}
+  \label{fig:svm_hyperparameters}
+\end{figure}
+
 <<apiUpload, message=FALSE, size='scriptsize', eval=FALSE>>=
 ps = makeParamSet(
   makeDiscreteParam("kernel", c("rbfdot", "polydot")),
