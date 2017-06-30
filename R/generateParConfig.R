@@ -2,7 +2,7 @@
 #' Generates a suitable Parameter Configuration Set for a given Task and a Learner
 #'
 #' @description
-#' If now good Parameter Configuration Set is known this function tries to find one based on the given info.
+#' This function tries to find a good Parameter Configuration for the given learner.
 #'
 #' @template note_repro
 #'

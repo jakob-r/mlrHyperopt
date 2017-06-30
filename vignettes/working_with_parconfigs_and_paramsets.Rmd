@@ -1,0 +1,233 @@
+---
+title: "Working with ParConfigs and ParamSets"
+author: "Jakob Richter"
+output:
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: false
+      smooth_scroll: false
+vignette: >
+  %\VignetteIndexEntry{Working with ParConfigs and ParamSets}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE, cache = FALSE}
+set.seed(123)
+knitr::opts_chunk$set(cache = TRUE, collapse = FALSE)
+library(mlrHyperopt)
+configureMlr(show.learner.output = FALSE)
+```
+
+This Vignette is covers the `ParConfig` objects, what they contain and how they are created.
+
+## Components of a `ParConfig`
+
+First we will create a `ParConfig` so we can have a look at what we need.
+
+```{r pc_components}
+ps = makeParamSet(
+  makeIntegerParam("k", lower = 1, upper = 20)
+)
+pc = makeParConfig(
+  learner = "classif.knn",
+  par.set = ps
+)
+str(pc, 1)
+```
+
+Now we already saw a minimal way to create a `ParConfig` out of a `ParamSet` and the according `learner`.
+Instead of the string `"classif.knn"` you can also directly pass the `mlr` learner object.
+We see that `par.vals` and `note` is not used. 
+
+* `par.vals` is to store fixed parameter settings that we want to use to override the defaults of the `learner`.
+* `note` is just for leaving a comment that will eventually be visible online once you decide to upload your `ParConfig`.
+
+### Access the components of a `ParConfig`
+
+```{r pc_access}
+getParConfigParSet(pc)
+getParConfigParVals(pc)
+getParConfigLearnerClass(pc)
+getParConfigLearnerName(pc)
+getParConfigLearnerType(pc)
+getParConfigNote(pc)
+```
+
+### Modify the components of a `ParConfig`
+
+```{r pc_modify}
+(pc.reg = setParConfigLearner(pc, "regr.kknn"))
+setParConfigLearnerType(pc.reg, "classif")
+setParConfigNote(pc.reg, "A note...")
+setParConfigParVals(pc.reg, list(scale = FALSE))
+setParConfigParSet(pc.reg, makeParamSet(makeIntegerParam("k", 3, 11)))
+```
+
+## Create a `ParConfig`
+
+We already saw how to minimally create a `ParConfig` in the first example.
+Let's look at more examples:
+```{r pc_create1}
+lrn = makeLearner("regr.kknn")
+makeParConfig(
+  par.set = ps,
+  learner = lrn,
+  par.vals = list(kernel = "gaussian"),
+  note = "This is just an example with the kernel set to 'Gaussian'."
+)
+```
+
+### Create a `ParConfig` without a specific learner
+
+`mlr` differentiates learners pretty strictly from their type (e.g. *classification*, *regression*, *cluster* etc.) although sometimes they share the same *R* function in the underlying package.
+If we want to allow the `ParConfig` to serve for `classif.knn` as well as `regr.knn` we have to construct it less strict like the following:
+
+```{r pc_less_strict}
+pc.less = makeParConfig(
+  learner.name = "knn",
+  par.set = ps
+)
+str(pc.less, 1)
+```
+
+Or if you are unsure about the learner name but have the `mlr` learner object:
+```{r pc_less_strict_learner}
+lrn = makeLearner("classif.knn")
+pc.less = makeParConfig(
+  learner.name = getLearnerName(lrn),
+  par.set = ps
+)
+str(pc.less, 1)
+```
+
+_Note:_ The function `generateParConfig` will return a `ParConfig` for a given learner with a default tuning `ParamSet`.
+
+## The Basics of a `ParamSet`
+
+Most of the power of a `ParConfig` lies it in the `ParamSet` which is part of the [ParamHelpers](https://github.com/berndbischl/ParamHelpers) package.
+The most important features will be explained in the following.
+
+### Creating a `ParamSet`
+
+If we want to create a `ParamSet` for a specific `mlr` learner it is always helpful to check which parameters are available.
+```{r ps_learner}
+lrn = makeLearner("classif.ksvm")
+getParamSet(lrn)
+```
+
+As we now these parameters are not tunable because they don't have finite box constraints and it's also hard because there are so many.
+That's why we have to build our own.
+The function `makeParamSet` will take all our single parameters to create a `ParamSet`.
+Parameters of all different kinds can be created with the `make*Param` functions.
+To name the most important ones
+
+* `makeNumericParam(id, lower, upper)`
+* `makeIntegerParam(id, lower, upper)`
+* `makeLogicParam(id)`
+* `makeDiscreteParam(id, values)`
+
+```{r ps_create}
+ps.svm = makeParamSet(
+  makeNumericParam("C", lower = 0, upper = 100),
+  makeDiscreteParam("kernel", values = c("polydot","rbfdot"))
+)
+```
+
+*Attention!*
+Here we see the first problem:
+The parameter _C_ is more sensitive to small changes for values around zero.
+To take that into account we will use the `trafo` argument.
+
+### Creating a `ParamSet` with a transformation
+
+```{r ps_create_trafo}
+ps.svm.trafo = makeParamSet(
+  makeNumericParam("C", lower = -5, upper = 7, trafo = function(x) 2^x),
+  makeDiscreteParam("kernel", values = c("polydot","rbfdot"))
+)
+```
+
+Let's compare randomly drawn values:
+
+```{r ps_trafo_comparison}
+s1 = sampleValues(ps.svm, n = 100)
+s2 = sampleValues(ps.svm.trafo, n = 100, trafo = TRUE)
+op = par(mfrow = c(1,2))
+hist(BBmisc::extractSubList(s1, "C"))
+hist(BBmisc::extractSubList(s2, "C"))
+par(op)
+```
+
+As transformations can be arbitrary functions they can be used for other useful purposes as only generating uneven numbers, which makes sense for `knn` classification to not have ties:
+```{r ps_create_trafo2}
+ps.knn = makeParamSet(
+  makeNumericParam("k", lower = 1, upper = 6, trafo = function(x) 2*x-1)
+)
+```
+
+### Creating a `ParamSet` with dependent / hierarchical parameters
+
+For our SVM example we actually would like to tune the parameter _sigma_ for the `rbfdot` kernel and the _degree_ for the `polydot` kernel.
+So the _sigma_ parameter should only be active when _kernel_ is set to `rbfdot` and _degree_ should only be active for `kernel == "polydot"`.
+To model such dependencies or hierarchical structures in the parameter space all `make*Param` functions have the `requires` argument which can be used like follows:
+
+```{r ps_requires}
+ps.svm.req = makeParamSet(
+  makeNumericParam("C", lower = -5, upper = 7, trafo = function(x) 2^x),
+  makeDiscreteParam("kernel", values = c("polydot","rbfdot")),
+  makeNumericParam("sigma", lower = -5, upper = 5, trafo = function(x) 2^x, requires = quote(kernel == "rbfdot")),
+  makeIntegerParam("degree", lower = 1, upper = 5, requires = quote(kernel == "polydot"))
+)
+```
+
+Let's generate a LHS design to see the effects of the requirements: 
+
+```{r ps_requires_sample}
+generateDesign(6, ps.svm.req)
+```
+
+### Creating a `ParamSet` with data dependent parameter spaces
+
+For some learners the tuning space varies from the data presented.
+A prominent example is the _mtry_ parameter of the `randomForest` which determines how many randomly drawn variables are to be considered in every split. 
+The default is `sqrt(p)` with `p` being the number of variables in the data.
+Naturally we might want to set the boundaries for that value around that default.
+This is possible using expressions like in the following example:
+
+```{r ps_data_expession}
+ps.rf = makeParamSet(
+  makeIntegerParam("mtry", lower = expression(floor(sqrt(p*0.25))), upper = expression(ceiling(sqrt(p*0.75))))
+)
+```
+
+Which variables can I use in the expressions? 
+
+```{r getDictionary}
+getTaskDictionary(task = iris.task)
+```
+
+* `p` number of features / variables in _x_
+* `n.task` number of observations in the task
+* `type` type of the task like `classif`, `regr`, `cluster` and `surv`.
+* `n` number of observations in the subset
+* `k` number of classes in target
+* `task` the complete task object
+
+*Attention:*
+This feature is not implemented in mlr yet.
+As a consequence the expressions have to be pre-evaluated before they can be used for tuning.
+This also means that a smaller value for `n` in each cross-validation split will not be used as well as a feature selection won't affect `p`.
+
+To convert the `ParamSet` with expressions to a normal `ParamSet` we call the following:
+```{r evalExpressions}
+evaluateParamExpressions(ps.rf, dict = getTaskDictionary(iris.task))
+evaluateParamExpressions(ps.rf, dict = list(p = 100, n = 1000))
+```
+
+
+
+
+
+

@@ -17,7 +17,7 @@ The Task}
 [\code{ParConfig}]
 }
 \description{
-If now good Parameter Configuration Set is known this function tries to find one based on the given info.
+This function tries to find a good Parameter Configuration for the given learner.
 }
 \note{
 The output of this function might change over time with coming updates. Not recommended for reproducible research unless you save the output.

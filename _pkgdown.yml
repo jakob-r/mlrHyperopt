@@ -7,6 +7,11 @@ navbar:
   - text: Introduction
     href: articles/mlrHyperopt.html
     icon: fa-bolt
+  - text: Topics
+    icon: fa-file-text-o
+    menu:
+      - text: Working with ParConfigs and ParamSets
+        href: articles/working_with_parconfigs_and_paramsets.html
   - text: Reference
     icon: fa-book
     href: reference/index.html

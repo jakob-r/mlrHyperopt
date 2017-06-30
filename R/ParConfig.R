@@ -77,6 +77,9 @@ print.ParConfig = function(x, ...) {
   if (!is.null({learner.name = getParConfigLearnerName(x)})) {
     catf("  Associated Learner: %s", coalesce(getParConfigLearnerClass(x), learner.name))
   }
+  if (nzchar(getParConfigNote(x))) {
+    catf("  Note: %s", getParConfigNote(x))
+  }
   catf("  Parameter Set:")
   print(getParConfigParSet(x))
 }
