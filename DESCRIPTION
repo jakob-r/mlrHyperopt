@@ -32,6 +32,7 @@ Suggests:
     rgenoud,
     knitr,
     rmarkdown,
-    gbm
+    gbm,
+    kknn
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1
