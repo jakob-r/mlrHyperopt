@@ -402,10 +402,16 @@ lrns = data.frame(
   mlr =   c("ksvm",      "randomForest", "glmnet", "rpart", "nnet", "xgboost", "extraTrees"),
   caret = c("svmRadial", "rf",           "glmnet", "rpart", "nnet", "xgbTree", "extraTrees")
 )
+
+# which caret methods use the submodel trick:
+caret.submodel = c("ada", "AdaBag", "AdaBoostM1", "bagEarth", "blackboost", "blasso", "BstLm", "bstSm", "bstTree", "C50", "C50Cost", "cubist", "earth", "enet", "foba", "gamboost", "gbm", "glmboost", "glmnet", "kernelpls", "lars", "lars2", "lasso", "lda2", "leapBackward", "leapForward", "leapSeq", "LogitBoost", "pam", "partDSA", "pcr", "PenalizedLDA", "pls", "relaxo", "rfRules", "rotationForest", "rotationForestCp", "rpart", "rpart2", "rpartCost", "simpls", "spikeslab", "superpc", "widekernelpls", "xgbTree")
+intersect(lrns$caret, caret.submodel)
+
 lrns2 = as.data.table(lrns)
 lrns2 = plyr::rename(lrns2, c(caret = "learner"))
 res = merge(res, lrns2, all.x = TRUE, by = "learner")
 res[!is.na(mlr), learner := mlr, ]
+res[learner %in% lrns2[learner %in% caret.submodel, mlr], learner := stri_paste(learner,'*')]
 
 # remove not working combinations (including possible time outs)
 table(res[is.na(measure) & budget == 10,]$problem, res[is.na(measure) & budget == 10,]$learner)
