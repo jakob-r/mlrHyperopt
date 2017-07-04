@@ -458,40 +458,6 @@ tmp %>% xtable() %>% print(booktabs = TRUE, latex.environments=c("center", "foot
 Algorithms: \texttt{caret} with \emph{grid} and \emph{random} search and \texttt{mlrHyperopt}. Each with a budget of $10$ and $50$ CV10-evaluations.
 \end{frame}
 
-\begin{frame}{Performance}
-Some jobs exceeded wall time of \SI{24}{\hour} on a Docker Cluster (Intel Xeon E5-2697v2).
-\vspace{1em}
-<<caretTimeOuts, echo=FALSE, fig.width=12, fig.height=8.5, results='asis'>>=
-res[is.na(done), .(learner, Method)] %>% table() %>% xtable() %>% print(booktabs = TRUE, latex.environments=c("center", "footnotesize"))
-@
-\end{frame}
-
-\begin{frame}{Reliability}
-Some data sets caused errors in combination with certain learners.
-\vspace{1em}
-<<Errors, echo=FALSE, fig.width=12, fig.height=8.5, results='asis'>>=
-tmp = res[!is.na(error), .(learner, Method, problem)]
-tmp$problem = stri_sub(tmp$problem, 1, 3)
-tmp = tmp[, {
-  x = table(problem)
-  x = x[x>0]
-  paste0(names(x), " (", x, ")", collapse = "\\")}, by = .(learner, Method)]
-reshape2::dcast(tmp, learner~Method) %>% xtable() %>% print(booktabs = TRUE, sanitize.text.function = identity, latex.environments=c("center", "footnotesize"), include.rownames = FALSE)
-@
-\vspace{0.5em}
-\emph{Int:} Internet-Advertisements -- \emph{mon:} monks-problems-2
-\end{frame}
-
-\begin{frame}{Subset Results}
-Subset results to problems that ran successfully. Remove the following combinations:
-\vspace{1em}
-<<RemoveProblems, results='asis', echo = FALSE>>=
-res[exclude == TRUE, .(learner, problem)] %>% reshape2::dcast(learner~problem) %>% xtable() %>% print(booktabs = TRUE, latex.environments=c("center", "footnotesize"), include.rownames = FALSE)
-@
-\vspace{1em}
-Remaining unfinished runs are set to $acc = 0$.
-\end{frame}
-
 \begin{frame}{All Results}
 <<results1, echo=FALSE, fig.width=14, fig.height=10.5>>=
 tmp = copy(res)
