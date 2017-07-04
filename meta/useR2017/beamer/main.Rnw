@@ -576,13 +576,6 @@ g + geom_tile() + scale_fill_gradient2(low = "red", mid = "white", high ="green"
 Results for the paired \emph{Wilcoxon}-test $H_0: acc_A \leq acc_{\ast}$ with $acc_{\ast}$ denoting the accuracy of the best performing algorithm.
 \end{frame}
 
-\begin{frame}{Run time}
-<<resultsRunTime, echo=FALSE, fig.width=11, fig.height=8>>=
-g = ggplot(data = res[budget %in% c(10,50)], aes(x = budget, y = time))
-g + geom_line(aes(color = Method, group = paste(algorithm,search,fold)), alpha = 0.7) + facet_grid(learner~problem, scales = "free") + scale_y_log10()
-@
-\end{frame}
-
 \section{Lessons Learned}
 
 \begin{frame}{Lessons Learned}
