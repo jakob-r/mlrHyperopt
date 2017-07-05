@@ -525,21 +525,13 @@ tmp = tmp[, {
   mySD = copy(.SD)
   averagedSD = mySD[, list(mean.measure = mean(measure)) , by = .(learner, Method, Combination)]
   # get measures per fold for the learner Method combination with the top mean
-  topSD = merge(mySD, averagedSD[which.max(mean.measure), .(learner, Method, Combination)])
-  topmeasure = topSD$measure
-  # test that against all combinations (small p.value means the combination is significantly worse than the best performing one)
-  mySD[, list(p.value = wilcox.test(x = measure, y = topmeasure, alternative = "less", paired = TRUE)$p.value, top.com = topSD$Combination[1], mean.measure = mean(measure)) , by = .(learner, Method, Combination)]
+  averagedSD[, rank := myrank(-mean.measure, ties.method = 'first')]
+  averagedSD
 } , by = .(problem, budget)]
-tmp[is.nan(p.value), p.value := 1]
-# tmp[, equal.to.first := p.value <= 0.05]
-# tmp = tmp[, mean(equal.to.first), by = .(learner, Method, Combination)]
-# tmp = tmp[, Combination := forcats::fct_reorder(Combination, V1)]
-# g = ggplot(tmp, aes(y = V1, x = Combination, color = Method, ymax = V1))
-# g + geom_point(size = 3) + coord_flip() + geom_linerange(ymin = 0, size = 1.5, mapping = aes(ymax = V1, linetype = learner)) + theme(legend.position = "bottom") + ylab("Fraction")
-g = ggplot(tmp, aes(y = Combination, x = problem, fill = p.value))
-g + geom_tile() + scale_fill_gradient2(low = "red", mid = "white", high ="green", midpoint = 0.1)
+g = ggplot(tmp, aes(y = Combination, x = problem, fill = rank))
+g + geom_tile() + scale_fill_gradient2(low = "green", high ="white", mid = "yellow", midpoint = 10) + theme(axis.text.x=element_text(angle=15, hjust=1))
 @
-Results for the paired \emph{Wilcoxon}-test $H_0: acc_A \leq acc_{\ast}$ with $acc_{\ast}$ denoting the accuracy of the best performing algorithm.
+Rankings of averaged performances of each combination on each dataset.
 \end{frame}
 
 \section{Lessons Learned}
