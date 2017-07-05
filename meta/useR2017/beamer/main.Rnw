@@ -384,7 +384,7 @@ A heuristic decides for tuning method:
   \begin{itemize}
     \item \textbf{grid search:} 1 parameter, 2 mixed parameters
     \item \textbf{random search:} $>2$ mixed parameters
-    \item \textbf{Bayesian optimization with \texttt{mlrMBO}\footnote{https://mlr-org.github.io/mlrMBO/}:} all parameters numeric
+    \item \textbf{Bayesian optimization with \texttt{mlrMBO}\footnote{\url{https://mlr-org.github.io/mlrMBO/}}:} all parameters numeric
   \end{itemize}
 \end{block}
 Default parameter sets from \texttt{mlrHyperopt} are used:
