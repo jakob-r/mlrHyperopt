@@ -550,8 +550,6 @@ Results for the paired \emph{Wilcoxon}-test $H_0: acc_A \leq acc_{\ast}$ with $a
   \item Parameter Tuning is only beneficial on some data and for some methods.
   \item \texttt{caret}s grid search has performance problems on big data sets (ksvm, nnet).
   \item \texttt{caret}s grid search sub model trick is beneficial (glmnet).
-  \item For \texttt{caret}s grid search the parameter space expands with increasing \texttt{tuneLength}.
-  \item \texttt{mlrHyperopt}s Bayesian optimization causes considerable overhead for small data sets.
   \item The benchmark indicates that \emph{random search} is better than the grid search.
 \end{itemize}
 
