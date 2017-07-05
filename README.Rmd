@@ -7,6 +7,8 @@ output: github_document
 [![Build Status Windows](https://ci.appveyor.com/api/projects/status/0nyd1gh5p19os07h?svg=true)](https://ci.appveyor.com/project/jakob-r/mlrhyperopt)
 [![Coverage Status](https://coveralls.io/repos/github/jakob-r/mlrHyperopt/badge.svg?branch=master)](https://coveralls.io/github/jakob-r/mlrHyperopt?branch=master)
 
+
+
 ```{r, setup, include=FALSE}
 set.seed(123)
 knitr::opts_chunk$set(cache = TRUE, collapse = FALSE, warning = FALSE, error = FALSE)
@@ -16,6 +18,8 @@ configureMlr(show.learner.output = FALSE)
 
 Easy Hyper Parameter Optimization with [mlr](https://github.com/mlr-org/mlr/#-machine-learning-in-r) and [mlrMBO](http://mlr-org.github.io/mlrMBO/).
 
+* [UseR 2017 Talk](https://github.com/jakob-r/mlrHyperopt/raw/master/meta/useR2017/beamer/jakob_richter_mlrHyperopt.pdf)
+
 * [Issues and Bugs](https://github.com/jakob-r/mlrHyperopt/issues)
 * [Tutorial and Documentation](https://jakob-r.github.io/mlrHyperopt)
 * [Webservice](http://mlrhyperopt.jakob-r.de/parconfigs) (Work in progress!) 
@@ -23,6 +27,7 @@ Easy Hyper Parameter Optimization with [mlr](https://github.com/mlr-org/mlr/#-ma
 
 ## Installation
 ```{r, eval=FALSE}
+devtools::install_github("berndbischl/ParamHelpers") # version >= 1.11 needed.
 devtools::install_github("jakob-r/mlrHyperopt")
 ```
 

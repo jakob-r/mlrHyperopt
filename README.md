@@ -6,6 +6,8 @@ mlrHyperopt
 
 Easy Hyper Parameter Optimization with [mlr](https://github.com/mlr-org/mlr/#-machine-learning-in-r) and [mlrMBO](http://mlr-org.github.io/mlrMBO/).
 
+-   [UseR 2017 Talk](https://github.com/jakob-r/mlrHyperopt/raw/master/meta/useR2017/beamer/jakob_richter_mlrHyperopt.pdf)
+
 -   [Issues and Bugs](https://github.com/jakob-r/mlrHyperopt/issues)
 -   [Tutorial and Documentation](https://jakob-r.github.io/mlrHyperopt)
 -   [Webservice](http://mlrhyperopt.jakob-r.de/parconfigs) (Work in progress!)
@@ -15,6 +17,7 @@ Installation
 ------------
 
 ``` r
+devtools::install_github("berndbischl/ParamHelpers") # version >= 1.11 needed.
 devtools::install_github("jakob-r/mlrHyperopt")
 ```
 
@@ -30,7 +33,7 @@ res
 ```
 
     ## Tune result:
-    ## Op. pars: cost=12.6; gamma=0.0159
+    ## Op. pars: cost=5.08; gamma=0.055
     ## mmce.test.mean=0.02
 
 Mainly it uses the [learner implemented in *mlr*](http://mlr-org.github.io/mlr-tutorial/devel/html/integrated_learners/index.html) and uses the [tuning methods also available in *mlr*](http://mlr-org.github.io/mlr-tutorial/devel/html/tune/index.html). Unfortunately *mlr* lacks of well defined *search spaces* for each learner to make hyperparameter tuning easy.
