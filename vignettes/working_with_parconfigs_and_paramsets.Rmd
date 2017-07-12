@@ -14,6 +14,10 @@ vignette: >
 ---
 
 ```{r setup, include = FALSE, cache = FALSE}
+#
+# Thanks at Steve Bronder for some corrections. 
+#
+
 set.seed(123)
 knitr::opts_chunk$set(cache = TRUE, collapse = FALSE)
 library(mlrHyperopt)
@@ -117,10 +121,11 @@ lrn = makeLearner("classif.ksvm")
 getParamSet(lrn)
 ```
 
-As we now these parameters are not tunable because they don't have finite box constraints and it's also hard because there are so many.
-That's why we have to build our own.
-The function `makeParamSet` will take all our single parameters to create a `ParamSet`.
-Parameters of all different kinds can be created with the `make*Param` functions.
+Now we are facing two problems.
+First, these parameters don't have finite box constraints and most tuning methods require finite box constraints.
+Second, there are quite many and tuning works best when only presented the most important tuning parameters.
+We will build our own `ParamSet` accordingly.
+The function `makeParamSet` will take any parameter and create a ParamSet object, which in our example would then be used to tune the `ksvm` model.
 To name the most important ones
 
 * `makeNumericParam(id, lower, upper)`
@@ -137,8 +142,8 @@ ps.svm = makeParamSet(
 
 *Attention!*
 Here we see the first problem:
-The parameter _C_ is more sensitive to small changes for values around zero.
-To take that into account we will use the `trafo` argument.
+The parameter _C_ is more sensitive to changes for values around zero.
+We will use the `trafo` argument of `makeNumericParam()`so that our search space for `C` accounts for the sensitivity near zero.
 
 ### Creating a `ParamSet` with a transformation
 
@@ -217,17 +222,12 @@ getTaskDictionary(task = iris.task)
 
 *Attention:*
 This feature is not implemented in mlr yet.
-As a consequence the expressions have to be pre-evaluated before they can be used for tuning.
-This also means that a smaller value for `n` in each cross-validation split will not be used as well as a feature selection won't affect `p`.
+As a consequence, the expressions have to be pre-evaluated before they can be used for tuning.
+This also means that `n` will always be the tasks data set size instead of the number of observations after a cross-validation split. 
+Feature selection will not affect `p`.
 
 To convert the `ParamSet` with expressions to a normal `ParamSet` we call the following:
 ```{r evalExpressions}
 evaluateParamExpressions(ps.rf, dict = getTaskDictionary(iris.task))
 evaluateParamExpressions(ps.rf, dict = list(p = 100, n = 1000))
 ```
-
-
-
-
-
-
