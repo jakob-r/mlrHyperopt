@@ -159,6 +159,7 @@ pc =<span class="st"> </span><span class="kw"><a href="../reference/makeParConfi
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/setParConfigNote.html">setParConfigNote</a></span>(pc.reg, <span class="st">"A note..."</span>)</code></pre></div>
 <pre><code>## Parameter Configuration
 ##   Associated Learner: regr.kknn
+##   Note: A note...
 ##   Parameter Set:
 ##      Type len Def  Constr Req Tunable Trafo
 ## k integer   -   - 1 to 20   -    TRUE     -</code></pre>
@@ -192,6 +193,7 @@ pc =<span class="st"> </span><span class="kw"><a href="../reference/makeParConfi
 <pre><code>## Parameter Configuration
 ##   Parameter Values: kernel=gaussian
 ##   Associated Learner: regr.kknn
+##   Note: This is just an example with the kernel set to 'Gaussian'.
 ##   Parameter Set:
 ##      Type len Def  Constr Req Tunable Trafo
 ## k integer   -   - 1 to 20   -    TRUE     -</code></pre>
@@ -278,7 +280,7 @@ pc.less =<span class="st"> </span><span class="kw"><a href="../reference/makePar
 ## class.weights                                 0 to Inf   -    TRUE     -
 ## fit                                                  -   -   FALSE     -
 ## cache                                         1 to Inf   -    TRUE     -</code></pre>
-<p>As we now these parameters are not tunable because they don’t have finite box constraints and it’s also hard because there are so many. That’s why we have to build our own. The function <code>makeParamSet</code> will take all our single parameters to create a <code>ParamSet</code>. Parameters of all different kinds can be created with the <code>make*Param</code> functions. To name the most important ones</p>
+<p>Now we are facing two problems. First, these parameters don’t have finite box constraints and most tuning methods require finite box constraints. Second, there are quite many and tuning works best when only presented the most important tuning parameters. We will build our own <code>ParamSet</code> accordingly. The function <code>makeParamSet</code> will take any parameter and create a ParamSet object, which in our example would then be used to tune the <code>ksvm</code> model. To name the most important ones</p>
 <ul>
 <li><code>makeNumericParam(id, lower, upper)</code></li>
 <li><code>makeIntegerParam(id, lower, upper)</code></li>
@@ -289,26 +291,26 @@ pc.less =<span class="st"> </span><span class="kw"><a href="../reference/makePar
   <span class="kw">makeNumericParam</span>(<span class="st">"C"</span>, <span class="dt">lower =</span> <span class="dv">0</span>, <span class="dt">upper =</span> <span class="dv">100</span>),
   <span class="kw">makeDiscreteParam</span>(<span class="st">"kernel"</span>, <span class="dt">values =</span> <span class="kw">c</span>(<span class="st">"polydot"</span>,<span class="st">"rbfdot"</span>))
 )</code></pre></div>
-<p><em>Attention!</em> Here we see the first problem: The parameter <em>C</em> is more sensitive to small changes for values around zero. To take that into account we will use the <code>trafo</code> argument.</p>
+<p><em>Attention!</em> Here we see the first problem: The parameter <em>C</em> is more sensitive to changes for values around zero. We will use the <code>trafo</code> argument of <code>makeNumericParam()</code>so that our search space for <code>C</code> accounts for the sensitivity near zero.</p>
 </div>
 <div id="creating-a-paramset-with-a-transformation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#creating-a-paramset-with-a-transformation" class="anchor"></a>Creating a <code>ParamSet</code> with a transformation</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ps.svm.trafo =<span class="st"> </span><span class="kw">makeParamSet</span>(
-  <span class="kw">makeNumericParam</span>(<span class="st">"C"</span>, <span class="dt">lower =</span> -<span class="dv">5</span>, <span class="dt">upper =</span> <span class="dv">7</span>, <span class="dt">trafo =</span> function(x) <span class="dv">2</span>^x),
+  <span class="kw">makeNumericParam</span>(<span class="st">"C"</span>, <span class="dt">lower =</span> <span class="op">-</span><span class="dv">5</span>, <span class="dt">upper =</span> <span class="dv">7</span>, <span class="dt">trafo =</span> <span class="cf">function</span>(x) <span class="dv">2</span><span class="op">^</span>x),
   <span class="kw">makeDiscreteParam</span>(<span class="st">"kernel"</span>, <span class="dt">values =</span> <span class="kw">c</span>(<span class="st">"polydot"</span>,<span class="st">"rbfdot"</span>))
 )</code></pre></div>
 <p>Let’s compare randomly drawn values:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">s1 =<span class="st"> </span><span class="kw">sampleValues</span>(ps.svm, <span class="dt">n =</span> <span class="dv">100</span>)
 s2 =<span class="st"> </span><span class="kw">sampleValues</span>(ps.svm.trafo, <span class="dt">n =</span> <span class="dv">100</span>, <span class="dt">trafo =</span> <span class="ot">TRUE</span>)
 op =<span class="st"> </span><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
-<span class="kw">hist</span>(BBmisc::<span class="kw">extractSubList</span>(s1, <span class="st">"C"</span>))
-<span class="kw">hist</span>(BBmisc::<span class="kw">extractSubList</span>(s2, <span class="st">"C"</span>))</code></pre></div>
+<span class="kw">hist</span>(BBmisc<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/BBmisc/topics/extractSubList">extractSubList</a></span>(s1, <span class="st">"C"</span>))
+<span class="kw">hist</span>(BBmisc<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/BBmisc/topics/extractSubList">extractSubList</a></span>(s2, <span class="st">"C"</span>))</code></pre></div>
 <p><img src="working_with_parconfigs_and_paramsets_files/figure-html/ps_trafo_comparison-1.png" width="672"></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(op)</code></pre></div>
 <p>As transformations can be arbitrary functions they can be used for other useful purposes as only generating uneven numbers, which makes sense for <code>knn</code> classification to not have ties:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ps.knn =<span class="st"> </span><span class="kw">makeParamSet</span>(
-  <span class="kw">makeNumericParam</span>(<span class="st">"k"</span>, <span class="dt">lower =</span> <span class="dv">1</span>, <span class="dt">upper =</span> <span class="dv">6</span>, <span class="dt">trafo =</span> function(x) <span class="dv">2</span>*x<span class="dv">-1</span>)
+  <span class="kw">makeNumericParam</span>(<span class="st">"k"</span>, <span class="dt">lower =</span> <span class="dv">1</span>, <span class="dt">upper =</span> <span class="dv">6</span>, <span class="dt">trafo =</span> <span class="cf">function</span>(x) <span class="dv">2</span><span class="op">*</span>x<span class="op">-</span><span class="dv">1</span>)
 )</code></pre></div>
 </div>
 <div id="creating-a-paramset-with-dependent-hierarchical-parameters" class="section level3">
@@ -316,10 +318,10 @@ op =<span class="st"> </span><span class="kw">par</span>(<span class="dt">mfrow 
 <a href="#creating-a-paramset-with-dependent-hierarchical-parameters" class="anchor"></a>Creating a <code>ParamSet</code> with dependent / hierarchical parameters</h3>
 <p>For our SVM example we actually would like to tune the parameter <em>sigma</em> for the <code>rbfdot</code> kernel and the <em>degree</em> for the <code>polydot</code> kernel. So the <em>sigma</em> parameter should only be active when <em>kernel</em> is set to <code>rbfdot</code> and <em>degree</em> should only be active for <code>kernel == "polydot"</code>. To model such dependencies or hierarchical structures in the parameter space all <code>make*Param</code> functions have the <code>requires</code> argument which can be used like follows:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ps.svm.req =<span class="st"> </span><span class="kw">makeParamSet</span>(
-  <span class="kw">makeNumericParam</span>(<span class="st">"C"</span>, <span class="dt">lower =</span> -<span class="dv">5</span>, <span class="dt">upper =</span> <span class="dv">7</span>, <span class="dt">trafo =</span> function(x) <span class="dv">2</span>^x),
+  <span class="kw">makeNumericParam</span>(<span class="st">"C"</span>, <span class="dt">lower =</span> <span class="op">-</span><span class="dv">5</span>, <span class="dt">upper =</span> <span class="dv">7</span>, <span class="dt">trafo =</span> <span class="cf">function</span>(x) <span class="dv">2</span><span class="op">^</span>x),
   <span class="kw">makeDiscreteParam</span>(<span class="st">"kernel"</span>, <span class="dt">values =</span> <span class="kw">c</span>(<span class="st">"polydot"</span>,<span class="st">"rbfdot"</span>)),
-  <span class="kw">makeNumericParam</span>(<span class="st">"sigma"</span>, <span class="dt">lower =</span> -<span class="dv">5</span>, <span class="dt">upper =</span> <span class="dv">5</span>, <span class="dt">trafo =</span> function(x) <span class="dv">2</span>^x, <span class="dt">requires =</span> <span class="kw">quote</span>(kernel ==<span class="st"> "rbfdot"</span>)),
-  <span class="kw">makeIntegerParam</span>(<span class="st">"degree"</span>, <span class="dt">lower =</span> <span class="dv">1</span>, <span class="dt">upper =</span> <span class="dv">5</span>, <span class="dt">requires =</span> <span class="kw">quote</span>(kernel ==<span class="st"> "polydot"</span>))
+  <span class="kw">makeNumericParam</span>(<span class="st">"sigma"</span>, <span class="dt">lower =</span> <span class="op">-</span><span class="dv">5</span>, <span class="dt">upper =</span> <span class="dv">5</span>, <span class="dt">trafo =</span> <span class="cf">function</span>(x) <span class="dv">2</span><span class="op">^</span>x, <span class="dt">requires =</span> <span class="kw">quote</span>(kernel <span class="op">==</span><span class="st"> "rbfdot"</span>)),
+  <span class="kw">makeIntegerParam</span>(<span class="st">"degree"</span>, <span class="dt">lower =</span> <span class="dv">1</span>, <span class="dt">upper =</span> <span class="dv">5</span>, <span class="dt">requires =</span> <span class="kw">quote</span>(kernel <span class="op">==</span><span class="st"> "polydot"</span>))
 )</code></pre></div>
 <p>Let’s generate a LHS design to see the effects of the requirements:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">generateDesign</span>(<span class="dv">6</span>, ps.svm.req)</code></pre></div>
@@ -336,7 +338,7 @@ op =<span class="st"> </span><span class="kw">par</span>(<span class="dt">mfrow 
 <a href="#creating-a-paramset-with-data-dependent-parameter-spaces" class="anchor"></a>Creating a <code>ParamSet</code> with data dependent parameter spaces</h3>
 <p>For some learners the tuning space varies from the data presented. A prominent example is the <em>mtry</em> parameter of the <code>randomForest</code> which determines how many randomly drawn variables are to be considered in every split. The default is <code>sqrt(p)</code> with <code>p</code> being the number of variables in the data. Naturally we might want to set the boundaries for that value around that default. This is possible using expressions like in the following example:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ps.rf =<span class="st"> </span><span class="kw">makeParamSet</span>(
-  <span class="kw">makeIntegerParam</span>(<span class="st">"mtry"</span>, <span class="dt">lower =</span> <span class="kw">expression</span>(<span class="kw">floor</span>(<span class="kw">sqrt</span>(p*<span class="fl">0.25</span>))), <span class="dt">upper =</span> <span class="kw">expression</span>(<span class="kw">ceiling</span>(<span class="kw">sqrt</span>(p*<span class="fl">0.75</span>))))
+  <span class="kw">makeIntegerParam</span>(<span class="st">"mtry"</span>, <span class="dt">lower =</span> <span class="kw">expression</span>(<span class="kw">floor</span>(<span class="kw">sqrt</span>(p<span class="op">*</span><span class="fl">0.25</span>))), <span class="dt">upper =</span> <span class="kw">expression</span>(<span class="kw">ceiling</span>(<span class="kw">sqrt</span>(p<span class="op">*</span><span class="fl">0.75</span>))))
 )</code></pre></div>
 <p>Which variables can I use in the expressions?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/getTaskDictionary.html">getTaskDictionary</a></span>(<span class="dt">task =</span> iris.task)</code></pre></div>
@@ -385,7 +387,7 @@ op =<span class="st"> </span><span class="kw">par</span>(<span class="dt">mfrow 
 <li>
 <code>task</code> the complete task object</li>
 </ul>
-<p><em>Attention:</em> This feature is not implemented in mlr yet. As a consequence the expressions have to be pre-evaluated before they can be used for tuning. This also means that a smaller value for <code>n</code> in each cross-validation split will not be used as well as a feature selection won’t affect <code>p</code>.</p>
+<p><em>Attention:</em> This feature is not implemented in mlr yet. As a consequence, the expressions have to be pre-evaluated before they can be used for tuning. This also means that <code>n</code> will always be the tasks data set size instead of the number of observations after a cross-validation split. Feature selection will not affect <code>p</code>.</p>
 <p>To convert the <code>ParamSet</code> with expressions to a normal <code>ParamSet</code> we call the following:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">evaluateParamExpressions</span>(ps.rf, <span class="dt">dict =</span> <span class="kw"><a href="../reference/getTaskDictionary.html">getTaskDictionary</a></span>(iris.task))</code></pre></div>
 <pre><code>##         Type len Def Constr Req Tunable Trafo
@@ -400,7 +402,8 @@ op =<span class="st"> </span><span class="kw">par</span>(<span class="dt">mfrow 
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
         <div id="tocnav">
-      <h2>Contents</h2>
+      <h2 class="hasAnchor">
+<a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#components-of-a-parconfig">Components of a <code>ParConfig</code></a></li>
       <li><a href="#create-a-parconfig">Create a <code>ParConfig</code></a></li>
