@@ -107,7 +107,7 @@ getParConfigParSet = function(par.config, task = NULL) {
 #' @return [\code{list}].
 #' @export
 #' @family ParConfig
-getParConfigParVals = function(par.config) par.config$par.vals
+getParConfigParVals = function(par.config) BBmisc::coalesce(par.config$par.vals, list())
 
 #' @title Get the class of the associated learner
 #' @description
