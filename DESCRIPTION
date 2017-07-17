@@ -33,6 +33,9 @@ Suggests:
     knitr,
     rmarkdown,
     gbm,
-    kknn
+    kknn,
+    extraTrees,
+    ranger,
+    xgboost
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1
