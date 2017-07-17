@@ -35,13 +35,13 @@
 hyperopt = function(task, learner = NULL, par.config = NULL, hyper.control = NULL, show.info = getMlrOptions()$show.info) {
   assertClass(task, classes = "Task")
 
-  par.config = coalesce(par.config, generateParConfig(learner = learner, task = task))
+  par.config = BBmisc::coalesce(par.config, generateParConfig(learner = learner, task = task))
   assertClass(par.config, "ParConfig")
 
-  learner = coalesce(learner, generateLearner(task = task, par.config = par.config) )
+  learner = BBmisc::coalesce(learner, generateLearner(task = task, par.config = par.config) )
   learner = checkLearner(learner)
 
-  hyper.control = coalesce(hyper.control, generateHyperControl(task = task, par.config = par.config))
+  hyper.control = BBmisc::coalesce(hyper.control, generateHyperControl(task = task, par.config = par.config))
   assertList(hyper.control)
 
   if (!is.null(getParConfigParVals(par.config))) {

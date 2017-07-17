@@ -23,8 +23,7 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -113,7 +112,7 @@
     <p>For a given Learner this method will return a useful default Parameter Set for Tuning.</p>
     
 
-    <pre class="usage"><span class='fu'>getDefaultParConfig</span>(<span class='no'>learner</span>, <span class='kw'>drop.par.vals</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>getDefaultParConfig</span>(<span class='no'>learner</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -122,12 +121,6 @@
       <th>learner</th>
       <td><p>[<code>Learner</code>]
 An mlr Learner.</p></td>
-    </tr>
-    <tr>
-      <th>drop.par.vals</th>
-      <td><p>[<code>logical(1)</code>]
-Should par.vals set in the learner be dropped if they are part of the tuning par.set?
-Default is <code>TRUE</code>.</p></td>
     </tr>
     </table>
     
@@ -140,7 +133,6 @@ Default is <code>TRUE</code>.</p></td>
     <pre class="examples"><div class='input'><span class='no'>learner</span> <span class='kw'>=</span> <span class='fu'>makeLearner</span>(<span class='st'>"classif.randomForest"</span>)
 <span class='no'>par.config</span> <span class='kw'>=</span> <span class='fu'>getDefaultParConfig</span>(<span class='no'>learner</span>)
 <span class='fu'>print</span>(<span class='no'>par.config</span>)</div><div class='output co'>#&gt; Parameter Configuration
-#&gt;   Parameter Values: 
 #&gt;   Associated Learner: classif.randomForest
 #&gt;   Parameter Set:
 #&gt;             Type len            Def  Constr Req Tunable Trafo

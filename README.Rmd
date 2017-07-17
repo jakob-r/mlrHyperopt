@@ -28,7 +28,7 @@ Easy Hyper Parameter Optimization with [mlr](https://github.com/mlr-org/mlr/#-ma
 ## Installation
 ```{r, eval=FALSE}
 devtools::install_github("berndbischl/ParamHelpers") # version >= 1.11 needed.
-devtools::install_github("jakob-r/mlrHyperopt")
+devtools::install_github("jakob-r/mlrHyperopt", dependencies = TRUE)
 ```
 
 ## Purpose

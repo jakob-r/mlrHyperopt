@@ -6,9 +6,6 @@
 #'
 #' @param learner [\code{Learner}]
 #'  An mlr Learner.
-#' @param drop.par.vals [\code{logical(1)}]
-#'  Should par.vals set in the learner be dropped if they are part of the tuning par.set?
-#'  Default is \code{TRUE}.
 #' @return [\code{ParConfig}]
 #' @import stringi
 #' @examples
@@ -17,18 +14,18 @@
 #' print(par.config)
 #' @export
 
-getDefaultParConfig = function(learner, drop.par.vals = TRUE) {
-  assertFlag(drop.par.vals)
+getDefaultParConfig = function(learner) {
   learner = checkLearner(learner)
   type = getLearnerType(learner)
   learner.class = getLearnerClass(learner)
   learner.class.typeless = stri_replace_all_fixed(learner.class, type, "")
   default.par.set.vals = getDefaultParSetValues()
-  res = default.par.set.vals[[learner.class]]
-  if (is.null(res)) {
-    res = default.par.set.vals[[learner.class.typeless]]
-  }
-  if (is.null(res)) {
+  res = BBmisc::coalesce(default.par.set.vals[[learner.class]], default.par.set.vals[[learner.class.typeless]])
+  if (!is.null(res)) {
+    par.set = eval(res$par.set.call)
+    par.vals = eval(res$par.vals.call)
+    res = makeParConfig(par.set = par.set, learner = learner, par.vals =par.vals)
+  } else {
     down.res = downloadParConfigs(learner.class = learner.class, custom.query = list(default = TRUE))
     if (length(down.res)==0) {
       down.res = downloadParConfigs(learner.name = getLearnerName(learner), custom.query = list(default = TRUE))
@@ -40,11 +37,7 @@ getDefaultParConfig = function(learner, drop.par.vals = TRUE) {
   if (is.null(res)) {
     stopf("For the learner %s no default is available.", getLearnerClass(learner))
   }
-  if (drop.par.vals) {
-    learner.par.vals = getLearnerParVals(learner)
-    learner["par.vals"] = list(NULL) # FIXME when mlr allows to reset hyper pars.
-    left.par.val.names = setdiff(names(learner.par.vals), union(names(res$par.vals), getParamIds(res$par.set)))
-    setHyperPars(learner, par.vals = learner.par.vals[left.par.val.names])
-  }
-  makeParConfig(par.set = res$par.set, learner = learner, par.vals = res$par.vals)
+  # small feasibility check (why here?)
+  checkParamSetAndParVals(par.set = getParConfigParSet(res), par.vals = getParConfigParVals(res))
+  res
 }

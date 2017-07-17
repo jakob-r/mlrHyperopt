@@ -1,5 +1,8 @@
 getDefaultParSetValues = function() {
-  par.sets = list(
+  nonevallist = function(...) {
+    as.list(match.call(expand.dots = FALSE)$...)
+  }
+  par.sets = nonevallist(
     ## following are set nearly accroding to caret random search spaces
     # adabag boosting: AdaBoost.M1
     .boosting = makeParamSet(
@@ -114,9 +117,9 @@ getDefaultParSetValues = function() {
       keys = "p"
     )
   )
-  mkps = function(par.set, par.vals = list()) {
-    checkParamSetAndParVals(par.set = par.set, par.vals = par.vals)
-    list(par.set = par.set, par.vals = par.vals)
+  par.vals = nonevallist()
+  mkps = function(par.set, par.vals = NULL) {
+    list(par.set.call = par.set, par.vals.call = par.vals)
   }
-  lapply(par.sets, mkps)
+  Map(mkps, par.set = par.sets, par.vals = par.vals[names(par.sets)])
 }

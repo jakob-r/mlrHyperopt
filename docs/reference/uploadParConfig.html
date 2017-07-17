@@ -23,8 +23,7 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -156,10 +155,11 @@ This feature is not completly implemented.</p></td>
   <span class='kw'>par.set</span> <span class='kw'>=</span> <span class='no'>par.set</span>,
   <span class='kw'>par.vals</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>ntree</span> <span class='kw'>=</span> <span class='fl'>200</span>),
   <span class='kw'>learner.name</span> <span class='kw'>=</span> <span class='st'>"randomForest"</span>
-  )</div><span class='co'># NOT RUN {</span>
-<span class='no'>id</span> <span class='kw'>=</span> <span class='fu'>uploadParConfig</span>(<span class='no'>par.config</span>, <span class='st'>"jon.doe@example.com"</span>)
-<span class='fu'>print</span>(<span class='no'>id</span>)
-<span class='co'># }</span></pre>
+  )
+<span class='fu'>not_run</span>({
+  <span class='no'>id</span> <span class='kw'>=</span> <span class='fu'>uploadParConfig</span>(<span class='no'>par.config</span>, <span class='st'>"jon.doe@example.com"</span>)
+  <span class='fu'>print</span>(<span class='no'>id</span>)
+})</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

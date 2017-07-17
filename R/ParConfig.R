@@ -75,7 +75,7 @@ print.ParConfig = function(x, ...) {
     catf("  Parameter Values: %s", convertToShortString(par.vals, clip.len = 32))
   }
   if (!is.null({learner.name = getParConfigLearnerName(x)})) {
-    catf("  Associated Learner: %s", coalesce(getParConfigLearnerClass(x), learner.name))
+    catf("  Associated Learner: %s", BBmisc::coalesce(getParConfigLearnerClass(x), learner.name))
   }
   if (nzchar(getParConfigNote(x))) {
     catf("  Note: %s", getParConfigNote(x))

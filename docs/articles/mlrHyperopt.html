@@ -164,9 +164,9 @@ res</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">par.set =<span class="st"> </span><span class="kw">makeParamSet</span>(
   <span class="kw">makeIntegerParam</span>(
     <span class="dt">id =</span> <span class="st">"mtry"</span>,
-    <span class="dt">lower =</span> <span class="kw">expression</span>(<span class="kw">floor</span>(p<span class="op">^</span><span class="fl">0.25</span>)),
-    <span class="dt">upper =</span> <span class="kw">expression</span>(<span class="kw">ceiling</span>(p<span class="op">^</span><span class="fl">0.75</span>)),
-    <span class="dt">default =</span> <span class="kw">expression</span>(<span class="kw">round</span>(p<span class="op">^</span><span class="fl">0.5</span>))),
+    <span class="dt">lower =</span> <span class="kw">expression</span>(<span class="kw">floor</span>(p^<span class="fl">0.25</span>)),
+    <span class="dt">upper =</span> <span class="kw">expression</span>(<span class="kw">ceiling</span>(p^<span class="fl">0.75</span>)),
+    <span class="dt">default =</span> <span class="kw">expression</span>(<span class="kw">round</span>(p^<span class="fl">0.5</span>))),
   <span class="dt">keys =</span> <span class="st">"p"</span>)
 par.config =<span class="st"> </span><span class="kw"><a href="../reference/makeParConfig.html">makeParConfig</a></span>(
   <span class="dt">par.set =</span> par.set,
@@ -207,8 +207,7 @@ svm.configs =<span class="st"> </span><span class="kw"><a href="../reference/dow
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
         <div id="tocnav">
-      <h2 class="hasAnchor">
-<a href="#tocnav" class="anchor"></a>Contents</h2>
+      <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#purpose">Purpose</a></li>
       <li><a href="#requirements">Requirements</a></li>
