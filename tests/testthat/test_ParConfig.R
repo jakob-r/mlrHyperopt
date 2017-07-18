@@ -23,7 +23,7 @@ test_that("ParConfig spots mistakes", {
   par.config = makeParConfig(par.set)
   expect_class(par.config, "ParConfig")
   expect_equal(getParConfigParSet(par.config), par.set)
-  expect_null(getParConfigParVals(par.config))
+  expect_equal(getParConfigParVals(par.config), list())
   expect_null(getParConfigLearnerClass(par.config))
   expect_output(print(par.config), "Parameter Configuration")
 
