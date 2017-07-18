@@ -66,6 +66,5 @@ hyperopt = function(task, learner = NULL, par.config = NULL, hyper.control = NUL
     show.info = show.info)
 
   tune.res$learner = setHyperPars(learner, par.vals = tune.res$x)
-  tune.res$opt.path$y.names = head(tune.res$opt.path$y.names, 1)
   return(tune.res)
 }

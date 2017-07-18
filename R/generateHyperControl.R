@@ -101,7 +101,7 @@ generateHyperControl = function(task, par.config = NULL, learner = NULL, budget.
   resampling = det.resampling$resampling
 
   # determine a suitable measure
-  measures = list(getDefaultMeasure(task), timetrain, timepredict)
+  measures = list(getDefaultMeasure(task))
 
   makeHyperControl(
     mlr.control = mlr.control,
