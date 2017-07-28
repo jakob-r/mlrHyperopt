@@ -94,10 +94,8 @@
 <p>This Vignette is supposed to give you a short introduction and a glance at the key features of <code>mlrHyperopt</code>. For updated information make sure to check the GitHub project page:</p>
 <ul>
 <li><a href="https://github.com/jakob-r/mlrHyperopt/">Project Page</a></li>
-<li>Online documentation of <a href="https://jakob-r.github.io/mlrHyperopt/">mlrMBO</a>
-</li>
 <li>
-<a href="http://mlrhyper.jakob-r.de/status.php">Status</a> of the online database.</li>
+<a href="http://mlrhyperopt.jakob-r.de/parconfigs">Overview</a> of the online database.</li>
 </ul>
 <div id="purpose" class="section level2">
 <h2 class="hasAnchor">
@@ -125,8 +123,8 @@
 res =<span class="st"> </span><span class="kw"><a href="../reference/hyperopt.html">hyperopt</a></span>(iris.task, <span class="dt">learner =</span> <span class="st">"classif.randomForest"</span>)
 res</code></pre></div>
 <pre><code>## Tune result:
-## Op. pars: nodesize=5; mtry=4
-## mmce.test.mean=0.0333</code></pre>
+## Op. pars: nodesize=8; mtry=2
+## mmce.test.mean=0.0400000</code></pre>
 <p>To obtain full control of what is happening you can define every argument yourself or just depend partially on the automatic processes.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pc =<span class="st"> </span><span class="kw"><a href="../reference/generateParConfig.html">generateParConfig</a></span>(<span class="dt">learner =</span> <span class="st">"classif.randomForest"</span>)
 <span class="co"># The tuning parameter set:</span>
@@ -146,11 +144,61 @@ hc =<span class="st"> </span><span class="kw"><a href="../reference/generateHype
 hc =<span class="st"> </span><span class="kw"><a href="../reference/setHyperControlResampling.html">setHyperControlResampling</a></span>(hc, <span class="kw">makeResampleDesc</span>(<span class="st">"Bootstrap"</span>, <span class="dt">iters =</span> <span class="dv">3</span>))
 
 <span class="co"># Starting the hyperparameter tuning</span>
-res =<span class="st"> </span><span class="kw"><a href="../reference/hyperopt.html">hyperopt</a></span>(iris.task, <span class="dt">par.config =</span> pc, <span class="dt">hyper.control =</span> hc, <span class="dt">show.info =</span> <span class="ot">FALSE</span>)
-res</code></pre></div>
+res =<span class="st"> </span><span class="kw"><a href="../reference/hyperopt.html">hyperopt</a></span>(iris.task, <span class="dt">par.config =</span> pc, <span class="dt">hyper.control =</span> hc, <span class="dt">show.info =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<pre><code>## Resampling: OOB bootstrapping</code></pre>
+<pre><code>## Measures:             mmce</code></pre>
+<pre><code>## Resampling: OOB bootstrapping</code></pre>
+<pre><code>## Measures:             mmce</code></pre>
+<pre><code>## Resampling: OOB bootstrapping</code></pre>
+<pre><code>## Measures:             mmce</code></pre>
+<pre><code>## Resampling: OOB bootstrapping</code></pre>
+<pre><code>## Measures:             mmce</code></pre>
+<pre><code>## Resampling: OOB bootstrapping</code></pre>
+<pre><code>## Measures:             mmce</code></pre>
+<pre><code>## Resampling: OOB bootstrapping</code></pre>
+<pre><code>## Measures:             mmce</code></pre>
+<pre><code>## Resampling: OOB bootstrapping</code></pre>
+<pre><code>## Measures:             mmce</code></pre>
+<pre><code>## Resampling: OOB bootstrapping</code></pre>
+<pre><code>## Measures:             mmce</code></pre>
+<pre><code>## Resampling: OOB bootstrapping</code></pre>
+<pre><code>## Measures:             mmce</code></pre>
+<pre><code>## Resampling: OOB bootstrapping</code></pre>
+<pre><code>## Measures:             mmce</code></pre>
+<pre><code>## Resampling: OOB bootstrapping</code></pre>
+<pre><code>## Measures:             mmce</code></pre>
+<pre><code>## Resampling: OOB bootstrapping</code></pre>
+<pre><code>## Measures:             mmce</code></pre>
+<pre><code>## Resampling: OOB bootstrapping</code></pre>
+<pre><code>## Measures:             mmce</code></pre>
+<pre><code>## Resampling: OOB bootstrapping</code></pre>
+<pre><code>## Measures:             mmce</code></pre>
+<pre><code>## Resampling: OOB bootstrapping</code></pre>
+<pre><code>## Measures:             mmce</code></pre>
+<pre><code>## Resampling: OOB bootstrapping</code></pre>
+<pre><code>## Measures:             mmce</code></pre>
+<pre><code>## Resampling: OOB bootstrapping</code></pre>
+<pre><code>## Measures:             mmce</code></pre>
+<pre><code>## Resampling: OOB bootstrapping</code></pre>
+<pre><code>## Measures:             mmce</code></pre>
+<pre><code>## Resampling: OOB bootstrapping</code></pre>
+<pre><code>## Measures:             mmce</code></pre>
+<pre><code>## Resampling: OOB bootstrapping</code></pre>
+<pre><code>## Measures:             mmce</code></pre>
+<pre><code>## Resampling: OOB bootstrapping</code></pre>
+<pre><code>## Measures:             mmce</code></pre>
+<pre><code>## Resampling: OOB bootstrapping</code></pre>
+<pre><code>## Measures:             mmce</code></pre>
+<pre><code>## Resampling: OOB bootstrapping</code></pre>
+<pre><code>## Measures:             mmce</code></pre>
+<pre><code>## Resampling: OOB bootstrapping</code></pre>
+<pre><code>## Measures:             mmce</code></pre>
+<pre><code>## Resampling: OOB bootstrapping</code></pre>
+<pre><code>## Measures:             mmce</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">res</code></pre></div>
 <pre><code>## Tune result:
-## Op. pars: nodesize=8; mtry=1
-## mmce.test.mean=0.0443</code></pre>
+## Op. pars: nodesize=7; mtry=2
+## mmce.test.mean=0.0476050</code></pre>
 </div>
 <div id="sharing-search-spaces" class="section level2">
 <h2 class="hasAnchor">
@@ -221,7 +269,7 @@ svm.configs =<span class="st"> </span><span class="kw"><a href="../reference/dow
 
 
       <footer><div class="copyright">
-  <p>Developed by Richter Jakob.</p>
+  <p>Developed by Jakob Richter.</p>
 </div>
 
 <div class="pkgdown">

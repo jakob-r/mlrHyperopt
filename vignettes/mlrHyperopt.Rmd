@@ -24,8 +24,7 @@ This Vignette is supposed to give you a short introduction and a glance at the k
 For updated information make sure to check the GitHub project page:
 
 - [Project Page](https://github.com/jakob-r/mlrHyperopt/)
-- Online documentation of [mlrMBO](https://jakob-r.github.io/mlrHyperopt/)
-- [Status](http://mlrhyper.jakob-r.de/status.php) of the online database.
+- [Overview](http://mlrhyperopt.jakob-r.de/parconfigs) of the online database.
 
 ## Purpose
 

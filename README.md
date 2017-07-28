@@ -47,11 +47,15 @@ Development Status
 
 ### Web Server
 
-*Under heavy construction*. *ParConfigs* are up- and downloaded via JSON and stored on the server in a database. It's a very basic Ruby on Rails CRUD App generated via scaffolding with tiny modifications <https://github.com/jakob-r/mlrHyperoptServer>. ToDo: \* Voting System \* Upload-/Download Count \* Improve API \* Return existing ID when a duplicate is uploaded (instead of error). \* Allow a combined search (intead of one key value pair).
+*ParConfigs* are up- and downloaded via JSON and stored on the server in a database. It's a very basic Ruby on Rails CRUD App generated via scaffolding with tiny modifications <https://github.com/jakob-r/mlrHyperoptServer>. ToDo: \* Voting System \* Upload-/Download Count \* Improve API \* Return existing ID when a duplicate is uploaded (instead of error). \* Allow a combined search (instead of one key value pair).
 
 ### R package
 
-Basic functionality works reliable. Maybe I will improve the optimization heuristics in the future. Still *needs more default search spaces* for popular learners!
+Basic functionality works reliable. Maybe I will improve the optimization heuristics in the future. It still *needs more default search spaces* for popular learners!
+
+#### Reproducibility
+
+This package is still under construction and the inner workings might change without a version number update. Thus I do not recommend the usage for reproducible research until it is on CRAN. For reproducible research you might want to stick to the more lengthly but more precise [mlr tuning workflow](http://mlr-org.github.io/mlr-tutorial/devel/html/tune/index.html). You can still use the Parameter Sets recommended in *mlrHyperopt*. Just make sure to write them in your source code.
 
 ### Collaboration
 

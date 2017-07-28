@@ -118,8 +118,8 @@ devtools::<span class="kw">install_github</span>(<span class="st">"jakob-r/mlrHy
 res =<span class="st"> </span><span class="kw"><a href="reference/hyperopt.html">hyperopt</a></span>(iris.task, <span class="dt">learner =</span> <span class="st">"classif.svm"</span>)
 res</code></pre></div>
 <pre><code>## Tune result:
-## Op. pars: cost=5.08; gamma=0.055
-## mmce.test.mean=0.02</code></pre>
+## Op. pars: cost=1.44e+03; gamma=0.00167
+## mmce.test.mean=0.0333333</code></pre>
 <p>Mainly it uses the <a href="http://mlr-org.github.io/mlr-tutorial/devel/html/integrated_learners/index.html">learner implemented in <em>mlr</em></a> and uses the <a href="http://mlr-org.github.io/mlr-tutorial/devel/html/tune/index.html">tuning methods also available in <em>mlr</em></a>. Unfortunately <em>mlr</em> lacks of well defined <em>search spaces</em> for each learner to make hyperparameter tuning easy.</p>
 <p><em>mlrHyperopt</em> includes default <em>search spaces</em> for the most common machine learning methods like <em>random forest</em>, <em>svm</em> and <em>boosting</em>.</p>
 <p>As the developer can not be an expert on all machine learning methods available for <em>R</em> and <em>mlr</em>, <em>mlrHyperopt</em> also offers a web service to share, upload and download improved <em>search spaces</em>.</p>
@@ -130,12 +130,17 @@ res</code></pre></div>
 <div id="web-server" class="section level3">
 <h3 class="hasAnchor">
 <a href="#web-server" class="anchor"></a>Web Server</h3>
-<p><em>Under heavy construction</em>. <em>ParConfigs</em> are up- and downloaded via JSON and stored on the server in a database. It’s a very basic Ruby on Rails CRUD App generated via scaffolding with tiny modifications <a href="https://github.com/jakob-r/mlrHyperoptServer" class="uri">https://github.com/jakob-r/mlrHyperoptServer</a>. ToDo: * Voting System * Upload-/Download Count * Improve API * Return existing ID when a duplicate is uploaded (instead of error). * Allow a combined search (intead of one key value pair).</p>
+<p><em>ParConfigs</em> are up- and downloaded via JSON and stored on the server in a database. It’s a very basic Ruby on Rails CRUD App generated via scaffolding with tiny modifications <a href="https://github.com/jakob-r/mlrHyperoptServer" class="uri">https://github.com/jakob-r/mlrHyperoptServer</a>. ToDo: * Voting System * Upload-/Download Count * Improve API * Return existing ID when a duplicate is uploaded (instead of error). * Allow a combined search (instead of one key value pair).</p>
 </div>
 <div id="r-package" class="section level3">
 <h3 class="hasAnchor">
 <a href="#r-package" class="anchor"></a>R package</h3>
-<p>Basic functionality works reliable. Maybe I will improve the optimization heuristics in the future. Still <em>needs more default search spaces</em> for popular learners!</p>
+<p>Basic functionality works reliable. Maybe I will improve the optimization heuristics in the future. It still <em>needs more default search spaces</em> for popular learners!</p>
+<div id="reproducibility" class="section level4">
+<h4 class="hasAnchor">
+<a href="#reproducibility" class="anchor"></a>Reproducibility</h4>
+<p>This package is still under construction and the inner workings might change without a version number update. Thus I do not recommend the usage for reproducible research until it is on CRAN. For reproducible research you might want to stick to the more lengthly but more precise <a href="http://mlr-org.github.io/mlr-tutorial/devel/html/tune/index.html">mlr tuning workflow</a>. You can still use the Parameter Sets recommended in <em>mlrHyperopt</em>. Just make sure to write them in your source code.</p>
+</div>
 </div>
 <div id="collaboration" class="section level3">
 <h3 class="hasAnchor">
@@ -159,7 +164,7 @@ res</code></pre></div>
 <p><a href="https://opensource.org/licenses/BSD-3-Clause">BSD_3_clause</a> + file <a href="LICENSE">LICENSE</a></p>
 <h2>Developers</h2>
 <ul class="list-unstyled">
-<li>Richter Jakob <br><small class="roles"> Maintainer, author </small> </li>
+<li>Jakob Richter <br><small class="roles"> Maintainer, author </small> </li>
 </ul>
 <h2>Dev status</h2>
 <ul class="list-unstyled">
@@ -173,7 +178,7 @@ res</code></pre></div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Richter Jakob.</p>
+  <p>Developed by Jakob Richter.</p>
 </div>
 
 <div class="pkgdown">

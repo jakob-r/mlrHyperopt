@@ -129,7 +129,7 @@ pc =<span class="st"> </span><span class="kw"><a href="../reference/makeParConfi
 <pre><code>##      Type len Def  Constr Req Tunable Trafo
 ## k integer   -   - 1 to 20   -    TRUE     -</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/getParConfigParVals.html">getParConfigParVals</a></span>(pc)</code></pre></div>
-<pre><code>## NULL</code></pre>
+<pre><code>## list()</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/getParConfigLearnerClass.html">getParConfigLearnerClass</a></span>(pc)</code></pre></div>
 <pre><code>## [1] "classif.knn"</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/getParConfigLearnerName.html">getParConfigLearnerName</a></span>(pc)</code></pre></div>
@@ -146,19 +146,23 @@ pc =<span class="st"> </span><span class="kw"><a href="../reference/makeParConfi
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(<span class="dt">pc.reg =</span> <span class="kw"><a href="../reference/setParConfigLearner.html">setParConfigLearner</a></span>(pc, <span class="st">"regr.kknn"</span>))</code></pre></div>
 <pre><code>## Loading required package: kknn</code></pre>
 <pre><code>## Parameter Configuration
+##   Parameter Values: 
 ##   Associated Learner: regr.kknn
 ##   Parameter Set:
 ##      Type len Def  Constr Req Tunable Trafo
 ## k integer   -   - 1 to 20   -    TRUE     -</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/setParConfigLearnerType.html">setParConfigLearnerType</a></span>(pc.reg, <span class="st">"classif"</span>)</code></pre></div>
 <pre><code>## Parameter Configuration
+##   Parameter Values: 
 ##   Associated Learner: classif.kknn
 ##   Parameter Set:
 ##      Type len Def  Constr Req Tunable Trafo
 ## k integer   -   - 1 to 20   -    TRUE     -</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/setParConfigNote.html">setParConfigNote</a></span>(pc.reg, <span class="st">"A note..."</span>)</code></pre></div>
 <pre><code>## Parameter Configuration
+##   Parameter Values: 
 ##   Associated Learner: regr.kknn
+##   Note: A note...
 ##   Parameter Set:
 ##      Type len Def  Constr Req Tunable Trafo
 ## k integer   -   - 1 to 20   -    TRUE     -</code></pre>
@@ -171,6 +175,7 @@ pc =<span class="st"> </span><span class="kw"><a href="../reference/makeParConfi
 ## k integer   -   - 1 to 20   -    TRUE     -</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/setParConfigParSet.html">setParConfigParSet</a></span>(pc.reg, <span class="kw">makeParamSet</span>(<span class="kw">makeIntegerParam</span>(<span class="st">"k"</span>, <span class="dv">3</span>, <span class="dv">11</span>)))</code></pre></div>
 <pre><code>## Parameter Configuration
+##   Parameter Values: 
 ##   Associated Learner: regr.kknn
 ##   Parameter Set:
 ##      Type len Def  Constr Req Tunable Trafo
@@ -192,6 +197,7 @@ pc =<span class="st"> </span><span class="kw"><a href="../reference/makeParConfi
 <pre><code>## Parameter Configuration
 ##   Parameter Values: kernel=gaussian
 ##   Associated Learner: regr.kknn
+##   Note: This is just an example with the kernel set to 'Gaussian'.
 ##   Parameter Set:
 ##      Type len Def  Constr Req Tunable Trafo
 ## k integer   -   - 1 to 20   -    TRUE     -</code></pre>
@@ -413,7 +419,7 @@ op =<span class="st"> </span><span class="kw">par</span>(<span class="dt">mfrow 
 
 
       <footer><div class="copyright">
-  <p>Developed by Richter Jakob.</p>
+  <p>Developed by Jakob Richter.</p>
 </div>
 
 <div class="pkgdown">

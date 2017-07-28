@@ -156,25 +156,8 @@ How many train-test iterations do you want to allow?</p></td>
 #&gt; Minimize: TRUE
 #&gt; Best: 0; Worst: Inf
 #&gt; Aggregated by: test.mean
+#&gt; Arguments: 
 #&gt; Note: Defined as: mean((response - truth)^2)
-#&gt; 
-#&gt; [[2]]
-#&gt; Name: Time of fitting the model
-#&gt; Performance measure: timetrain
-#&gt; Properties: classif,classif.multi,multilabel,regr,surv,costsens,cluster,req.model
-#&gt; Minimize: TRUE
-#&gt; Best: 0; Worst: Inf
-#&gt; Aggregated by: test.mean
-#&gt; Note: 
-#&gt; 
-#&gt; [[3]]
-#&gt; Name: Time of predicting test set
-#&gt; Performance measure: timepredict
-#&gt; Properties: classif,classif.multi,multilabel,regr,surv,costsens,cluster,req.pred
-#&gt; Minimize: TRUE
-#&gt; Best: 0; Worst: Inf
-#&gt; Aggregated by: test.mean
-#&gt; Note: 
 #&gt; </div><div class='input'><span class='fu'><a href='getHyperControlMlrControl.html'>getHyperControlMlrControl</a></span>(<span class='no'>hyper.control</span>)</div><div class='output co'>#&gt; Tune control: TuneControlMBO
 #&gt; Same resampling instance: TRUE
 #&gt; Imputation value: &lt;worst&gt;
@@ -191,9 +174,9 @@ How many train-test iterations do you want to allow?</p></td>
 <span class='no'>hyper.control</span> <span class='kw'>=</span> <span class='fu'><a href='setHyperControlResampling.html'>setHyperControlResampling</a></span>(<span class='no'>hyper.control</span>, <span class='kw'>resampling</span> <span class='kw'>=</span> <span class='no'>cv3</span>)
 <span class='fu'><a href='hyperopt.html'>hyperopt</a></span>(<span class='kw'>task</span> <span class='kw'>=</span> <span class='no'>bh.task</span>, <span class='kw'>par.config</span> <span class='kw'>=</span> <span class='no'>par.config</span>, <span class='kw'>hyper.control</span> <span class='kw'>=</span> <span class='no'>hyper.control</span>)</div><div class='output co'>#&gt; <span class='message'>[Tune] Started tuning learner regr.randomForest for parameter set:</span></div><div class='output co'>#&gt; <span class='message'>            Type len Def  Constr Req Tunable Trafo</span>
 #&gt; <span class='message'>nodesize integer   -   1 1 to 10   -    TRUE     -</span>
-#&gt; <span class='message'>mtry     integer   -   4 1 to 13   -    TRUE     -</span></div><div class='output co'>#&gt; <span class='message'>With control class: TuneControlRandom</span></div><div class='output co'>#&gt; <span class='message'>Imputation value: Inf</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 1: nodesize=3; mtry=2</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 1: medse.test.mean= 2.9; time: 0.1 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 2: nodesize=5; mtry=2</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 2: medse.test.mean=3.05; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 3: nodesize=3; mtry=8</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 3: medse.test.mean=2.24; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 4: nodesize=4; mtry=10</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 4: medse.test.mean=2.22; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 5: nodesize=8; mtry=8</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 5: medse.test.mean= 2.3; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 6: nodesize=8; mtry=13</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 6: medse.test.mean=2.42; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 7: nodesize=3; mtry=4</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 7: medse.test.mean=2.36; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 8: nodesize=3; mtry=2</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 8: medse.test.mean= 2.9; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 9: nodesize=2; mtry=7</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 9: medse.test.mean=2.25; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 10: nodesize=10; mtry=12</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 10: medse.test.mean=2.39; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune] Result: nodesize=4; mtry=10 : medse.test.mean=2.22</span></div><div class='output co'>#&gt; Tune result:
+#&gt; <span class='message'>mtry     integer   -   4 1 to 13   -    TRUE     -</span></div><div class='output co'>#&gt; <span class='message'>With control class: TuneControlRandom</span></div><div class='output co'>#&gt; <span class='message'>Imputation value: Inf</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 1: nodesize=3; mtry=2</span></div><div class='output co'>#&gt; <span class='message'>Resampling: cross-validation</span></div><div class='output co'>#&gt; <span class='message'>Measures:             medse     </span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 1: medse.test.mean=2.9014208; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 2: nodesize=5; mtry=2</span></div><div class='output co'>#&gt; <span class='message'>Resampling: cross-validation</span></div><div class='output co'>#&gt; <span class='message'>Measures:             medse     </span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 2: medse.test.mean=3.0546587; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 3: nodesize=3; mtry=8</span></div><div class='output co'>#&gt; <span class='message'>Resampling: cross-validation</span></div><div class='output co'>#&gt; <span class='message'>Measures:             medse     </span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 3: medse.test.mean=2.2420234; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 4: nodesize=4; mtry=10</span></div><div class='output co'>#&gt; <span class='message'>Resampling: cross-validation</span></div><div class='output co'>#&gt; <span class='message'>Measures:             medse     </span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 4: medse.test.mean=2.2211148; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 5: nodesize=8; mtry=8</span></div><div class='output co'>#&gt; <span class='message'>Resampling: cross-validation</span></div><div class='output co'>#&gt; <span class='message'>Measures:             medse     </span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 5: medse.test.mean=2.3018454; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 6: nodesize=8; mtry=13</span></div><div class='output co'>#&gt; <span class='message'>Resampling: cross-validation</span></div><div class='output co'>#&gt; <span class='message'>Measures:             medse     </span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 6: medse.test.mean=2.4158448; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 7: nodesize=3; mtry=4</span></div><div class='output co'>#&gt; <span class='message'>Resampling: cross-validation</span></div><div class='output co'>#&gt; <span class='message'>Measures:             medse     </span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 7: medse.test.mean=2.3579541; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 8: nodesize=3; mtry=2</span></div><div class='output co'>#&gt; <span class='message'>Resampling: cross-validation</span></div><div class='output co'>#&gt; <span class='message'>Measures:             medse     </span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 8: medse.test.mean=2.8962844; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 9: nodesize=2; mtry=7</span></div><div class='output co'>#&gt; <span class='message'>Resampling: cross-validation</span></div><div class='output co'>#&gt; <span class='message'>Measures:             medse     </span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 9: medse.test.mean=2.2498006; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 10: nodesize=10; mtry=12</span></div><div class='output co'>#&gt; <span class='message'>Resampling: cross-validation</span></div><div class='output co'>#&gt; <span class='message'>Measures:             medse     </span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 10: medse.test.mean=2.3927533; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune] Result: nodesize=4; mtry=10 : medse.test.mean=2.2211148</span></div><div class='output co'>#&gt; Tune result:
 #&gt; Op. pars: nodesize=4; mtry=10
-#&gt; medse.test.mean=2.22</div></pre>
+#&gt; medse.test.mean=2.2211148</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -210,7 +193,7 @@ How many train-test iterations do you want to allow?</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Richter Jakob.</p>
+  <p>Developed by Jakob Richter.</p>
 </div>
 
 <div class="pkgdown">
