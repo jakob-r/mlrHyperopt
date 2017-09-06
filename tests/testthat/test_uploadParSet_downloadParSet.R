@@ -34,3 +34,10 @@ test_that("Download with different methods work", {
   custom.res = downloadParConfigs(custom.query = list(learner_name = "randomForest"))
   expect_list(custom.res, min.len = 2)
 })
+
+test_that("All ParConfigs can be downloaded and created", {
+  skip_on_travis()
+  skip_on_appveyor()
+  skip_on_cran()
+  all.pcs = downloadParConfigs()
+})

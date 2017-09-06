@@ -89,3 +89,15 @@ getURL = function() {
   #"http://62.113.241.202:3000/parconfigs" #this is the dev server
   "http://mlrhyperopt.jakob-r.de/parconfigs"
 }
+
+
+#checks if values in y actually overwrite values in x
+# @param x - list
+# @param y - list
+# @return logical(1)
+isParValUpdate = function(x, y) {
+  if (is.null(y)) return(FALSE)
+  if (length(y) == 0) return(FALSE)
+  overwrite.candidates = intersect(names(x), names(y))
+  return(!identical(x[overwrite.candidates], y[overwrite.candidates]))
+}

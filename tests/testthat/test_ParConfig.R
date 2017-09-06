@@ -11,6 +11,8 @@ test_that("ParConfig spots mistakes", {
     makeNumericParam(id = "cost", upper = 10, lower = -10)
   )
 
+  par.set.tolerance = makeNumericParamSet("tolerance", lower = 0.01, upper = 0.1)
+
   par.vals.empty = list()
   par.vals.good = list(cachesize = 100L, tolerance = 0.01)
   par.vals.bad = list(foo = "bar")
@@ -38,11 +40,17 @@ test_that("ParConfig spots mistakes", {
   expect_equal(getParConfigParVals(par.config), par.vals.good)
   expect_equal(getParConfigLearnerClass(par.config), lrn.good)
 
-  expect_error(makeParConfig(par.set, lrn.bad, par.vals = par.vals), "Params that are not supported by the Learner: cost")
+  par.config = makeParConfig(par.set.tolerance, learner = lrn.specified)
+  expect_equal(getParConfigParSet(par.config), par.set.tolerance)
+  expect_equal(getParConfigParVals(par.config), list())
+  expect_equal(getParConfigLearnerClass(par.config), getLearnerClass(lrn.specified))
+
+
+  expect_error(makeParConfig(par.set, lrn.bad, par.vals = par.vals.good), "Params that are not supported by the Learner: cost")
   expect_error(makeParConfig(par.set, lrn.good, par.vals = par.vals.conflict), "Following par.vals are set to a specific value and conflict with the tuning par.set: cost=2")
-  expect_warning({par.config = makeParConfig(par.set, lrn.specified, par.vals = par.vals.good)}, "par.vals of the learner were possibly overwritten by the users par.vals")
+  expect_warning({par.config = makeParConfig(par.set, lrn.specified, par.vals = par.vals.good)}, "The learners default par.vals tolerance")
+  expect_equal(par.vals.good, getParConfigParVals(par.config)[names(par.vals.good)])
   #TODO
-  # expect_error(makeParConfig(par.set, lrn.good, par.vals = par.vals.bad), "Params that are not supported by the Learner: foo")
   # expect_error(makeParConfig(par.set.out.of.bound, lrn.good), "Params that are out of bound: cost")
 })
 

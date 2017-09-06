@@ -28,23 +28,6 @@ makeParConfig = function(par.set, learner = NULL, par.vals = NULL, learner.name 
   assertClass(par.set, "ParamSet")
   assertString(note)
 
-  if (!is.null(learner)) {
-    learner = checkLearner(learner)
-    checkLearnerParSet(learner = learner, par.set = par.set)
-    learner.class = getLearnerClass(learner)
-    learner.type = getLearnerType(learner)
-    learner.name = getLearnerName(learner)
-    learner.par.vals = getLearnerParVals(learner)
-    # if par.vals are given, overwrite the ones from the learner itself
-    if (!is.null(par.vals) && length(learner.par.vals) > 0L) {
-      par.vals = insert(getLearnerParVals(learner), par.vals)
-      warning("par.vals of the learner were possibly overwritten by the users par.vals")
-    }
-  } else {
-    learner.class = NULL
-    learner.type = NULL
-  }
-
   # check that par.vals do not conflict with par.set
   if (!is.null(par.vals)) {
     assertList(par.vals, unique = TRUE, names = "named")
@@ -52,6 +35,29 @@ makeParConfig = function(par.set, learner = NULL, par.vals = NULL, learner.name 
     if (length(conflict.ids) > 0) {
       stopf("Following par.vals are set to a specific value and conflict with the tuning par.set: %s", listToShortString(par.vals[conflict.ids]))
     }
+  }
+
+  if (!is.null(learner)) {
+    learner = checkLearner(learner)
+    checkLearnerParSet(learner = learner, par.set = par.set)
+    learner.class = getLearnerClass(learner)
+    learner.type = getLearnerType(learner)
+    learner.name = getLearnerName(learner)
+    learner.par.vals = getLearnerParVals(learner)
+    # remove default par.vals from the learner if they are in the par.set
+    learner.par.vals = dropNamed(learner.par.vals, getParamIds(par.set))
+    # if par.vals are given, overwrite the ones from the learner itself
+    if (!is.null(par.vals) && isParValUpdate(par.vals, learner.par.vals)) {
+      new.par.vals = insert(learner.par.vals, par.vals)
+      overwritten.par.vals = intersect(names(par.vals), names(learner.par.vals))
+      if (length(overwritten.par.vals) > 0) {
+        warningf("The learners default par.vals %s were overwritten by the users par.vals %s", convertToShortString(learner.par.vals[overwritten.par.vals]), convertToShortString(par.vals[overwritten.par.vals]))
+      }
+      par.vals = new.par.vals
+    }
+  } else {
+    learner.class = NULL
+    learner.type = NULL
   }
 
   makeS3Obj(
