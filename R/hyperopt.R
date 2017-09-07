@@ -11,9 +11,7 @@
 #'  If no learner is given the learner referenced in the \code{par.config} will be used, if available.
 #' @template arg_parconfig
 #' @template arg_hypercontrol
-#' @param show.info [\code{logical(1)}]\cr
-#'   Print verbose output on console?
-#'   Default is set via \code{\link{configureMlr}}.
+#' @template arg_showinfo
 #' @return [\code{\link[mlr]{TuneResult}}]
 #' @import mlr
 #' @examples
