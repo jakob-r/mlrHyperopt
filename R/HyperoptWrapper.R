@@ -29,7 +29,9 @@
 makeHyperoptWrapper = function(learner, par.config = NULL, hyper.control = NULL, show.info = getMlrOptions()$show.info) {
   learner = checkLearner(learner)
   id = stri_paste(learner$id, "hyperopt", sep = ".")
-  x = mlr:::makeOptWrapper(id = id, learner = learner, resampling = NULL, measures = NULL, par.set = NULL, bit.names = character(0L), bits.to.features = function(){}, control = NULL, show.info = show.info, learner.subclass = "HyperoptWrapper", model.subclass = "TuneModel")
+  # more or less just an empty dummy control
+  control = mlr:::makeTuneControl(same.resampling.instance = FALSE, cl = "TuneControlHyperopt")
+  x = mlr:::makeOptWrapper(id = id, learner = learner, resampling = NULL, measures = NULL, par.set = NULL, bit.names = character(0L), bits.to.features = function(){}, control = control, show.info = show.info, learner.subclass = c("HyperoptWrapper", "TuneWrapper"), model.subclass = "TuneModel")
   x$hyper.control = hyper.control
   x$par.config = par.config
   return(x)
@@ -49,19 +51,4 @@ trainLearner.HyperoptWrapper = function(.learner, .task, .subset = NULL,  ...) {
   x = mlr:::makeChainModel(next.model = m, cl = "TuneModel")
   x$opt.result = or
   return(x)
-}
-
-
-#' @export
-predictLearner.HyperoptWrapper = function(.learner, .model, .newdata, ...) {
-  lrn = setHyperPars(.learner$next.learner, par.vals = .model$learner.model$opt.result$x)
-  predictLearner(lrn, .model$learner.model$next.model, .newdata, ...)
-}
-
-#' @export
-makeWrappedModel.TuneWrapper = function(learner, learner.model, task.desc, subset = NULL, features, factor.levels, time) {
-  # set threshold in learner so it is used in predict calls from here on
-  if (learner$control$tune.threshold)
-    learner = setPredictThreshold(learner, learner.model$opt.result$threshold)
-  addClasses(NextMethod(), "TuneModel")
 }
