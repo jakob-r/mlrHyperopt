@@ -26,12 +26,15 @@
 #' r = resample(lrn, task, cv3, extract = getTuneResult)
 #' getNestedTuneResultsX(r)
 #' }
+#' @importFrom utils getFromNamespace
 makeHyperoptWrapper = function(learner, par.config = NULL, hyper.control = NULL, show.info = getMlrOptions()$show.info) {
   learner = checkLearner(learner)
   id = stri_paste(learner$id, "hyperopt", sep = ".")
   # more or less just an empty dummy control
-  control = mlr:::makeTuneControl(same.resampling.instance = FALSE, cl = "TuneControlHyperopt")
-  x = mlr:::makeOptWrapper(id = id, learner = learner, resampling = NULL, measures = NULL, par.set = NULL, bit.names = character(0L), bits.to.features = function(){}, control = control, show.info = show.info, learner.subclass = c("HyperoptWrapper", "TuneWrapper"), model.subclass = "TuneModel")
+  makeTuneControl = getFromNamespace("makeTuneControl", "mlr")
+  makeOptWrapper = getFromNamespace("makeOptWrapper", "mlr")
+  control = makeTuneControl(same.resampling.instance = FALSE, cl = "TuneControlHyperopt")
+  x = makeOptWrapper(id = id, learner = learner, resampling = NULL, measures = NULL, par.set = NULL, bit.names = character(0L), bits.to.features = function(){}, control = control, show.info = show.info, learner.subclass = c("HyperoptWrapper", "TuneWrapper"), model.subclass = "TuneModel")
   x$hyper.control = hyper.control
   x$par.config = par.config
   return(x)
@@ -48,7 +51,8 @@ trainLearner.HyperoptWrapper = function(.learner, .task, .subset = NULL,  ...) {
     lrn = setHyperPars(lrn, par.vals = list(dw.perc = .learner$control$final.dw.perc))
   }
   m = train(lrn, .task)
-  x = mlr:::makeChainModel(next.model = m, cl = "TuneModel")
+  makeChainModel = getFromNamespace("makeChainModel", "mlr")
+  x = makeChainModel(next.model = m, cl = "TuneModel")
   x$opt.result = or
   return(x)
 }
