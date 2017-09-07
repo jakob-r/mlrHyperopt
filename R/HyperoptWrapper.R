@@ -10,7 +10,6 @@
 #' @template arg_parconfig
 #' @template arg_hypercontrol
 #' @template arg_showinfo
-#' @template
 #' @return [\code{\link{Learner}}].
 #' @export
 #' @family tune
