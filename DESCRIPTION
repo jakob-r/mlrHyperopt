@@ -2,7 +2,7 @@ Package: mlrHyperopt
 Type: Package
 Title: Easy Hyperparameteroptimization with mlr and mlrMBO
 Description: Simplified tuning of hyperparameters for machine learning methods.
-Version: 0.1
+Version: 0.1.1
 Authors@R: c(
     person("Jakob", "Richter", NULL, "jakob1richter@gmail.com", role = c("cre", "aut"))
     )
