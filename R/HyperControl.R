@@ -32,7 +32,7 @@ makeHyperControl = function(mlr.control = NULL, resampling = NULL, measures = NU
     stop("Argument resampling must be of class ResampleDesc or ResampleInstance!")
 
   measures = ensureVector(measures, n = 1L, cl = "Measure")
-  assertList(measures, min.len = 1, types = "Measure")
+  assertList(measures, min.len = 1, types = "Measure", null.ok = TRUE)
 
   if (!is.null(par.config)) assertClass(par.config, classes = "ParConfig")
 

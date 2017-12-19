@@ -67,7 +67,7 @@ downloadToParConfig = function(res) {
   par.set = JSONtoParSet(res$json_parset)
   par.vals = JSONtoParVals(res$json_parvals)
   res = res[nzchar(res)]
-  res$note = BBmisc::coalesce(res$note, "")
+  res$note = res$note %??% ""
   setAttribute(
     makeParConfig(par.set = par.set, par.vals = par.vals, learner = res$learner_class, learner.name = res$learner_name, note = res$note),
     "on.server", res)

@@ -33,13 +33,13 @@
 #' @export
 uploadParConfig = function(par.config, user.email = NULL, as.default = FALSE) {
   assertClass(par.config, "ParConfig")
-  user.email = BBmisc::coalesce(user.email, "<anonymous>")
+  user.email = user.email %??% "<anonymous>"
   assertString(user.email)
   assertFlag(as.default)
 
-  learner.class = BBmisc::coalesce(getParConfigLearnerClass(par.config), "")
-  learner.type = BBmisc::coalesce(getParConfigLearnerType(par.config), "")
-  learner.name = BBmisc::coalesce(getParConfigLearnerName(par.config), "")
+  learner.class = getParConfigLearnerClass(par.config) %??% ""
+  learner.type = getParConfigLearnerType(par.config) %??% ""
+  learner.name = getParConfigLearnerName(par.config) %??% ""
 
   post = list(
     user_email = user.email,

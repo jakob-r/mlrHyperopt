@@ -81,7 +81,7 @@ print.ParConfig = function(x, ...) {
     catf("  Parameter Values: %s", convertToShortString(par.vals, clip.len = 32))
   }
   if (!is.null({learner.name = getParConfigLearnerName(x)})) {
-    catf("  Associated Learner: %s", BBmisc::coalesce(getParConfigLearnerClass(x), learner.name))
+    catf("  Associated Learner: %s", getParConfigLearnerClass(x) %??% learner.name)
   }
   if (nzchar(getParConfigNote(x))) {
     catf("  Note: %s", getParConfigNote(x))
@@ -113,7 +113,7 @@ getParConfigParSet = function(par.config, task = NULL) {
 #' @return [\code{list}].
 #' @export
 #' @family ParConfig
-getParConfigParVals = function(par.config) BBmisc::coalesce(par.config$par.vals, list())
+getParConfigParVals = function(par.config) par.config$par.vals %??% list()
 
 #' @title Get the class of the associated learner
 #' @description

@@ -90,7 +90,7 @@ generateHyperControl = function(task, par.config = NULL, learner = NULL, budget.
     mbo.control = mlrMBO::setMBOControlInfill(mbo.control, crit = mlrMBO::crit.eqi)
     mbo.control = mlrMBO::setMBOControlTermination(mbo.control, max.evals = det.resampling$iters)
     mbo.design = generateDesign(n = desired.init.des, par.set = par.set, fun = lhs::maximinLHS)
-    mlr.control = makeTuneControlMBO(mbo.control = mbo.control, mbo.keep.result = TRUE, mbo.design = mbo.design)
+    mlr.control = makeTuneControlMBO(mbo.control = mbo.control, mbo.design = mbo.design)
   } else if (getParamNr(par.set) == 2) {
     det.resampling = determineResampling(desired.evals = prod(factors), iter.budget, resamplings, round.fun = identity)
     mlr.control = makeTuneControlGrid(resolution = floor(sqrt(det.resampling$iters)))
