@@ -25,7 +25,9 @@ getTaskDictionary = function(task) {
     type = getTaskType(task),
     n = getTaskSize(task)
   )
-  if (dict$type == "classif")
+  if (dict$type == "classif") {  
     dict$k = length(getTaskClassLevels(task))
+    dict$t = summary(getTaskTargets(task))
+  }
   return(dict)
 }
