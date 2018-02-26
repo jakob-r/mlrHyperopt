@@ -18,12 +18,19 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+  
+  
+<meta property="og:title" content="Downloads multiple Parameter Configurations from the mlrHyperopt servers — downloadParConfigs" />
 
+<meta property="og:description" content="Retrieve the Paramater Configurations for the given ids from the mlrHyperopt servers." />
+<meta name="twitter:card" content="summary" />
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -160,7 +167,7 @@ List of the form <code>list(key = "key", value = "value")</code> for custom quer
 #&gt; 
 #&gt; [[2]]
 #&gt; Parameter Configuration
-#&gt;   Parameter Values: 
+#&gt;   Parameter Values: list()
 #&gt;   Associated Learner: svm
 #&gt;   Parameter Set:
 #&gt;          Type len       Def    Constr Req Tunable Trafo
@@ -169,12 +176,15 @@ List of the form <code>list(key = "key", value = "value")</code> for custom quer
 #&gt; 
 #&gt; [[3]]
 #&gt; Parameter Configuration
-#&gt;   Parameter Values: 
-#&gt;   Associated Learner: svm
+#&gt;   Parameter Values: list()
+#&gt;   Associated Learner: classif.svm
+#&gt;   Note: From github.com/ja-thomas/OMLbots
 #&gt;   Parameter Set:
-#&gt;          Type len       Def    Constr Req Tunable Trafo
-#&gt; cost  numeric   -         0 -15 to 15   -    TRUE     Y
-#&gt; gamma numeric   - log2(1/p) -15 to 15   -    TRUE     Y
+#&gt;            Type len Def                   Constr Req Tunable Trafo
+#&gt; cost    numeric   -   -                -10 to 10   -    TRUE     Y
+#&gt; degree  integer   -   -                   2 to 5   Y    TRUE     -
+#&gt; gamma   numeric   -   -                -10 to 10   Y    TRUE     Y
+#&gt; kernel discrete   -   - linear,polynomial,radial   -    TRUE     -
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -196,7 +206,7 @@ List of the form <code>list(key = "key", value = "value")</code> for custom quer
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>

@@ -18,7 +18,7 @@ r_github_packages:
 - mlr-org/mlr
 - mlr-org/mlrMBO
 - jimhester/covr
-- hadley/pkgdown
+- r-lib/pkgdown
 warnings_are_errors: true
 before_script:
 - R --no-save <<< 'library("devtools"); document()'

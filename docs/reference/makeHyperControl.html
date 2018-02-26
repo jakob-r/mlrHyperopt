@@ -18,12 +18,19 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+  
+  
+<meta property="og:title" content="Hyperparameter Tuning Control Object — makeHyperControl" />
 
+<meta property="og:description" content="Defines how the hyperparameter tuning should be conducted" />
+<meta name="twitter:card" content="summary" />
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -163,9 +170,9 @@ The Parameter Configuration</p></td>
 )
 <span class='fu'><a href='hyperopt.html'>hyperopt</a></span>(<span class='kw'>task</span> <span class='kw'>=</span> <span class='no'>iris.task</span>, <span class='kw'>learner</span> <span class='kw'>=</span> <span class='st'>"classif.svm"</span>, <span class='kw'>hyper.control</span> <span class='kw'>=</span> <span class='no'>hyper.control</span>)</div><div class='output co'>#&gt; <span class='message'>[Tune] Started tuning learner classif.svm for parameter set:</span></div><div class='output co'>#&gt; <span class='message'>         Type len Def    Constr Req Tunable Trafo</span>
 #&gt; <span class='message'>cost  numeric   -   0 -15 to 15   -    TRUE     Y</span>
-#&gt; <span class='message'>gamma numeric   -  -2 -15 to 15   -    TRUE     Y</span></div><div class='output co'>#&gt; <span class='message'>With control class: TuneControlRandom</span></div><div class='output co'>#&gt; <span class='message'>Imputation value: -0</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 1: cost=1.74e+03; gamma=0.000271</span></div><div class='output co'>#&gt; <span class='message'>Resampling: cross-validation</span></div><div class='output co'>#&gt; <span class='message'>Measures:             acc       </span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 1: acc.test.mean=0.9666667; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 2: cost=85.7; gamma=0.000866</span></div><div class='output co'>#&gt; <span class='message'>Resampling: cross-validation</span></div><div class='output co'>#&gt; <span class='message'>Measures:             acc       </span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 2: acc.test.mean=0.9666667; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 3: cost=8.7e-05; gamma=0.0179</span></div><div class='output co'>#&gt; <span class='message'>Resampling: cross-validation</span></div><div class='output co'>#&gt; <span class='message'>Measures:             acc       </span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 3: acc.test.mean=0.2866667; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 4: cost=0.00639; gamma=0.00551</span></div><div class='output co'>#&gt; <span class='message'>Resampling: cross-validation</span></div><div class='output co'>#&gt; <span class='message'>Measures:             acc       </span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 4: acc.test.mean=0.2866667; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 5: cost=0.157; gamma=0.000162</span></div><div class='output co'>#&gt; <span class='message'>Resampling: cross-validation</span></div><div class='output co'>#&gt; <span class='message'>Measures:             acc       </span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 5: acc.test.mean=0.2866667; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune] Result: cost=85.7; gamma=0.000866 : acc.test.mean=0.9666667</span></div><div class='output co'>#&gt; Tune result:
-#&gt; Op. pars: cost=85.7; gamma=0.000866
-#&gt; acc.test.mean=0.9666667</div></pre>
+#&gt; <span class='message'>gamma numeric   -  -2 -15 to 15   -    TRUE     Y</span></div><div class='output co'>#&gt; <span class='message'>With control class: TuneControlRandom</span></div><div class='output co'>#&gt; <span class='message'>Imputation value: -0</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 1: cost=0.000508; gamma=1.49</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 1: acc.test.mean=0.3066667; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 2: cost=0.128; gamma=7.56e+03</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 2: acc.test.mean=0.3066667; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 3: cost=0.000173; gamma=0.0153</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 3: acc.test.mean=0.3066667; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 4: cost=4.86; gamma=810</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 4: acc.test.mean=0.3133333; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 5: cost=9.29e-05; gamma=0.0301</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 5: acc.test.mean=0.3066667; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune] Result: cost=4.86; gamma=810 : acc.test.mean=0.3133333</span></div><div class='output co'>#&gt; Tune result:
+#&gt; Op. pars: cost=4.86; gamma=810
+#&gt; acc.test.mean=0.3133333</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -188,7 +195,7 @@ The Parameter Configuration</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>

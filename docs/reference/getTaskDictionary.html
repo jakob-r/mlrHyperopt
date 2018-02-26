@@ -18,12 +18,23 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+  
+  
+<meta property="og:title" content="Create a dictionary based on the task. — getTaskDictionary" />
 
+<meta property="og:description" content="Returns a dictionary, which contains the Task itself
+(task), the number of features (p) the model is trained on, the number of
+observations (n.task) of the task in general, the number of observations (n)
+in the current subset, the task type (type) and in case of
+classification tasks, the number of class levels (k) in the general task." />
+<meta name="twitter:card" content="summary" />
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -142,11 +153,12 @@ within a parameter, parameter set or list of parameters.</p>
 #&gt; Target: Species
 #&gt; Observations: 150
 #&gt; Features:
-#&gt; numerics  factors  ordered 
-#&gt;        4        0        0 
+#&gt;    numerics     factors     ordered functionals 
+#&gt;           4           0           0           0 
 #&gt; Missings: FALSE
 #&gt; Has weights: FALSE
 #&gt; Has blocking: FALSE
+#&gt; Has coordinates: FALSE
 #&gt; Classes: 3
 #&gt;     setosa versicolor  virginica 
 #&gt;         50         50         50 
@@ -166,6 +178,10 @@ within a parameter, parameter set or list of parameters.</p>
 #&gt; 
 #&gt; $k
 #&gt; [1] 3
+#&gt; 
+#&gt; $t
+#&gt;     setosa versicolor  virginica 
+#&gt;         50         50         50 
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -187,7 +203,7 @@ within a parameter, parameter set or list of parameters.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>

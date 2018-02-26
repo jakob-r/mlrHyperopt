@@ -18,12 +18,19 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+  
+  
+<meta property="og:title" content="Generates a suitable Parameter Configuration Set for a given Task and a Learner — generateParConfig" />
 
+<meta property="og:description" content="This function tries to find a good Parameter Configuration for the given learner." />
+<meta name="twitter:card" content="summary" />
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -141,7 +148,7 @@ The Task</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>par.config</span> <span class='kw'>=</span> <span class='fu'>generateParConfig</span>(<span class='st'>"classif.svm"</span>)
 <span class='fu'>print</span>(<span class='no'>par.config</span>)</div><div class='output co'>#&gt; Parameter Configuration
-#&gt;   Parameter Values: 
+#&gt;   Parameter Values: list()
 #&gt;   Associated Learner: classif.svm
 #&gt;   Parameter Set:
 #&gt;          Type len       Def    Constr Req Tunable Trafo
@@ -169,7 +176,7 @@ The Task</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
