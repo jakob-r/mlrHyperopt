@@ -3,19 +3,42 @@ language: r
 sudo: false
 cache: packages
 
+env:
+  global:
+    secure: ILl99OLyGREkC31FHzXrIe7+qHnYIsYF8oB3FSce9JwQPVAtcGSg/e/5zzUdLUXwkOdc+hkXG5qcGmL7558Qj7PVVxbW4QPDujCMV9/mF0nCM+AFK+bis68XoPu40++LXfiMA2BPdK4B8HMYPAM5dIXT8tDxOUNJy2BS9xsFhdSeTodqU4zlsnan6neMwKYd1WVlumU4Ut+AYDewEYPLarmk3NC61gAOIlMGOpS0rV/qln5E44+0haBDrm2611dCcj05qAK9dSF5czlWn2PjWziRwE6W4zFgzPQYFenfFoKfmZ9PcGzKb62aHcPMDJBDSthLd4WTaVFk1kEPUxy88aU9Nep7pEuJnphTYj+bNrdGCKjyfv5EHA/A64l/op6SxDaZa75ZjKzHPPzPWZ5u4CZMp1vZauoHWjw+nCPc7UgAWS4JOcujKUUOFlrSH40rJCAKC8QWrf3W5rJlqVoNFQjDY835P+ms6H8WX2Tb8Az1QN5C7wa8V8116x8qRcnUDJxC1JlB8mKiZCB6QUyKi0GL0KRM/orR606oqz4twfYLxG6ej+K1thz6l/CXBbtS6rLW5du1v3lmVbWNeVo7LmcvqrutgmGCEUQRNDRKLroYiLvBEsGi+Sz/FoyB7XQT55tc0kjqYpWQ33byGHTs/qhBq3U+PPUE4cjA++hbqCA=
+
 r:
-  - release
-
+- release
 r_packages:
-  - rgenoud
-
+- rgenoud
+- devtools
+- roxygen2
 r_github_packages:
-  - berndbischl/ParamHelpers
-  - mlr-org/mlr
-  - mlr-org/mlrMBO
-  - jimhester/covr
-
+- berndbischl/ParamHelpers
+- mlr-org/mlr
+- mlr-org/mlrMBO
+- jimhester/covr
+- hadley/pkgdown
 warnings_are_errors: true
-
+before_script:
+- R --no-save <<< 'library("devtools"); document()'
 after_success:
-   - Rscript -e 'covr::coveralls()'
+- 'if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$TRAVIS_BRANCH" == "master" && "${TRAVIS_R_VERSION_STRING}"
+  == "release" ]]; then
+    R --no-save <<< "devtools::install(); pkgdown::build_site()";
+    git checkout master;
+    export TRAVIS_COMMIT_MSG="$(git log --format=%B --no-merges -n 1)";
+    git config --global user.name "Travis CI";
+    git config --global user.email "$COMMIT_AUTHOR_EMAIL";
+    git config credential.helper "store --file=.git/credentials";
+    echo "https://${GH_TOKEN}:@github.com" >> .git/credentials;
+    git config push.default matching;
+    git add --force man/*;
+    git add --force README.md;
+    git add --force README_files/*;
+    git add --force docs/*;
+    git rm -r --cached $(find . -type d -name "*_cache");
+    git commit man DESCRIPTION NAMESPACE README.md README_files docs -m "update auto-generated documentation [ci skip]" -m "$TRAVIS_COMMIT_MSG" || true;
+    git push;
+  fi;'
+- if [[ "${TRAVIS_R_VERSION_STRING}" == "release" ]]; then Rscript -e 'covr::coveralls()'; fi;
