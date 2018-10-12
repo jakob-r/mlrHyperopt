@@ -8,8 +8,8 @@
 <title>mlrHyperopt • mlrHyperopt</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><meta property="og:title" content="mlrHyperopt">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script><meta property="og:title" content="mlrHyperopt">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
@@ -18,7 +18,7 @@
 <![endif]-->
 </head>
 <body>
-    <div class="container template-vignette">
+    <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -27,8 +27,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">mlrHyperopt</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">mlrHyperopt</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
@@ -84,16 +88,19 @@
 
       
       </header><div class="row">
-  <div class="col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>mlrHyperopt</h1>
                         <h4 class="author">Jakob Richter</h4>
             
-          </div>
+      
+      <small class="dont-index">Source: <a href="https://github.com/jakob-r/mlrHyperopt/blob/master/vignettes/mlrHyperopt.Rmd"><code>vignettes/mlrHyperopt.Rmd</code></a></small>
+      <div class="hidden name"><code>mlrHyperopt.Rmd</code></div>
+
+    </div>
 
     
     
-<div class="contents">
 <p>This Vignette is supposed to give you a short introduction and a glance at the key features of <code>mlrHyperopt</code>. For updated information make sure to check the GitHub project page:</p>
 <ul>
 <li><a href="https://github.com/jakob-r/mlrHyperopt/">Project Page</a></li>
@@ -122,36 +129,36 @@
 <h2 class="hasAnchor">
 <a href="#getting-started" class="anchor"></a>Getting started</h2>
 <p>Hyperparameter Tuning with <code>mlrHyperopt</code> can be done in one line:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(mlrHyperopt)
-res =<span class="st"> </span><span class="kw"><a href="../reference/hyperopt.html">hyperopt</a></span>(iris.task, <span class="dt">learner =</span> <span class="st">"classif.randomForest"</span>)
-res</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(mlrHyperopt)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">res =<span class="st"> </span><span class="kw"><a href="../reference/hyperopt.html">hyperopt</a></span>(iris.task, <span class="dt">learner =</span> <span class="st">"classif.randomForest"</span>)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">res</a></code></pre></div>
 <pre><code>## Tune result:
-## Op. pars: nodesize=8; mtry=2
+## Op. pars: nodesize=9; mtry=2
 ## mmce.test.mean=0.0400000</code></pre>
 <p>To obtain full control of what is happening you can define every argument yourself or just depend partially on the automatic processes.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pc =<span class="st"> </span><span class="kw"><a href="../reference/generateParConfig.html">generateParConfig</a></span>(<span class="dt">learner =</span> <span class="st">"classif.randomForest"</span>)
-<span class="co"># The tuning parameter set:</span>
-<span class="kw"><a href="../reference/getParConfigParSet.html">getParConfigParSet</a></span>(pc)</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">pc =<span class="st"> </span><span class="kw"><a href="../reference/generateParConfig.html">generateParConfig</a></span>(<span class="dt">learner =</span> <span class="st">"classif.randomForest"</span>)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co"># The tuning parameter set:</span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw"><a href="../reference/getParConfigParSet.html">getParConfigParSet</a></span>(pc)</a></code></pre></div>
 <pre><code>##             Type len            Def  Constr Req Tunable Trafo
 ## nodesize integer   -              1 1 to 10   -    TRUE     -
 ## mtry     integer   - floor(sqrt(p))  1 to p   -    TRUE     -</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Setting constant values:</span>
-pc =<span class="st"> </span><span class="kw"><a href="../reference/setParConfigParVals.html">setParConfigParVals</a></span>(pc, <span class="dt">par.vals =</span> <span class="kw">list</span>(<span class="dt">mtry =</span> <span class="dv">3</span>))
-hc =<span class="st"> </span><span class="kw"><a href="../reference/generateHyperControl.html">generateHyperControl</a></span>(<span class="dt">task =</span> iris.task, <span class="dt">par.config =</span> pc)
-<span class="co"># Inspecting the resamling strategy used for tuning</span>
-<span class="kw"><a href="../reference/getHyperControlResampling.html">getHyperControlResampling</a></span>(hc)</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># Setting constant values:</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">pc =<span class="st"> </span><span class="kw"><a href="../reference/setParConfigParVals.html">setParConfigParVals</a></span>(pc, <span class="dt">par.vals =</span> <span class="kw">list</span>(<span class="dt">mtry =</span> <span class="dv">3</span>))</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">hc =<span class="st"> </span><span class="kw"><a href="../reference/generateHyperControl.html">generateHyperControl</a></span>(<span class="dt">task =</span> iris.task, <span class="dt">par.config =</span> pc)</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co"># Inspecting the resamling strategy used for tuning</span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="kw"><a href="../reference/getHyperControlResampling.html">getHyperControlResampling</a></span>(hc)</a></code></pre></div>
 <pre><code>## Resample description: cross-validation with 10 iterations.
 ## Predict: test
 ## Stratification: FALSE</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Changing the resampling strategy</span>
-hc =<span class="st"> </span><span class="kw"><a href="../reference/setHyperControlResampling.html">setHyperControlResampling</a></span>(hc, <span class="kw">makeResampleDesc</span>(<span class="st">"Bootstrap"</span>, <span class="dt">iters =</span> <span class="dv">3</span>))
-
-<span class="co"># Starting the hyperparameter tuning</span>
-res =<span class="st"> </span><span class="kw"><a href="../reference/hyperopt.html">hyperopt</a></span>(iris.task, <span class="dt">par.config =</span> pc, <span class="dt">hyper.control =</span> hc, <span class="dt">show.info =</span> <span class="ot">FALSE</span>)
-res</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># Changing the resampling strategy</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">hc =<span class="st"> </span><span class="kw"><a href="../reference/setHyperControlResampling.html">setHyperControlResampling</a></span>(hc, <span class="kw">makeResampleDesc</span>(<span class="st">"Bootstrap"</span>, <span class="dt">iters =</span> <span class="dv">3</span>))</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co"># Starting the hyperparameter tuning</span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5">res =<span class="st"> </span><span class="kw"><a href="../reference/hyperopt.html">hyperopt</a></span>(iris.task, <span class="dt">par.config =</span> pc, <span class="dt">hyper.control =</span> hc, <span class="dt">show.info =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb7-6" data-line-number="6">res</a></code></pre></div>
 <pre><code>## Tune result:
-## Op. pars: nodesize=2; mtry=3
-## mmce.test.mean=0.0291859</code></pre>
+## Op. pars: nodesize=10; mtry=4
+## mmce.test.mean=0.0378559</code></pre>
 </div>
 <div id="sharing-search-spaces" class="section level2">
 <h2 class="hasAnchor">
@@ -162,31 +169,31 @@ res</code></pre></div>
 <h3 class="hasAnchor">
 <a href="#uploading-a-parameter-configuration" class="anchor"></a>Uploading a Parameter Configuration</h3>
 <p>To upload a Parameter Configuration that consists of a <em>ParamSet</em>, an associated <em>learner</em> (either given by the general <code>learner.name</code> or the concrete <code>learner</code>.) and optionally some specific parameter settings (<code>par.vals</code>). Using just the <code>learner.name</code> indicates that you might want to use this <em>ParConfig</em> for the regression as well as the classification version of this learner.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">par.set =<span class="st"> </span><span class="kw">makeParamSet</span>(
-  <span class="kw">makeIntegerParam</span>(
-    <span class="dt">id =</span> <span class="st">"mtry"</span>,
-    <span class="dt">lower =</span> <span class="kw">expression</span>(<span class="kw">floor</span>(p^<span class="fl">0.25</span>)),
-    <span class="dt">upper =</span> <span class="kw">expression</span>(<span class="kw">ceiling</span>(p^<span class="fl">0.75</span>)),
-    <span class="dt">default =</span> <span class="kw">expression</span>(<span class="kw">round</span>(p^<span class="fl">0.5</span>))),
-  <span class="dt">keys =</span> <span class="st">"p"</span>)
-par.config =<span class="st"> </span><span class="kw"><a href="../reference/makeParConfig.html">makeParConfig</a></span>(
-  <span class="dt">par.set =</span> par.set,
-  <span class="dt">par.vals =</span> <span class="kw">list</span>(<span class="dt">ntree =</span> <span class="dv">200</span>),
-  <span class="dt">learner.name =</span> <span class="st">"randomForest"</span>
-)
-<span class="kw"><a href="../reference/uploadParConfig.html">uploadParConfig</a></span>(par.config, <span class="st">"jon.doe@example.com"</span>)</code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">par.set =<span class="st"> </span><span class="kw">makeParamSet</span>(</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">  <span class="kw">makeIntegerParam</span>(</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">    <span class="dt">id =</span> <span class="st">"mtry"</span>,</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4">    <span class="dt">lower =</span> <span class="kw">expression</span>(<span class="kw">floor</span>(p<span class="op">^</span><span class="fl">0.25</span>)),</a>
+<a class="sourceLine" id="cb9-5" data-line-number="5">    <span class="dt">upper =</span> <span class="kw">expression</span>(<span class="kw">ceiling</span>(p<span class="op">^</span><span class="fl">0.75</span>)),</a>
+<a class="sourceLine" id="cb9-6" data-line-number="6">    <span class="dt">default =</span> <span class="kw">expression</span>(<span class="kw">round</span>(p<span class="op">^</span><span class="fl">0.5</span>))),</a>
+<a class="sourceLine" id="cb9-7" data-line-number="7">  <span class="dt">keys =</span> <span class="st">"p"</span>)</a>
+<a class="sourceLine" id="cb9-8" data-line-number="8">par.config =<span class="st"> </span><span class="kw"><a href="../reference/makeParConfig.html">makeParConfig</a></span>(</a>
+<a class="sourceLine" id="cb9-9" data-line-number="9">  <span class="dt">par.set =</span> par.set,</a>
+<a class="sourceLine" id="cb9-10" data-line-number="10">  <span class="dt">par.vals =</span> <span class="kw">list</span>(<span class="dt">ntree =</span> <span class="dv">200</span>),</a>
+<a class="sourceLine" id="cb9-11" data-line-number="11">  <span class="dt">learner.name =</span> <span class="st">"randomForest"</span></a>
+<a class="sourceLine" id="cb9-12" data-line-number="12">)</a>
+<a class="sourceLine" id="cb9-13" data-line-number="13"><span class="kw"><a href="../reference/uploadParConfig.html">uploadParConfig</a></span>(par.config, <span class="st">"jon.doe@example.com"</span>)</a></code></pre></div>
 <p>With this id you can later download this specific <em>ParConfig</em>.</p>
 </div>
 <div id="downloading-parameter-configurations" class="section level3">
 <h3 class="hasAnchor">
 <a href="#downloading-parameter-configurations" class="anchor"></a>Downloading Parameter Configurations</h3>
 <p>You can download a specific parameter configuration using the id:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/downloadParConfig.html">downloadParConfig</a></span>(<span class="st">"1"</span>)</code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="../reference/downloadParConfig.html">downloadParConfig</a></span>(<span class="st">"1"</span>)</a></code></pre></div>
 <p>If you looking for parameter configurations for your learner you can simply run:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my.learner =<span class="st"> </span><span class="kw">makeLearner</span>(<span class="st">"classif.svm"</span>)
-<span class="co"># only classif svm</span>
-svm.configs =<span class="st"> </span><span class="kw"><a href="../reference/downloadParConfigs.html">downloadParConfigs</a></span>(<span class="dt">learner.class =</span> <span class="kw"><a href="../reference/getLearnerClass.html">getLearnerClass</a></span>(my.learner))
-svm.configs</code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">my.learner =<span class="st"> </span><span class="kw">makeLearner</span>(<span class="st">"classif.svm"</span>)</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="co"># only classif svm</span></a>
+<a class="sourceLine" id="cb11-3" data-line-number="3">svm.configs =<span class="st"> </span><span class="kw"><a href="../reference/downloadParConfigs.html">downloadParConfigs</a></span>(<span class="dt">learner.class =</span> <span class="kw"><a href="../reference/getLearnerClass.html">getLearnerClass</a></span>(my.learner))</a>
+<a class="sourceLine" id="cb11-4" data-line-number="4">svm.configs</a></code></pre></div>
 <pre><code>## [[1]]
 ## Parameter Configuration
 ##   Parameter Values: cachesize=100, tolerance=0.01
@@ -209,11 +216,10 @@ svm.configs</code></pre></div>
 ## degree  integer   -   -                   2 to 5   Y    TRUE     -
 ## gamma   numeric   -   -                -10 to 10   Y    TRUE     Y
 ## kernel discrete   -   - linear,polynomial,radial   -    TRUE     -</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># all svm</span>
-svm.configs =<span class="st"> </span><span class="kw"><a href="../reference/downloadParConfigs.html">downloadParConfigs</a></span>(<span class="dt">learner.name =</span> <span class="kw"><a href="../reference/getLearnerName.html">getLearnerName</a></span>(my.learner))</code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co"># all svm</span></a>
+<a class="sourceLine" id="cb13-2" data-line-number="2">svm.configs =<span class="st"> </span><span class="kw"><a href="../reference/downloadParConfigs.html">downloadParConfigs</a></span>(<span class="dt">learner.name =</span> <span class="kw"><a href="../reference/getLearnerName.html">getLearnerName</a></span>(my.learner))</a></code></pre></div>
 <p>You can also query for custom key value pair:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">user.configs =<span class="st"> </span><span class="kw"><a href="../reference/downloadParConfigs.html">downloadParConfigs</a></span>(<span class="dt">custom.query =</span> <span class="kw">list</span>(<span class="st">"user_email"</span>=<span class="st">"jon.doe@example.com"</span>))</code></pre></div>
-</div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">user.configs =<span class="st"> </span><span class="kw"><a href="../reference/downloadParConfigs.html">downloadParConfigs</a></span>(<span class="dt">custom.query =</span> <span class="kw">list</span>(<span class="st">"user_email"</span>=<span class="st">"jon.doe@example.com"</span>))</a></code></pre></div>
 </div>
 </div>
   </div>
@@ -244,6 +250,8 @@ svm.configs =<span class="st"> </span><span class="kw"><a href="../reference/dow
 
       </footer>
 </div>
+
+  
 
   </body>
 </html>

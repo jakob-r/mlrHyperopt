@@ -30,3 +30,4 @@ Other ParConfig: \code{\link{getParConfigLearnerClass}},
   \code{\link{setParConfigParSet}},
   \code{\link{setParConfigParVals}}
 }
+\concept{ParConfig}

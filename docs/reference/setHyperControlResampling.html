@@ -21,16 +21,22 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+
+
+
 <meta property="og:title" content="Set the mlr resampling Object — setHyperControlResampling" />
 
 <meta property="og:description" content="Set the mlr resampling Object" />
 <meta name="twitter:card" content="summary" />
+
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -53,8 +59,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">mlrHyperopt</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">mlrHyperopt</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -102,6 +112,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -109,19 +120,23 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Set the mlr resampling Object</h1>
+    <small class="dont-index">Source: <a href='https://github.com/jakob-r/mlrHyperopt/blob/master/R/HyperControl.R'><code>R/HyperControl.R</code></a></small>
+    <div class="hidden name"><code>setHyperControlResampling.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Set the mlr resampling Object</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>setHyperControlResampling</span>(<span class='no'>hyper.control</span>, <span class='no'>resampling</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -142,12 +157,12 @@ The resampling determines how the performance is obtained during tuning.</p></td
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other HyperControl: <code><a href='getHyperControlMeasures.html'>getHyperControlMeasures</a></code>,
+    <div class='dont-index'><p>Other HyperControl: <code><a href='getHyperControlMeasures.html'>getHyperControlMeasures</a></code>,
   <code><a href='getHyperControlMlrControl.html'>getHyperControlMlrControl</a></code>,
   <code><a href='getHyperControlResampling.html'>getHyperControlResampling</a></code>,
   <code><a href='makeHyperControl.html'>makeHyperControl</a></code>,
   <code><a href='setHyperControlMeasures.html'>setHyperControlMeasures</a></code>,
-  <code><a href='setHyperControlMlrControl.html'>setHyperControlMlrControl</a></code></p>
+  <code><a href='setHyperControlMlrControl.html'>setHyperControlMlrControl</a></code></p></div>
     
 
   </div>
@@ -176,5 +191,8 @@ The resampling determines how the performance is obtained during tuning.</p></td
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

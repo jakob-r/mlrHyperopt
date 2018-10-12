@@ -36,7 +36,7 @@ res
     ## Op. pars: cost=12.6; gamma=0.0159
     ## mmce.test.mean=0.02
 
-Mainly it uses the [learner implemented in *mlr*](http://mlr-org.github.io/mlr-tutorial/devel/html/integrated_learners/index.html) and uses the [tuning methods also available in *mlr*](http://mlr-org.github.io/mlr-tutorial/devel/html/tune/index.html). Unfortunately *mlr* lacks of well defined *search spaces* for each learner to make hyperparameter tuning easy.
+Mainly it uses the [learner implemented in *mlr*](https://mlr-org.github.io/mlr/articles/tutorial/integrated_learners/index.html) and uses the [tuning methods also available in *mlr*](http://mlr-org.github.io/mlr-tutorial/devel/html/tune.html). Unfortunately *mlr* lacks of well defined *search spaces* for each learner to make hyperparameter tuning easy.
 
 *mlrHyperopt* includes default *search spaces* for the most common machine learning methods like *random forest*, *svm* and *boosting*.
 
@@ -47,7 +47,10 @@ Development Status
 
 ### Web Server
 
-*ParConfigs* are up- and downloaded via JSON and stored on the server in a database. It's a very basic Ruby on Rails CRUD App generated via scaffolding with tiny modifications <https://github.com/jakob-r/mlrHyperoptServer>. ToDo: \* Voting System \* Upload-/Download Count \* Improve API \* Return existing ID when a duplicate is uploaded (instead of error). \* Allow a combined search (instead of one key value pair).
+*ParConfigs* are up- and downloaded via JSON and stored on the server in a database. 
+It's a very basic Ruby on Rails CRUD App generated via scaffolding with tiny modifications <https://github.com/jakob-r/mlrHyperoptServer>. 
+ToDo: 
+\* Voting System \* Upload-/Download Count \* Improve API \* Return existing ID when a duplicate is uploaded (instead of error). \* Allow a combined search (instead of one key value pair).
 
 ### R package
 
@@ -55,7 +58,7 @@ Basic functionality works reliable. Maybe I will improve the optimization heuris
 
 #### Reproducibility
 
-This package is still under construction and the inner workings might change without a version number update. Thus I do not recommend the usage for reproducible research until it is on CRAN. For reproducible research you might want to stick to the more lengthly but more precise [mlr tuning workflow](http://mlr-org.github.io/mlr-tutorial/devel/html/tune/index.html). You can still use the Parameter Sets recommended in *mlrHyperopt*. Just make sure to write them in your source code.
+This package is still under construction and the inner workings might change without a version number update. Thus I do not recommend the usage for reproducible research until it is on CRAN. For reproducible research you might want to stick to the more lengthly but more precise [mlr tuning workflow](https://mlr-org.github.io/mlr/articles/tutorial/tune.html). You can still use the Parameter Sets recommended in *mlrHyperopt*. Just make sure to write them in your source code.
 
 ### Collaboration
 

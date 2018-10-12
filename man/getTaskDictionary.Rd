@@ -25,3 +25,4 @@ classification tasks, the number of class levels (\code{k}) in the general task.
 task = makeClassifTask(data = iris, target = "Species")
 getTaskDictionary(task)
 }
+\concept{task}

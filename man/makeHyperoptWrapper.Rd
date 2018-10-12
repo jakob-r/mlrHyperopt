@@ -43,3 +43,5 @@ r = resample(lrn, task, cv3, extract = getTuneResult)
 getNestedTuneResultsX(r)
 }
 }
+\concept{tune}
+\concept{wrapper}

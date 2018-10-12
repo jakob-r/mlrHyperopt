@@ -5,8 +5,8 @@
 \alias{HyperControl}
 \title{Hyperparameter Tuning Control Object}
 \usage{
-makeHyperControl(mlr.control = NULL, resampling = NULL, measures = NULL,
-  par.config = NULL)
+makeHyperControl(mlr.control = NULL, resampling = NULL,
+  measures = NULL, par.config = NULL)
 }
 \arguments{
 \item{mlr.control}{[\code{\link[mlr]{TuneControl}}]\cr
@@ -44,3 +44,4 @@ Other HyperControl: \code{\link{getHyperControlMeasures}},
   \code{\link{setHyperControlMlrControl}},
   \code{\link{setHyperControlResampling}}
 }
+\concept{HyperControl}

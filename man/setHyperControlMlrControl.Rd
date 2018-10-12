@@ -27,3 +27,4 @@ Other HyperControl: \code{\link{getHyperControlMeasures}},
   \code{\link{setHyperControlMeasures}},
   \code{\link{setHyperControlResampling}}
 }
+\concept{HyperControl}

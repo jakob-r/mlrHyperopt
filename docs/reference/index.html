@@ -21,13 +21,19 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+
+
+
 <meta property="og:title" content="Function reference" />
+
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -50,8 +56,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">mlrHyperopt</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">mlrHyperopt</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -99,6 +109,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -106,266 +117,262 @@
       
       </header>
 
-      <div class="row">
-  <div class="col-md-9">
+<div class="row">
+  <div class="contents col-md-9">
     <div class="page-header">
-      <h1>
-        Reference
-        <small>version&nbsp;0.1.1</small>
-      </h1>
+      <h1>Reference</h1>
     </div>
 
-    <div class="contents">
-      <table class="ref-index">
+    <table class="ref-index">
 
-      <colgroup>
-        <col class="alias" />
-        <col class="title" />
-      </colgroup>
+    <colgroup>
+      
+      <col class="alias" />
+      <col class="title" />
+    </colgroup>
 
-      <tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-hyperopt" class="hasAnchor"><a href="#section-hyperopt" class="anchor"></a>hyperopt</h2>
-            <p class="section-desc"><p>Start the hyperparameter optimization</p></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="hyperopt.html">hyperopt</a></code> </p>
-          </td>
-          <td><p>Tune Hyperparameters for a machine learning task</p></td>
-        </tr>
-      </tbody><tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-generate-functions" class="hasAnchor"><a href="#section-generate-functions" class="anchor"></a>generate Functions</h2>
-            <p class="section-desc"><p>These functions are the ‘smart’ workers of mlrHyperopt</p></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="generateHyperControl.html">generateHyperControl</a></code> </p>
-          </td>
-          <td><p>Generates a hyperparameter tuning control object</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="generateLearner.html">generateLearner</a></code> </p>
-          </td>
-          <td><p>Generates a Learner for a given task and ParConfig.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="generateParConfig.html">generateParConfig</a></code> </p>
-          </td>
-          <td><p>Generates a suitable Parameter Configuration Set for a given Task and a Learner</p></td>
-        </tr>
-      </tbody><tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-hypercontrol" class="hasAnchor"><a href="#section-hypercontrol" class="anchor"></a>HyperControl</h2>
-            <p class="section-desc"><p>Interact with the main hyperopt control object.</p></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="setHyperControlMeasures.html">setHyperControlMeasures</a></code> </p>
-          </td>
-          <td><p>Set the measures</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="setHyperControlMlrControl.html">setHyperControlMlrControl</a></code> </p>
-          </td>
-          <td><p>Set the mlr TuneControl Object</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="setHyperControlResampling.html">setHyperControlResampling</a></code> </p>
-          </td>
-          <td><p>Set the mlr resampling Object</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="getHyperControlMeasures.html">getHyperControlMeasures</a></code> </p>
-          </td>
-          <td><p>Get the Measures</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="getHyperControlMlrControl.html">getHyperControlMlrControl</a></code> </p>
-          </td>
-          <td><p>Get the mlr Tuning Object</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="getHyperControlResampling.html">getHyperControlResampling</a></code> </p>
-          </td>
-          <td><p>Get the Resample Description</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="generateHyperControl.html">generateHyperControl</a></code> </p>
-          </td>
-          <td><p>Generates a hyperparameter tuning control object</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="makeHyperControl.html">makeHyperControl</a></code> </p>
-          </td>
-          <td><p>Hyperparameter Tuning Control Object</p></td>
-        </tr>
-      </tbody><tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-parconfig" class="hasAnchor"><a href="#section-parconfig" class="anchor"></a>ParConfig</h2>
-            <p class="section-desc"><p>The ParConfig object contain information about the search space (par.set), the parameter settings (par.val) and the associated learner.</p></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="generateParConfig.html">generateParConfig</a></code> </p>
-          </td>
-          <td><p>Generates a suitable Parameter Configuration Set for a given Task and a Learner</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="getDefaultParConfig.html">getDefaultParConfig</a></code> </p>
-          </td>
-          <td><p>Gives a default ParConfig for a Learner</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="makeParConfig.html">makeParConfig</a></code> </p>
-          </td>
-          <td><p>Make a Parameter Configuration</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="setParConfigLearner.html">setParConfigLearner</a></code> </p>
-          </td>
-          <td><p>Set an associated Learner</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="setParConfigLearnerType.html">setParConfigLearnerType</a></code> </p>
-          </td>
-          <td><p>Set the type of the associated learner</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="setParConfigNote.html">setParConfigNote</a></code> </p>
-          </td>
-          <td><p>Set a note</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="setParConfigParSet.html">setParConfigParSet</a></code> </p>
-          </td>
-          <td><p>Set a new Parameter Set</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="setParConfigParVals.html">setParConfigParVals</a></code> </p>
-          </td>
-          <td><p>Set Parameter Values</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="getParConfigLearnerClass.html">getParConfigLearnerClass</a></code> </p>
-          </td>
-          <td><p>Get the class of the associated learner</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="getParConfigLearnerName.html">getParConfigLearnerName</a></code> </p>
-          </td>
-          <td><p>Get the name of the associated learner</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="getParConfigLearnerType.html">getParConfigLearnerType</a></code> </p>
-          </td>
-          <td><p>Get the type of the associated learner</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="getParConfigNote.html">getParConfigNote</a></code> </p>
-          </td>
-          <td><p>Get the note</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="getParConfigParSet.html">getParConfigParSet</a></code> </p>
-          </td>
-          <td><p>Get the ParamSet of the configuration</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="getParConfigParVals.html">getParConfigParVals</a></code> </p>
-          </td>
-          <td><p>Get the constant parameter settings of the configuration</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="generateLearner.html">generateLearner</a></code> </p>
-          </td>
-          <td><p>Generates a Learner for a given task and ParConfig.</p></td>
-        </tr>
-      </tbody><tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-interact-with-the-server" class="hasAnchor"><a href="#section-interact-with-the-server" class="anchor"></a>Interact with the server</h2>
-            <p class="section-desc"><p>Functions to send and retrieve parameter configurations.</p></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="downloadParConfig.html">downloadParConfig</a></code> </p>
-          </td>
-          <td><p>Downloads a single ParConfig.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="downloadParConfigs.html">downloadParConfigs</a></code> </p>
-          </td>
-          <td><p>Downloads multiple Parameter Configurations from the mlrHyperopt servers</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="uploadParConfig.html">uploadParConfig</a></code> </p>
-          </td>
-          <td><p>Uploads a Parameter Set to the mlrHyperopt servers</p></td>
-        </tr>
-      </tbody><tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-other" class="hasAnchor"><a href="#section-other" class="anchor"></a>Other</h2>
-            <p class="section-desc"></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="getLearnerClass.html">getLearnerClass</a></code> </p>
-          </td>
-          <td><p>Get the class of an mlr Learner</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="getLearnerName.html">getLearnerName</a></code> </p>
-          </td>
-          <td><p>Get the name of an mlr Learner</p></td>
-        </tr>
-      </tbody>
-      </table>
-    </div>
+    <tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-hyperopt" class="hasAnchor"><a href="#section-hyperopt" class="anchor"></a>hyperopt</h2>
+          <p class="section-desc"><p>Start the hyperparameter optimization</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="hyperopt.html">hyperopt()</a></code> </p>
+        </td>
+        <td><p>Tune Hyperparameters for a machine learning task</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-generate-functions" class="hasAnchor"><a href="#section-generate-functions" class="anchor"></a>generate Functions</h2>
+          <p class="section-desc"><p>These functions are the ‘smart’ workers of mlrHyperopt</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="generateHyperControl.html">generateHyperControl()</a></code> </p>
+        </td>
+        <td><p>Generates a hyperparameter tuning control object</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="generateLearner.html">generateLearner()</a></code> </p>
+        </td>
+        <td><p>Generates a Learner for a given task and ParConfig.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="generateParConfig.html">generateParConfig()</a></code> </p>
+        </td>
+        <td><p>Generates a suitable Parameter Configuration Set for a given Task and a Learner</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-hypercontrol" class="hasAnchor"><a href="#section-hypercontrol" class="anchor"></a>HyperControl</h2>
+          <p class="section-desc"><p>Interact with the main hyperopt control object.</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="setHyperControlMeasures.html">setHyperControlMeasures()</a></code> </p>
+        </td>
+        <td><p>Set the measures</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="setHyperControlMlrControl.html">setHyperControlMlrControl()</a></code> </p>
+        </td>
+        <td><p>Set the mlr TuneControl Object</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="setHyperControlResampling.html">setHyperControlResampling()</a></code> </p>
+        </td>
+        <td><p>Set the mlr resampling Object</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="getHyperControlMeasures.html">getHyperControlMeasures()</a></code> </p>
+        </td>
+        <td><p>Get the Measures</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="getHyperControlMlrControl.html">getHyperControlMlrControl()</a></code> </p>
+        </td>
+        <td><p>Get the mlr Tuning Object</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="getHyperControlResampling.html">getHyperControlResampling()</a></code> </p>
+        </td>
+        <td><p>Get the Resample Description</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="generateHyperControl.html">generateHyperControl()</a></code> </p>
+        </td>
+        <td><p>Generates a hyperparameter tuning control object</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="makeHyperControl.html">makeHyperControl()</a></code> </p>
+        </td>
+        <td><p>Hyperparameter Tuning Control Object</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-parconfig" class="hasAnchor"><a href="#section-parconfig" class="anchor"></a>ParConfig</h2>
+          <p class="section-desc"><p>The ParConfig object contain information about the search space (par.set), the parameter settings (par.val) and the associated learner.</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="generateParConfig.html">generateParConfig()</a></code> </p>
+        </td>
+        <td><p>Generates a suitable Parameter Configuration Set for a given Task and a Learner</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="getDefaultParConfig.html">getDefaultParConfig()</a></code> </p>
+        </td>
+        <td><p>Gives a default ParConfig for a Learner</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="makeParConfig.html">makeParConfig()</a></code> </p>
+        </td>
+        <td><p>Make a Parameter Configuration</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="setParConfigLearner.html">setParConfigLearner()</a></code> </p>
+        </td>
+        <td><p>Set an associated Learner</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="setParConfigLearnerType.html">setParConfigLearnerType()</a></code> </p>
+        </td>
+        <td><p>Set the type of the associated learner</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="setParConfigNote.html">setParConfigNote()</a></code> </p>
+        </td>
+        <td><p>Set a note</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="setParConfigParSet.html">setParConfigParSet()</a></code> </p>
+        </td>
+        <td><p>Set a new Parameter Set</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="setParConfigParVals.html">setParConfigParVals()</a></code> </p>
+        </td>
+        <td><p>Set Parameter Values</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="getParConfigLearnerClass.html">getParConfigLearnerClass()</a></code> </p>
+        </td>
+        <td><p>Get the class of the associated learner</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="getParConfigLearnerName.html">getParConfigLearnerName()</a></code> </p>
+        </td>
+        <td><p>Get the name of the associated learner</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="getParConfigLearnerType.html">getParConfigLearnerType()</a></code> </p>
+        </td>
+        <td><p>Get the type of the associated learner</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="getParConfigNote.html">getParConfigNote()</a></code> </p>
+        </td>
+        <td><p>Get the note</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="getParConfigParSet.html">getParConfigParSet()</a></code> </p>
+        </td>
+        <td><p>Get the ParamSet of the configuration</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="getParConfigParVals.html">getParConfigParVals()</a></code> </p>
+        </td>
+        <td><p>Get the constant parameter settings of the configuration</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="generateLearner.html">generateLearner()</a></code> </p>
+        </td>
+        <td><p>Generates a Learner for a given task and ParConfig.</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-interact-with-the-server" class="hasAnchor"><a href="#section-interact-with-the-server" class="anchor"></a>Interact with the server</h2>
+          <p class="section-desc"><p>Functions to send and retrieve parameter configurations.</p></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="downloadParConfig.html">downloadParConfig()</a></code> </p>
+        </td>
+        <td><p>Downloads a single ParConfig.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="downloadParConfigs.html">downloadParConfigs()</a></code> </p>
+        </td>
+        <td><p>Downloads multiple Parameter Configurations from the mlrHyperopt servers</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="uploadParConfig.html">uploadParConfig()</a></code> </p>
+        </td>
+        <td><p>Uploads a Parameter Set to the mlrHyperopt servers</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-other" class="hasAnchor"><a href="#section-other" class="anchor"></a>Other</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="getLearnerClass.html">getLearnerClass()</a></code> </p>
+        </td>
+        <td><p>Get the class of an mlr Learner</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="getLearnerName.html">getLearnerName()</a></code> </p>
+        </td>
+        <td><p>Get the name of an mlr Learner</p></td>
+      </tr>
+    </tbody>
+    </table>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -393,5 +400,8 @@
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

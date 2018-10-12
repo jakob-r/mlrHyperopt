@@ -4,8 +4,8 @@
 \alias{hyperopt}
 \title{Tune Hyperparameters for a machine learning task}
 \usage{
-hyperopt(task, learner = NULL, par.config = NULL, hyper.control = NULL,
-  show.info = getMlrOptions()$show.info)
+hyperopt(task, learner = NULL, par.config = NULL,
+  hyper.control = NULL, show.info = getMlrOptions()$show.info)
 }
 \arguments{
 \item{task}{[\code{Task}]

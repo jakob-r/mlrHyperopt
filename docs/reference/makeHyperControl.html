@@ -21,16 +21,22 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+
+
+
 <meta property="og:title" content="Hyperparameter Tuning Control Object — makeHyperControl" />
 
 <meta property="og:description" content="Defines how the hyperparameter tuning should be conducted" />
 <meta name="twitter:card" content="summary" />
+
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -53,8 +59,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">mlrHyperopt</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">mlrHyperopt</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -102,6 +112,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -109,25 +120,29 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Hyperparameter Tuning Control Object</h1>
+    <small class="dont-index">Source: <a href='https://github.com/jakob-r/mlrHyperopt/blob/master/R/HyperControl.R'><code>R/HyperControl.R</code></a></small>
+    <div class="hidden name"><code>makeHyperControl.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Defines how the hyperparameter tuning should be conducted</p>
     
+    </div>
 
-    <pre class="usage"><span class='fu'>makeHyperControl</span>(<span class='kw'>mlr.control</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>resampling</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>measures</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>par.config</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>makeHyperControl</span>(<span class='kw'>mlr.control</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>resampling</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>measures</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>par.config</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>mlr.control</th>
-      <td><p>[<code><a href='http://www.rdocumentation.org/packages/mlr/topics/TuneControl'>TuneControl</a></code>]
+      <td><p>[<code><a href='http://www.rdocumentation.org/packages/mlr/topics/TuneControl'>TuneControl</a></code>]<br />
 Control object for search method. Also selects the optimization algorithm for tuning.</p></td>
     </tr>
     <tr>
@@ -137,7 +152,7 @@ The resampling determines how the performance is obtained during tuning.</p></td
     </tr>
     <tr>
       <th>measures</th>
-      <td><p>[<code><a href='http://www.rdocumentation.org/packages/mlr/topics/makeMeasure'>Measure</a></code> | list of <code><a href='http://www.rdocumentation.org/packages/mlr/topics/makeMeasure'>Measure</a></code>]
+      <td><p>[<code><a href='http://www.rdocumentation.org/packages/mlr/topics/makeMeasure'>Measure</a></code> | list of <code><a href='http://www.rdocumentation.org/packages/mlr/topics/makeMeasure'>Measure</a></code>]<br />
 Performance measure(s) to evaluate.
 Default is the default measure for the task, see here <code>getDefaultMeasure</code>.</p></td>
     </tr>
@@ -154,12 +169,12 @@ The Parameter Configuration</p></td>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other HyperControl: <code><a href='getHyperControlMeasures.html'>getHyperControlMeasures</a></code>,
+    <div class='dont-index'><p>Other HyperControl: <code><a href='getHyperControlMeasures.html'>getHyperControlMeasures</a></code>,
   <code><a href='getHyperControlMlrControl.html'>getHyperControlMlrControl</a></code>,
   <code><a href='getHyperControlResampling.html'>getHyperControlResampling</a></code>,
   <code><a href='setHyperControlMeasures.html'>setHyperControlMeasures</a></code>,
   <code><a href='setHyperControlMlrControl.html'>setHyperControlMlrControl</a></code>,
-  <code><a href='setHyperControlResampling.html'>setHyperControlResampling</a></code></p>
+  <code><a href='setHyperControlResampling.html'>setHyperControlResampling</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -170,9 +185,9 @@ The Parameter Configuration</p></td>
 )
 <span class='fu'><a href='hyperopt.html'>hyperopt</a></span>(<span class='kw'>task</span> <span class='kw'>=</span> <span class='no'>iris.task</span>, <span class='kw'>learner</span> <span class='kw'>=</span> <span class='st'>"classif.svm"</span>, <span class='kw'>hyper.control</span> <span class='kw'>=</span> <span class='no'>hyper.control</span>)</div><div class='output co'>#&gt; <span class='message'>[Tune] Started tuning learner classif.svm for parameter set:</span></div><div class='output co'>#&gt; <span class='message'>         Type len Def    Constr Req Tunable Trafo</span>
 #&gt; <span class='message'>cost  numeric   -   0 -15 to 15   -    TRUE     Y</span>
-#&gt; <span class='message'>gamma numeric   -  -2 -15 to 15   -    TRUE     Y</span></div><div class='output co'>#&gt; <span class='message'>With control class: TuneControlRandom</span></div><div class='output co'>#&gt; <span class='message'>Imputation value: -0</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 1: cost=0.000508; gamma=1.49</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 1: acc.test.mean=0.3066667; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 2: cost=0.128; gamma=7.56e+03</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 2: acc.test.mean=0.3066667; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 3: cost=0.000173; gamma=0.0153</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 3: acc.test.mean=0.3066667; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 4: cost=4.86; gamma=810</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 4: acc.test.mean=0.3133333; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 5: cost=9.29e-05; gamma=0.0301</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 5: acc.test.mean=0.3066667; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune] Result: cost=4.86; gamma=810 : acc.test.mean=0.3133333</span></div><div class='output co'>#&gt; Tune result:
-#&gt; Op. pars: cost=4.86; gamma=810
-#&gt; acc.test.mean=0.3133333</div></pre>
+#&gt; <span class='message'>gamma numeric   -  -2 -15 to 15   -    TRUE     Y</span></div><div class='output co'>#&gt; <span class='message'>With control class: TuneControlRandom</span></div><div class='output co'>#&gt; <span class='message'>Imputation value: -0</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 1: cost=7.5e+03; gamma=0.0178</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 1: acc.test.mean=0.9333333; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 2: cost=1.28e+03; gamma=123</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 2: acc.test.mean=0.3000000; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 3: cost=0.0014; gamma=0.00285</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 3: acc.test.mean=0.2800000; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 4: cost=0.0661; gamma=0.00402</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 4: acc.test.mean=0.2800000; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune-x] 5: cost=0.0271; gamma=0.000712</span></div><div class='output co'>#&gt; <span class='message'>[Tune-y] 5: acc.test.mean=0.2800000; time: 0.0 min</span></div><div class='output co'>#&gt; <span class='message'>[Tune] Result: cost=7.5e+03; gamma=0.0178 : acc.test.mean=0.9333333</span></div><div class='output co'>#&gt; Tune result:
+#&gt; Op. pars: cost=7.5e+03; gamma=0.0178
+#&gt; acc.test.mean=0.9333333</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -201,5 +216,8 @@ The Parameter Configuration</p></td>
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

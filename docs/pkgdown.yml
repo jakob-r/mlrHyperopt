@@ -1,0 +1,7 @@
+pandoc: 2.2.3.2
+pkgdown: 1.1.0
+pkgdown_sha: ~
+articles:
+  mlrHyperopt: mlrHyperopt.html
+  working_with_parconfigs_and_paramsets: working_with_parconfigs_and_paramsets.html
+

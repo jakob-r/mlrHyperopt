@@ -41,7 +41,7 @@ res = hyperopt(iris.task, learner = "classif.svm")
 res
 ```
 
-Mainly it uses the [learner implemented in _mlr_](http://mlr-org.github.io/mlr-tutorial/devel/html/integrated_learners/index.html) and uses the [tuning methods also available in _mlr_](http://mlr-org.github.io/mlr-tutorial/devel/html/tune/index.html).
+Mainly it uses the [learner implemented in _mlr_](https://mlr-org.github.io/mlr/articles/tutorial/integrated_learners/index.html) and uses the [tuning methods also available in _mlr_](http://mlr-org.github.io/mlr-tutorial/devel/html/tune.html).
 Unfortunately _mlr_ lacks of well defined _search spaces_ for each learner to make hyperparameter tuning easy.
 
 _mlrHyperopt_ includes default _search spaces_ for the most common machine learning methods like _random forest_, _svm_ and _boosting_.
@@ -71,7 +71,7 @@ It still *needs more default search spaces* for popular learners!
 
 This package is still under construction and the inner workings might change without a version number update.
 Thus I do not recommend the usage for reproducible research until it is on CRAN.
-For reproducible research you might want to stick to the more lengthly but more precise [mlr tuning workflow](http://mlr-org.github.io/mlr-tutorial/devel/html/tune/index.html).
+For reproducible research you might want to stick to the more lengthly but more precise [mlr tuning workflow](https://mlr-org.github.io/mlr/articles/tutorial/tune.html).
 You can still use the Parameter Sets recommended in _mlrHyperopt_.
 Just make sure to write them in your source code.
 

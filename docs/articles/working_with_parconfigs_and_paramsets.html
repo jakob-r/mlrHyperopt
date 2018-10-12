@@ -8,8 +8,8 @@
 <title>Working with ParConfigs and ParamSets • mlrHyperopt</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><meta property="og:title" content="Working with ParConfigs and ParamSets">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Working with ParConfigs and ParamSets">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
@@ -18,7 +18,7 @@
 <![endif]-->
 </head>
 <body>
-    <div class="container template-vignette">
+    <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -27,8 +27,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">mlrHyperopt</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">mlrHyperopt</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.1</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
@@ -84,30 +88,33 @@
 
       
       </header><div class="row">
-  <div class="col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Working with ParConfigs and ParamSets</h1>
                         <h4 class="author">Jakob Richter</h4>
             
-          </div>
+      
+      <small class="dont-index">Source: <a href="https://github.com/jakob-r/mlrHyperopt/blob/master/vignettes/working_with_parconfigs_and_paramsets.Rmd"><code>vignettes/working_with_parconfigs_and_paramsets.Rmd</code></a></small>
+      <div class="hidden name"><code>working_with_parconfigs_and_paramsets.Rmd</code></div>
+
+    </div>
 
     
     
-<div class="contents">
 <p>This Vignette is covers the <code>ParConfig</code> objects, what they contain and how they are created.</p>
 <div id="components-of-a-parconfig" class="section level2">
 <h2 class="hasAnchor">
 <a href="#components-of-a-parconfig" class="anchor"></a>Components of a <code>ParConfig</code>
 </h2>
 <p>First we will create a <code>ParConfig</code> so we can have a look at what we need.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ps =<span class="st"> </span><span class="kw">makeParamSet</span>(
-  <span class="kw">makeIntegerParam</span>(<span class="st">"k"</span>, <span class="dt">lower =</span> <span class="dv">1</span>, <span class="dt">upper =</span> <span class="dv">20</span>)
-)
-pc =<span class="st"> </span><span class="kw"><a href="../reference/makeParConfig.html">makeParConfig</a></span>(
-  <span class="dt">learner =</span> <span class="st">"classif.knn"</span>,
-  <span class="dt">par.set =</span> ps
-)
-<span class="kw">str</span>(pc, <span class="dv">1</span>)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">ps =<span class="st"> </span><span class="kw">makeParamSet</span>(</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">  <span class="kw">makeIntegerParam</span>(<span class="st">"k"</span>, <span class="dt">lower =</span> <span class="dv">1</span>, <span class="dt">upper =</span> <span class="dv">20</span>)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">pc =<span class="st"> </span><span class="kw"><a href="../reference/makeParConfig.html">makeParConfig</a></span>(</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">  <span class="dt">learner =</span> <span class="st">"classif.knn"</span>,</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6">  <span class="dt">par.set =</span> ps</a>
+<a class="sourceLine" id="cb1-7" data-line-number="7">)</a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="kw">str</span>(pc, <span class="dv">1</span>)</a></code></pre></div>
 <pre><code>## List of 6
 ##  $ par.set                 :List of 2
 ##   ..- attr(*, "class")= chr "ParamSet"
@@ -128,25 +135,25 @@ pc =<span class="st"> </span><span class="kw"><a href="../reference/makeParConfi
 <h3 class="hasAnchor">
 <a href="#access-the-components-of-a-parconfig" class="anchor"></a>Access the components of a <code>ParConfig</code>
 </h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/getParConfigParSet.html">getParConfigParSet</a></span>(pc)</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="../reference/getParConfigParSet.html">getParConfigParSet</a></span>(pc)</a></code></pre></div>
 <pre><code>##      Type len Def  Constr Req Tunable Trafo
 ## k integer   -   - 1 to 20   -    TRUE     -</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/getParConfigParVals.html">getParConfigParVals</a></span>(pc)</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="../reference/getParConfigParVals.html">getParConfigParVals</a></span>(pc)</a></code></pre></div>
 <pre><code>## list()</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/getParConfigLearnerClass.html">getParConfigLearnerClass</a></span>(pc)</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="../reference/getParConfigLearnerClass.html">getParConfigLearnerClass</a></span>(pc)</a></code></pre></div>
 <pre><code>## [1] "classif.knn"</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/getParConfigLearnerName.html">getParConfigLearnerName</a></span>(pc)</code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="../reference/getParConfigLearnerName.html">getParConfigLearnerName</a></span>(pc)</a></code></pre></div>
 <pre><code>## [1] "knn"</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/getParConfigLearnerType.html">getParConfigLearnerType</a></span>(pc)</code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="../reference/getParConfigLearnerType.html">getParConfigLearnerType</a></span>(pc)</a></code></pre></div>
 <pre><code>## [1] "classif"</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/getParConfigNote.html">getParConfigNote</a></span>(pc)</code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="../reference/getParConfigNote.html">getParConfigNote</a></span>(pc)</a></code></pre></div>
 <pre><code>## [1] ""</code></pre>
 </div>
 <div id="modify-the-components-of-a-parconfig" class="section level3">
 <h3 class="hasAnchor">
 <a href="#modify-the-components-of-a-parconfig" class="anchor"></a>Modify the components of a <code>ParConfig</code>
 </h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">(<span class="dt">pc.reg =</span> <span class="kw"><a href="../reference/setParConfigLearner.html">setParConfigLearner</a></span>(pc, <span class="st">"regr.kknn"</span>))</code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">(<span class="dt">pc.reg =</span> <span class="kw"><a href="../reference/setParConfigLearner.html">setParConfigLearner</a></span>(pc, <span class="st">"regr.kknn"</span>))</a></code></pre></div>
 <pre><code>## Loading required package: kknn</code></pre>
 <pre><code>## Parameter Configuration
 ##   Parameter Values: list()
@@ -154,14 +161,14 @@ pc =<span class="st"> </span><span class="kw"><a href="../reference/makeParConfi
 ##   Parameter Set:
 ##      Type len Def  Constr Req Tunable Trafo
 ## k integer   -   - 1 to 20   -    TRUE     -</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/setParConfigLearnerType.html">setParConfigLearnerType</a></span>(pc.reg, <span class="st">"classif"</span>)</code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw"><a href="../reference/setParConfigLearnerType.html">setParConfigLearnerType</a></span>(pc.reg, <span class="st">"classif"</span>)</a></code></pre></div>
 <pre><code>## Parameter Configuration
 ##   Parameter Values: list()
 ##   Associated Learner: classif.kknn
 ##   Parameter Set:
 ##      Type len Def  Constr Req Tunable Trafo
 ## k integer   -   - 1 to 20   -    TRUE     -</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/setParConfigNote.html">setParConfigNote</a></span>(pc.reg, <span class="st">"A note..."</span>)</code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw"><a href="../reference/setParConfigNote.html">setParConfigNote</a></span>(pc.reg, <span class="st">"A note..."</span>)</a></code></pre></div>
 <pre><code>## Parameter Configuration
 ##   Parameter Values: list()
 ##   Associated Learner: regr.kknn
@@ -169,14 +176,14 @@ pc =<span class="st"> </span><span class="kw"><a href="../reference/makeParConfi
 ##   Parameter Set:
 ##      Type len Def  Constr Req Tunable Trafo
 ## k integer   -   - 1 to 20   -    TRUE     -</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/setParConfigParVals.html">setParConfigParVals</a></span>(pc.reg, <span class="kw">list</span>(<span class="dt">scale =</span> <span class="ot">FALSE</span>))</code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw"><a href="../reference/setParConfigParVals.html">setParConfigParVals</a></span>(pc.reg, <span class="kw">list</span>(<span class="dt">scale =</span> <span class="ot">FALSE</span>))</a></code></pre></div>
 <pre><code>## Parameter Configuration
 ##   Parameter Values: scale=FALSE
 ##   Associated Learner: regr.kknn
 ##   Parameter Set:
 ##      Type len Def  Constr Req Tunable Trafo
 ## k integer   -   - 1 to 20   -    TRUE     -</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/setParConfigParSet.html">setParConfigParSet</a></span>(pc.reg, <span class="kw">makeParamSet</span>(<span class="kw">makeIntegerParam</span>(<span class="st">"k"</span>, <span class="dv">3</span>, <span class="dv">11</span>)))</code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="kw"><a href="../reference/setParConfigParSet.html">setParConfigParSet</a></span>(pc.reg, <span class="kw">makeParamSet</span>(<span class="kw">makeIntegerParam</span>(<span class="st">"k"</span>, <span class="dv">3</span>, <span class="dv">11</span>)))</a></code></pre></div>
 <pre><code>## Parameter Configuration
 ##   Parameter Values: list()
 ##   Associated Learner: regr.kknn
@@ -190,13 +197,13 @@ pc =<span class="st"> </span><span class="kw"><a href="../reference/makeParConfi
 <a href="#create-a-parconfig" class="anchor"></a>Create a <code>ParConfig</code>
 </h2>
 <p>We already saw how to minimally create a <code>ParConfig</code> in the first example. Let’s look at more examples:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lrn =<span class="st"> </span><span class="kw">makeLearner</span>(<span class="st">"regr.kknn"</span>)
-<span class="kw"><a href="../reference/makeParConfig.html">makeParConfig</a></span>(
-  <span class="dt">par.set =</span> ps,
-  <span class="dt">learner =</span> lrn,
-  <span class="dt">par.vals =</span> <span class="kw">list</span>(<span class="dt">kernel =</span> <span class="st">"gaussian"</span>),
-  <span class="dt">note =</span> <span class="st">"This is just an example with the kernel set to 'Gaussian'."</span>
-)</code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">lrn =<span class="st"> </span><span class="kw">makeLearner</span>(<span class="st">"regr.kknn"</span>)</a>
+<a class="sourceLine" id="cb26-2" data-line-number="2"><span class="kw"><a href="../reference/makeParConfig.html">makeParConfig</a></span>(</a>
+<a class="sourceLine" id="cb26-3" data-line-number="3">  <span class="dt">par.set =</span> ps,</a>
+<a class="sourceLine" id="cb26-4" data-line-number="4">  <span class="dt">learner =</span> lrn,</a>
+<a class="sourceLine" id="cb26-5" data-line-number="5">  <span class="dt">par.vals =</span> <span class="kw">list</span>(<span class="dt">kernel =</span> <span class="st">"gaussian"</span>),</a>
+<a class="sourceLine" id="cb26-6" data-line-number="6">  <span class="dt">note =</span> <span class="st">"This is just an example with the kernel set to 'Gaussian'."</span></a>
+<a class="sourceLine" id="cb26-7" data-line-number="7">)</a></code></pre></div>
 <pre><code>## Parameter Configuration
 ##   Parameter Values: kernel=gaussian
 ##   Associated Learner: regr.kknn
@@ -208,11 +215,11 @@ pc =<span class="st"> </span><span class="kw"><a href="../reference/makeParConfi
 <h3 class="hasAnchor">
 <a href="#create-a-parconfig-without-a-specific-learner" class="anchor"></a>Create a <code>ParConfig</code> without a specific learner</h3>
 <p><code>mlr</code> differentiates learners pretty strictly from their type (e.g. <em>classification</em>, <em>regression</em>, <em>cluster</em> etc.) although sometimes they share the same <em>R</em> function in the underlying package. If we want to allow the <code>ParConfig</code> to serve for <code>classif.knn</code> as well as <code>regr.knn</code> we have to construct it less strict like the following:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pc.less =<span class="st"> </span><span class="kw"><a href="../reference/makeParConfig.html">makeParConfig</a></span>(
-  <span class="dt">learner.name =</span> <span class="st">"knn"</span>,
-  <span class="dt">par.set =</span> ps
-)
-<span class="kw">str</span>(pc.less, <span class="dv">1</span>)</code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1">pc.less =<span class="st"> </span><span class="kw"><a href="../reference/makeParConfig.html">makeParConfig</a></span>(</a>
+<a class="sourceLine" id="cb28-2" data-line-number="2">  <span class="dt">learner.name =</span> <span class="st">"knn"</span>,</a>
+<a class="sourceLine" id="cb28-3" data-line-number="3">  <span class="dt">par.set =</span> ps</a>
+<a class="sourceLine" id="cb28-4" data-line-number="4">)</a>
+<a class="sourceLine" id="cb28-5" data-line-number="5"><span class="kw">str</span>(pc.less, <span class="dv">1</span>)</a></code></pre></div>
 <pre><code>## List of 6
 ##  $ par.set                 :List of 2
 ##   ..- attr(*, "class")= chr "ParamSet"
@@ -223,12 +230,12 @@ pc =<span class="st"> </span><span class="kw"><a href="../reference/makeParConfi
 ##  $ note                    : chr ""
 ##  - attr(*, "class")= chr "ParConfig"</code></pre>
 <p>Or if you are unsure about the learner name but have the <code>mlr</code> learner object:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lrn =<span class="st"> </span><span class="kw">makeLearner</span>(<span class="st">"classif.knn"</span>)
-pc.less =<span class="st"> </span><span class="kw"><a href="../reference/makeParConfig.html">makeParConfig</a></span>(
-  <span class="dt">learner.name =</span> <span class="kw"><a href="../reference/getLearnerName.html">getLearnerName</a></span>(lrn),
-  <span class="dt">par.set =</span> ps
-)
-<span class="kw">str</span>(pc.less, <span class="dv">1</span>)</code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">lrn =<span class="st"> </span><span class="kw">makeLearner</span>(<span class="st">"classif.knn"</span>)</a>
+<a class="sourceLine" id="cb30-2" data-line-number="2">pc.less =<span class="st"> </span><span class="kw"><a href="../reference/makeParConfig.html">makeParConfig</a></span>(</a>
+<a class="sourceLine" id="cb30-3" data-line-number="3">  <span class="dt">learner.name =</span> <span class="kw"><a href="../reference/getLearnerName.html">getLearnerName</a></span>(lrn),</a>
+<a class="sourceLine" id="cb30-4" data-line-number="4">  <span class="dt">par.set =</span> ps</a>
+<a class="sourceLine" id="cb30-5" data-line-number="5">)</a>
+<a class="sourceLine" id="cb30-6" data-line-number="6"><span class="kw">str</span>(pc.less, <span class="dv">1</span>)</a></code></pre></div>
 <pre><code>## List of 6
 ##  $ par.set                 :List of 2
 ##   ..- attr(*, "class")= chr "ParamSet"
@@ -251,8 +258,8 @@ pc.less =<span class="st"> </span><span class="kw"><a href="../reference/makePar
 <a href="#creating-a-paramset" class="anchor"></a>Creating a <code>ParamSet</code>
 </h3>
 <p>If we want to create a <code>ParamSet</code> for a specific <code>mlr</code> learner it is always helpful to check which parameters are available.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lrn =<span class="st"> </span><span class="kw">makeLearner</span>(<span class="st">"classif.ksvm"</span>)
-<span class="kw">getParamSet</span>(lrn)</code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1">lrn =<span class="st"> </span><span class="kw">makeLearner</span>(<span class="st">"classif.ksvm"</span>)</a>
+<a class="sourceLine" id="cb32-2" data-line-number="2"><span class="kw">getParamSet</span>(lrn)</a></code></pre></div>
 <pre><code>##                        Type  len    Def
 ## scaled              logical    -   TRUE
 ## type               discrete    -  C-svc
@@ -294,44 +301,44 @@ pc.less =<span class="st"> </span><span class="kw"><a href="../reference/makePar
 <li><code>makeLogicParam(id)</code></li>
 <li><code>makeDiscreteParam(id, values)</code></li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ps.svm =<span class="st"> </span><span class="kw">makeParamSet</span>(
-  <span class="kw">makeNumericParam</span>(<span class="st">"C"</span>, <span class="dt">lower =</span> <span class="dv">0</span>, <span class="dt">upper =</span> <span class="dv">100</span>),
-  <span class="kw">makeDiscreteParam</span>(<span class="st">"kernel"</span>, <span class="dt">values =</span> <span class="kw">c</span>(<span class="st">"polydot"</span>,<span class="st">"rbfdot"</span>))
-)</code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1">ps.svm =<span class="st"> </span><span class="kw">makeParamSet</span>(</a>
+<a class="sourceLine" id="cb34-2" data-line-number="2">  <span class="kw">makeNumericParam</span>(<span class="st">"C"</span>, <span class="dt">lower =</span> <span class="dv">0</span>, <span class="dt">upper =</span> <span class="dv">100</span>),</a>
+<a class="sourceLine" id="cb34-3" data-line-number="3">  <span class="kw">makeDiscreteParam</span>(<span class="st">"kernel"</span>, <span class="dt">values =</span> <span class="kw">c</span>(<span class="st">"polydot"</span>,<span class="st">"rbfdot"</span>))</a>
+<a class="sourceLine" id="cb34-4" data-line-number="4">)</a></code></pre></div>
 <p><em>Attention!</em> Here we see the first problem: The parameter <em>C</em> is more sensitive to changes for values around zero. We will use the <code>trafo</code> argument of <code>makeNumericParam()</code>so that our search space for <code>C</code> accounts for the sensitivity near zero.</p>
 </div>
 <div id="creating-a-paramset-with-a-transformation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#creating-a-paramset-with-a-transformation" class="anchor"></a>Creating a <code>ParamSet</code> with a transformation</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ps.svm.trafo =<span class="st"> </span><span class="kw">makeParamSet</span>(
-  <span class="kw">makeNumericParam</span>(<span class="st">"C"</span>, <span class="dt">lower =</span> -<span class="dv">5</span>, <span class="dt">upper =</span> <span class="dv">7</span>, <span class="dt">trafo =</span> function(x) <span class="dv">2</span>^x),
-  <span class="kw">makeDiscreteParam</span>(<span class="st">"kernel"</span>, <span class="dt">values =</span> <span class="kw">c</span>(<span class="st">"polydot"</span>,<span class="st">"rbfdot"</span>))
-)</code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">ps.svm.trafo =<span class="st"> </span><span class="kw">makeParamSet</span>(</a>
+<a class="sourceLine" id="cb35-2" data-line-number="2">  <span class="kw">makeNumericParam</span>(<span class="st">"C"</span>, <span class="dt">lower =</span> <span class="dv">-5</span>, <span class="dt">upper =</span> <span class="dv">7</span>, <span class="dt">trafo =</span> <span class="cf">function</span>(x) <span class="dv">2</span><span class="op">^</span>x),</a>
+<a class="sourceLine" id="cb35-3" data-line-number="3">  <span class="kw">makeDiscreteParam</span>(<span class="st">"kernel"</span>, <span class="dt">values =</span> <span class="kw">c</span>(<span class="st">"polydot"</span>,<span class="st">"rbfdot"</span>))</a>
+<a class="sourceLine" id="cb35-4" data-line-number="4">)</a></code></pre></div>
 <p>Let’s compare randomly drawn values:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">s1 =<span class="st"> </span><span class="kw">sampleValues</span>(ps.svm, <span class="dt">n =</span> <span class="dv">100</span>)
-s2 =<span class="st"> </span><span class="kw">sampleValues</span>(ps.svm.trafo, <span class="dt">n =</span> <span class="dv">100</span>, <span class="dt">trafo =</span> <span class="ot">TRUE</span>)
-op =<span class="st"> </span><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
-<span class="kw">hist</span>(BBmisc::<span class="kw">extractSubList</span>(s1, <span class="st">"C"</span>))
-<span class="kw">hist</span>(BBmisc::<span class="kw">extractSubList</span>(s2, <span class="st">"C"</span>))</code></pre></div>
-<p><img src="working_with_parconfigs_and_paramsets_files/figure-html/ps_trafo_comparison-1.png" width="672"></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(op)</code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1">s1 =<span class="st"> </span><span class="kw">sampleValues</span>(ps.svm, <span class="dt">n =</span> <span class="dv">100</span>)</a>
+<a class="sourceLine" id="cb36-2" data-line-number="2">s2 =<span class="st"> </span><span class="kw">sampleValues</span>(ps.svm.trafo, <span class="dt">n =</span> <span class="dv">100</span>, <span class="dt">trafo =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb36-3" data-line-number="3">op =<span class="st"> </span><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb36-4" data-line-number="4"><span class="kw">hist</span>(BBmisc<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/BBmisc/topics/extractSubList">extractSubList</a></span>(s1, <span class="st">"C"</span>))</a>
+<a class="sourceLine" id="cb36-5" data-line-number="5"><span class="kw">hist</span>(BBmisc<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/BBmisc/topics/extractSubList">extractSubList</a></span>(s2, <span class="st">"C"</span>))</a></code></pre></div>
+<p><img src="working_with_parconfigs_and_paramsets_files/figure-html/ps_trafo_comparison-1.png" width="700"></p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw">par</span>(op)</a></code></pre></div>
 <p>As transformations can be arbitrary functions they can be used for other useful purposes as only generating uneven numbers, which makes sense for <code>knn</code> classification to not have ties:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ps.knn =<span class="st"> </span><span class="kw">makeParamSet</span>(
-  <span class="kw">makeNumericParam</span>(<span class="st">"k"</span>, <span class="dt">lower =</span> <span class="dv">1</span>, <span class="dt">upper =</span> <span class="dv">6</span>, <span class="dt">trafo =</span> function(x) <span class="dv">2</span>*x<span class="dv">-1</span>)
-)</code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1">ps.knn =<span class="st"> </span><span class="kw">makeParamSet</span>(</a>
+<a class="sourceLine" id="cb38-2" data-line-number="2">  <span class="kw">makeNumericParam</span>(<span class="st">"k"</span>, <span class="dt">lower =</span> <span class="dv">1</span>, <span class="dt">upper =</span> <span class="dv">6</span>, <span class="dt">trafo =</span> <span class="cf">function</span>(x) <span class="dv">2</span><span class="op">*</span>x<span class="dv">-1</span>)</a>
+<a class="sourceLine" id="cb38-3" data-line-number="3">)</a></code></pre></div>
 </div>
 <div id="creating-a-paramset-with-dependent-hierarchical-parameters" class="section level3">
 <h3 class="hasAnchor">
 <a href="#creating-a-paramset-with-dependent-hierarchical-parameters" class="anchor"></a>Creating a <code>ParamSet</code> with dependent / hierarchical parameters</h3>
 <p>For our SVM example we actually would like to tune the parameter <em>sigma</em> for the <code>rbfdot</code> kernel and the <em>degree</em> for the <code>polydot</code> kernel. So the <em>sigma</em> parameter should only be active when <em>kernel</em> is set to <code>rbfdot</code> and <em>degree</em> should only be active for <code>kernel == "polydot"</code>. To model such dependencies or hierarchical structures in the parameter space all <code>make*Param</code> functions have the <code>requires</code> argument which can be used like follows:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ps.svm.req =<span class="st"> </span><span class="kw">makeParamSet</span>(
-  <span class="kw">makeNumericParam</span>(<span class="st">"C"</span>, <span class="dt">lower =</span> -<span class="dv">5</span>, <span class="dt">upper =</span> <span class="dv">7</span>, <span class="dt">trafo =</span> function(x) <span class="dv">2</span>^x),
-  <span class="kw">makeDiscreteParam</span>(<span class="st">"kernel"</span>, <span class="dt">values =</span> <span class="kw">c</span>(<span class="st">"polydot"</span>,<span class="st">"rbfdot"</span>)),
-  <span class="kw">makeNumericParam</span>(<span class="st">"sigma"</span>, <span class="dt">lower =</span> -<span class="dv">5</span>, <span class="dt">upper =</span> <span class="dv">5</span>, <span class="dt">trafo =</span> function(x) <span class="dv">2</span>^x, <span class="dt">requires =</span> <span class="kw">quote</span>(kernel ==<span class="st"> "rbfdot"</span>)),
-  <span class="kw">makeIntegerParam</span>(<span class="st">"degree"</span>, <span class="dt">lower =</span> <span class="dv">1</span>, <span class="dt">upper =</span> <span class="dv">5</span>, <span class="dt">requires =</span> <span class="kw">quote</span>(kernel ==<span class="st"> "polydot"</span>))
-)</code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1">ps.svm.req =<span class="st"> </span><span class="kw">makeParamSet</span>(</a>
+<a class="sourceLine" id="cb39-2" data-line-number="2">  <span class="kw">makeNumericParam</span>(<span class="st">"C"</span>, <span class="dt">lower =</span> <span class="dv">-5</span>, <span class="dt">upper =</span> <span class="dv">7</span>, <span class="dt">trafo =</span> <span class="cf">function</span>(x) <span class="dv">2</span><span class="op">^</span>x),</a>
+<a class="sourceLine" id="cb39-3" data-line-number="3">  <span class="kw">makeDiscreteParam</span>(<span class="st">"kernel"</span>, <span class="dt">values =</span> <span class="kw">c</span>(<span class="st">"polydot"</span>,<span class="st">"rbfdot"</span>)),</a>
+<a class="sourceLine" id="cb39-4" data-line-number="4">  <span class="kw">makeNumericParam</span>(<span class="st">"sigma"</span>, <span class="dt">lower =</span> <span class="dv">-5</span>, <span class="dt">upper =</span> <span class="dv">5</span>, <span class="dt">trafo =</span> <span class="cf">function</span>(x) <span class="dv">2</span><span class="op">^</span>x, <span class="dt">requires =</span> <span class="kw">quote</span>(kernel <span class="op">==</span><span class="st"> "rbfdot"</span>)),</a>
+<a class="sourceLine" id="cb39-5" data-line-number="5">  <span class="kw">makeIntegerParam</span>(<span class="st">"degree"</span>, <span class="dt">lower =</span> <span class="dv">1</span>, <span class="dt">upper =</span> <span class="dv">5</span>, <span class="dt">requires =</span> <span class="kw">quote</span>(kernel <span class="op">==</span><span class="st"> "polydot"</span>))</a>
+<a class="sourceLine" id="cb39-6" data-line-number="6">)</a></code></pre></div>
 <p>Let’s generate a LHS design to see the effects of the requirements:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">generateDesign</span>(<span class="dv">6</span>, ps.svm.req)</code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1"><span class="kw">generateDesign</span>(<span class="dv">6</span>, ps.svm.req)</a></code></pre></div>
 <pre><code>##            C  kernel     sigma degree
 ## 1 -1.2177714 polydot        NA      2
 ## 2  4.2525139  rbfdot -4.188279     NA
@@ -344,11 +351,11 @@ op =<span class="st"> </span><span class="kw">par</span>(<span class="dt">mfrow 
 <h3 class="hasAnchor">
 <a href="#creating-a-paramset-with-data-dependent-parameter-spaces" class="anchor"></a>Creating a <code>ParamSet</code> with data dependent parameter spaces</h3>
 <p>For some learners the tuning space varies from the data presented. A prominent example is the <em>mtry</em> parameter of the <code>randomForest</code> which determines how many randomly drawn variables are to be considered in every split. The default is <code>sqrt(p)</code> with <code>p</code> being the number of variables in the data. Naturally we might want to set the boundaries for that value around that default. This is possible using expressions like in the following example:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ps.rf =<span class="st"> </span><span class="kw">makeParamSet</span>(
-  <span class="kw">makeIntegerParam</span>(<span class="st">"mtry"</span>, <span class="dt">lower =</span> <span class="kw">expression</span>(<span class="kw">floor</span>(<span class="kw">sqrt</span>(p*<span class="fl">0.25</span>))), <span class="dt">upper =</span> <span class="kw">expression</span>(<span class="kw">ceiling</span>(<span class="kw">sqrt</span>(p*<span class="fl">0.75</span>))))
-)</code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1">ps.rf =<span class="st"> </span><span class="kw">makeParamSet</span>(</a>
+<a class="sourceLine" id="cb42-2" data-line-number="2">  <span class="kw">makeIntegerParam</span>(<span class="st">"mtry"</span>, <span class="dt">lower =</span> <span class="kw">expression</span>(<span class="kw">floor</span>(<span class="kw">sqrt</span>(p<span class="op">*</span><span class="fl">0.25</span>))), <span class="dt">upper =</span> <span class="kw">expression</span>(<span class="kw">ceiling</span>(<span class="kw">sqrt</span>(p<span class="op">*</span><span class="fl">0.75</span>))))</a>
+<a class="sourceLine" id="cb42-3" data-line-number="3">)</a></code></pre></div>
 <p>Which variables can I use in the expressions?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/getTaskDictionary.html">getTaskDictionary</a></span>(<span class="dt">task =</span> iris.task)</code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1"><span class="kw"><a href="../reference/getTaskDictionary.html">getTaskDictionary</a></span>(<span class="dt">task =</span> iris.task)</a></code></pre></div>
 <pre><code>## $task
 ## Supervised task: iris-example
 ## Type: classif
@@ -401,13 +408,12 @@ op =<span class="st"> </span><span class="kw">par</span>(<span class="dt">mfrow 
 </ul>
 <p><em>Attention:</em> This feature is not implemented in mlr yet. As a consequence, the expressions have to be pre-evaluated before they can be used for tuning. This also means that <code>n</code> will always be the tasks data set size instead of the number of observations after a cross-validation split. Feature selection will not affect <code>p</code>.</p>
 <p>To convert the <code>ParamSet</code> with expressions to a normal <code>ParamSet</code> we call the following:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">evaluateParamExpressions</span>(ps.rf, <span class="dt">dict =</span> <span class="kw"><a href="../reference/getTaskDictionary.html">getTaskDictionary</a></span>(iris.task))</code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="kw">evaluateParamExpressions</span>(ps.rf, <span class="dt">dict =</span> <span class="kw"><a href="../reference/getTaskDictionary.html">getTaskDictionary</a></span>(iris.task))</a></code></pre></div>
 <pre><code>##         Type len Def Constr Req Tunable Trafo
 ## mtry integer   -   - 1 to 2   -    TRUE     -</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">evaluateParamExpressions</span>(ps.rf, <span class="dt">dict =</span> <span class="kw">list</span>(<span class="dt">p =</span> <span class="dv">100</span>, <span class="dt">n =</span> <span class="dv">1000</span>))</code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="kw">evaluateParamExpressions</span>(ps.rf, <span class="dt">dict =</span> <span class="kw">list</span>(<span class="dt">p =</span> <span class="dv">100</span>, <span class="dt">n =</span> <span class="dv">1000</span>))</a></code></pre></div>
 <pre><code>##         Type len Def Constr Req Tunable Trafo
 ## mtry integer   -   - 5 to 9   -    TRUE     -</code></pre>
-</div>
 </div>
 </div>
   </div>
@@ -437,6 +443,8 @@ op =<span class="st"> </span><span class="kw">par</span>(<span class="dt">mfrow 
 
       </footer>
 </div>
+
+  
 
   </body>
 </html>
