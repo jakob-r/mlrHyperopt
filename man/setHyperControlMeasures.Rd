@@ -21,11 +21,12 @@ Default is the default measure for the task, see here \code{\link{getDefaultMeas
 Set the measures
 }
 \seealso{
-Other HyperControl: \code{\link{getHyperControlMeasures}},
-  \code{\link{getHyperControlMlrControl}},
-  \code{\link{getHyperControlResampling}},
-  \code{\link{makeHyperControl}},
-  \code{\link{setHyperControlMlrControl}},
-  \code{\link{setHyperControlResampling}}
+Other HyperControl: 
+\code{\link{getHyperControlMeasures}()},
+\code{\link{getHyperControlMlrControl}()},
+\code{\link{getHyperControlResampling}()},
+\code{\link{makeHyperControl}()},
+\code{\link{setHyperControlMlrControl}()},
+\code{\link{setHyperControlResampling}()}
 }
 \concept{HyperControl}

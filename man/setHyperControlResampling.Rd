@@ -20,11 +20,12 @@ The resampling determines how the performance is obtained during tuning.}
 Set the mlr resampling Object
 }
 \seealso{
-Other HyperControl: \code{\link{getHyperControlMeasures}},
-  \code{\link{getHyperControlMlrControl}},
-  \code{\link{getHyperControlResampling}},
-  \code{\link{makeHyperControl}},
-  \code{\link{setHyperControlMeasures}},
-  \code{\link{setHyperControlMlrControl}}
+Other HyperControl: 
+\code{\link{getHyperControlMeasures}()},
+\code{\link{getHyperControlMlrControl}()},
+\code{\link{getHyperControlResampling}()},
+\code{\link{makeHyperControl}()},
+\code{\link{setHyperControlMeasures}()},
+\code{\link{setHyperControlMlrControl}()}
 }
 \concept{HyperControl}

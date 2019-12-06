@@ -17,11 +17,12 @@ The Hyperparameter Control Object}
 Get the mlr Tuning Object
 }
 \seealso{
-Other HyperControl: \code{\link{getHyperControlMeasures}},
-  \code{\link{getHyperControlResampling}},
-  \code{\link{makeHyperControl}},
-  \code{\link{setHyperControlMeasures}},
-  \code{\link{setHyperControlMlrControl}},
-  \code{\link{setHyperControlResampling}}
+Other HyperControl: 
+\code{\link{getHyperControlMeasures}()},
+\code{\link{getHyperControlResampling}()},
+\code{\link{makeHyperControl}()},
+\code{\link{setHyperControlMeasures}()},
+\code{\link{setHyperControlMlrControl}()},
+\code{\link{setHyperControlResampling}()}
 }
 \concept{HyperControl}

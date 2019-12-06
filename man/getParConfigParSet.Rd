@@ -20,16 +20,17 @@ The Task}
 Get the \code{ParamSet} of the configuration. If a task is supplied the expressions will be evaluated.
 }
 \seealso{
-Other ParConfig: \code{\link{getParConfigLearnerClass}},
-  \code{\link{getParConfigLearnerName}},
-  \code{\link{getParConfigLearnerType}},
-  \code{\link{getParConfigNote}},
-  \code{\link{getParConfigParVals}},
-  \code{\link{makeParConfig}},
-  \code{\link{setParConfigLearnerType}},
-  \code{\link{setParConfigLearner}},
-  \code{\link{setParConfigNote}},
-  \code{\link{setParConfigParSet}},
-  \code{\link{setParConfigParVals}}
+Other ParConfig: 
+\code{\link{getParConfigLearnerClass}()},
+\code{\link{getParConfigLearnerName}()},
+\code{\link{getParConfigLearnerType}()},
+\code{\link{getParConfigNote}()},
+\code{\link{getParConfigParVals}()},
+\code{\link{makeParConfig}()},
+\code{\link{setParConfigLearnerType}()},
+\code{\link{setParConfigLearner}()},
+\code{\link{setParConfigNote}()},
+\code{\link{setParConfigParSet}()},
+\code{\link{setParConfigParVals}()}
 }
 \concept{ParConfig}

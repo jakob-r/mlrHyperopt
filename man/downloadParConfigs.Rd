@@ -4,8 +4,12 @@
 \alias{downloadParConfigs}
 \title{Downloads multiple Parameter Configurations from the mlrHyperopt servers}
 \usage{
-downloadParConfigs(ids = NULL, learner.class = NULL,
-  learner.name = NULL, custom.query = NULL)
+downloadParConfigs(
+  ids = NULL,
+  learner.class = NULL,
+  learner.name = NULL,
+  custom.query = NULL
+)
 }
 \arguments{
 \item{ids}{[\code{character}] \cr

@@ -4,8 +4,12 @@
 \alias{makeHyperoptWrapper}
 \title{Fuse learner with mlrHyperopt tuning.}
 \usage{
-makeHyperoptWrapper(learner, par.config = NULL, hyper.control = NULL,
-  show.info = getMlrOptions()$show.info)
+makeHyperoptWrapper(
+  learner,
+  par.config = NULL,
+  hyper.control = NULL,
+  show.info = getMlrOptions()$show.info
+)
 }
 \arguments{
 \item{learner}{[\code{Learner}]

@@ -20,16 +20,17 @@ The note.}
 Attach note to the Parameter Configuration
 }
 \seealso{
-Other ParConfig: \code{\link{getParConfigLearnerClass}},
-  \code{\link{getParConfigLearnerName}},
-  \code{\link{getParConfigLearnerType}},
-  \code{\link{getParConfigNote}},
-  \code{\link{getParConfigParSet}},
-  \code{\link{getParConfigParVals}},
-  \code{\link{makeParConfig}},
-  \code{\link{setParConfigLearnerType}},
-  \code{\link{setParConfigLearner}},
-  \code{\link{setParConfigParSet}},
-  \code{\link{setParConfigParVals}}
+Other ParConfig: 
+\code{\link{getParConfigLearnerClass}()},
+\code{\link{getParConfigLearnerName}()},
+\code{\link{getParConfigLearnerType}()},
+\code{\link{getParConfigNote}()},
+\code{\link{getParConfigParSet}()},
+\code{\link{getParConfigParVals}()},
+\code{\link{makeParConfig}()},
+\code{\link{setParConfigLearnerType}()},
+\code{\link{setParConfigLearner}()},
+\code{\link{setParConfigParSet}()},
+\code{\link{setParConfigParVals}()}
 }
 \concept{ParConfig}

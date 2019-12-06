@@ -18,16 +18,17 @@ Get the class of the associated learner
  Can be \code{NULL} when no concrete learner is specified
 }
 \seealso{
-Other ParConfig: \code{\link{getParConfigLearnerName}},
-  \code{\link{getParConfigLearnerType}},
-  \code{\link{getParConfigNote}},
-  \code{\link{getParConfigParSet}},
-  \code{\link{getParConfigParVals}},
-  \code{\link{makeParConfig}},
-  \code{\link{setParConfigLearnerType}},
-  \code{\link{setParConfigLearner}},
-  \code{\link{setParConfigNote}},
-  \code{\link{setParConfigParSet}},
-  \code{\link{setParConfigParVals}}
+Other ParConfig: 
+\code{\link{getParConfigLearnerName}()},
+\code{\link{getParConfigLearnerType}()},
+\code{\link{getParConfigNote}()},
+\code{\link{getParConfigParSet}()},
+\code{\link{getParConfigParVals}()},
+\code{\link{makeParConfig}()},
+\code{\link{setParConfigLearnerType}()},
+\code{\link{setParConfigLearner}()},
+\code{\link{setParConfigNote}()},
+\code{\link{setParConfigParSet}()},
+\code{\link{setParConfigParVals}()}
 }
 \concept{ParConfig}

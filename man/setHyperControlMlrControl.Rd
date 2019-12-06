@@ -20,11 +20,12 @@ Control object for search method. Also selects the optimization algorithm for tu
 Set the mlr TuneControl Object
 }
 \seealso{
-Other HyperControl: \code{\link{getHyperControlMeasures}},
-  \code{\link{getHyperControlMlrControl}},
-  \code{\link{getHyperControlResampling}},
-  \code{\link{makeHyperControl}},
-  \code{\link{setHyperControlMeasures}},
-  \code{\link{setHyperControlResampling}}
+Other HyperControl: 
+\code{\link{getHyperControlMeasures}()},
+\code{\link{getHyperControlMlrControl}()},
+\code{\link{getHyperControlResampling}()},
+\code{\link{makeHyperControl}()},
+\code{\link{setHyperControlMeasures}()},
+\code{\link{setHyperControlResampling}()}
 }
 \concept{HyperControl}

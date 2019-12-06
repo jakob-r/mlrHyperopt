@@ -17,11 +17,12 @@ The Hyperparameter Control Object}
 Get the Measures
 }
 \seealso{
-Other HyperControl: \code{\link{getHyperControlMlrControl}},
-  \code{\link{getHyperControlResampling}},
-  \code{\link{makeHyperControl}},
-  \code{\link{setHyperControlMeasures}},
-  \code{\link{setHyperControlMlrControl}},
-  \code{\link{setHyperControlResampling}}
+Other HyperControl: 
+\code{\link{getHyperControlMlrControl}()},
+\code{\link{getHyperControlResampling}()},
+\code{\link{makeHyperControl}()},
+\code{\link{setHyperControlMeasures}()},
+\code{\link{setHyperControlMlrControl}()},
+\code{\link{setHyperControlResampling}()}
 }
 \concept{HyperControl}

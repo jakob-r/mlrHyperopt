@@ -19,16 +19,17 @@ The Parameter Configuration}
 Associate the Param Configuration with a specific learner
 }
 \seealso{
-Other ParConfig: \code{\link{getParConfigLearnerClass}},
-  \code{\link{getParConfigLearnerName}},
-  \code{\link{getParConfigLearnerType}},
-  \code{\link{getParConfigNote}},
-  \code{\link{getParConfigParSet}},
-  \code{\link{getParConfigParVals}},
-  \code{\link{makeParConfig}},
-  \code{\link{setParConfigLearnerType}},
-  \code{\link{setParConfigNote}},
-  \code{\link{setParConfigParSet}},
-  \code{\link{setParConfigParVals}}
+Other ParConfig: 
+\code{\link{getParConfigLearnerClass}()},
+\code{\link{getParConfigLearnerName}()},
+\code{\link{getParConfigLearnerType}()},
+\code{\link{getParConfigNote}()},
+\code{\link{getParConfigParSet}()},
+\code{\link{getParConfigParVals}()},
+\code{\link{makeParConfig}()},
+\code{\link{setParConfigLearnerType}()},
+\code{\link{setParConfigNote}()},
+\code{\link{setParConfigParSet}()},
+\code{\link{setParConfigParVals}()}
 }
 \concept{ParConfig}

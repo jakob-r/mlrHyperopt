@@ -5,8 +5,13 @@
 \alias{ParConfig}
 \title{Make a Parameter Configuration}
 \usage{
-makeParConfig(par.set, learner = NULL, par.vals = NULL,
-  learner.name = NULL, note = character(1L))
+makeParConfig(
+  par.set,
+  learner = NULL,
+  par.vals = NULL,
+  learner.name = NULL,
+  note = character(1L)
+)
 }
 \arguments{
 \item{par.set}{[\code{ParamSet}]
@@ -35,16 +40,17 @@ Additionally you might want to specify some hard Parameters that are not suppose
 You might want to pass a Learner to associate the \code{ParConfig} to a special Learner.
 }
 \seealso{
-Other ParConfig: \code{\link{getParConfigLearnerClass}},
-  \code{\link{getParConfigLearnerName}},
-  \code{\link{getParConfigLearnerType}},
-  \code{\link{getParConfigNote}},
-  \code{\link{getParConfigParSet}},
-  \code{\link{getParConfigParVals}},
-  \code{\link{setParConfigLearnerType}},
-  \code{\link{setParConfigLearner}},
-  \code{\link{setParConfigNote}},
-  \code{\link{setParConfigParSet}},
-  \code{\link{setParConfigParVals}}
+Other ParConfig: 
+\code{\link{getParConfigLearnerClass}()},
+\code{\link{getParConfigLearnerName}()},
+\code{\link{getParConfigLearnerType}()},
+\code{\link{getParConfigNote}()},
+\code{\link{getParConfigParSet}()},
+\code{\link{getParConfigParVals}()},
+\code{\link{setParConfigLearnerType}()},
+\code{\link{setParConfigLearner}()},
+\code{\link{setParConfigNote}()},
+\code{\link{setParConfigParSet}()},
+\code{\link{setParConfigParVals}()}
 }
 \concept{ParConfig}

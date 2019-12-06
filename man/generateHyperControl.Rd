@@ -4,8 +4,12 @@
 \alias{generateHyperControl}
 \title{Generates a hyperparameter tuning control object}
 \usage{
-generateHyperControl(task, par.config = NULL, learner = NULL,
-  budget.evals = 250)
+generateHyperControl(
+  task,
+  par.config = NULL,
+  learner = NULL,
+  budget.evals = 250
+)
 }
 \arguments{
 \item{task}{[\code{Task}]

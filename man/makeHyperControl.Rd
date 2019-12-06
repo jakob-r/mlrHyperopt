@@ -5,8 +5,12 @@
 \alias{HyperControl}
 \title{Hyperparameter Tuning Control Object}
 \usage{
-makeHyperControl(mlr.control = NULL, resampling = NULL,
-  measures = NULL, par.config = NULL)
+makeHyperControl(
+  mlr.control = NULL,
+  resampling = NULL,
+  measures = NULL,
+  par.config = NULL
+)
 }
 \arguments{
 \item{mlr.control}{[\code{\link[mlr]{TuneControl}}]\cr
@@ -37,11 +41,12 @@ hyper.control = makeHyperControl(
 hyperopt(task = iris.task, learner = "classif.svm", hyper.control = hyper.control)
 }
 \seealso{
-Other HyperControl: \code{\link{getHyperControlMeasures}},
-  \code{\link{getHyperControlMlrControl}},
-  \code{\link{getHyperControlResampling}},
-  \code{\link{setHyperControlMeasures}},
-  \code{\link{setHyperControlMlrControl}},
-  \code{\link{setHyperControlResampling}}
+Other HyperControl: 
+\code{\link{getHyperControlMeasures}()},
+\code{\link{getHyperControlMlrControl}()},
+\code{\link{getHyperControlResampling}()},
+\code{\link{setHyperControlMeasures}()},
+\code{\link{setHyperControlMlrControl}()},
+\code{\link{setHyperControlResampling}()}
 }
 \concept{HyperControl}
