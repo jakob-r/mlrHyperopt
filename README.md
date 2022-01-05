@@ -1,3 +1,10 @@
+# Superseded...
+
+⚠️ **Please check out the successor: [mlr3tuningspaces](https://mlr3tuningspaces.mlr-org.com/)** 
+
+- https://github.com/mlr-org/mlr3tuningspaces
+- https://mlr3tuningspaces.mlr-org.com/
+
 
 mlrHyperopt
 ===========
